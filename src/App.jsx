@@ -6,7 +6,8 @@ import Button from "./components/Button";
 import Expense from "./pages/Expense";
 import Storefront from "./pages/Storefront";
 import MainContainer from "./components/MainContainer";
-import "./App.css"
+import "./App.css";
+import { SfFormDataProvider } from "./context/SfFormDataContext";
 
 const Home = () => {
   return (
@@ -32,11 +33,13 @@ const App = () => {
       <BrowserRouter>
         <Navbar />
         <MainContainer>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/expense" element={<Expense />} />
-            <Route path="/storefront" element={<Storefront />} />
-          </Routes>
+          <SfFormDataProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/expense" element={<Expense />} />
+              <Route path="/storefront" element={<Storefront />} />
+            </Routes>
+          </SfFormDataProvider>
         </MainContainer>
       </BrowserRouter>
     </>

@@ -1,29 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SfFormStepper from "./SfFormStepper";
 import SfInputForm from "./SfInputForm";
+import { SfFormDataContext } from '../context/SfFormDataContext';
 
 const StorefrontForm = () => {
-  const [activeStep, setActiveStep] = useState(1);
+  const { formData,setFormData } = useContext(SfFormDataContext);
 
-  const [formData, setFormData] = useState([
-    {
-      title: "",
-      amount: "",
-      unit: "",
-      totalPrice: "",
-      remark: "",
-    },
-  ]);
+  const [activeStep, setActiveStep] = useState(1);
 
   // const [formList, setFormList] = useState([]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (target, idx) => {
+  //   const { name, value } = target;
+  //   setFormData((prevFormData) => {
+  //     const updatedFormData = [...prevFormData];
+  //     updatedFormData[idx] = { ...updatedFormData[idx], [name]: value };
+  //     return updatedFormData;
+  //   });
+  // };
 
   const handleNext = () => {
     setActiveStep((prevStep) => prevStep + 1);
@@ -34,33 +28,21 @@ const StorefrontForm = () => {
   };
 
   const handleAddList = () => {
-    setFormData((prevFormList) => [...prevFormList, {
-      title: "",
-      amount: "",
-      unit: "",
-      totalPrice: "",
-      remark: "",
-    }]);
-    // setFormData({
-    //   title: "",
-    //   amount: "",
-    //   unit: "",
-    //   totalPrice: "",
-    //   remark: "",
-    // });
+    setFormData((prevFormList) => [
+      ...prevFormList,
+      {
+        title: "",
+        amount: "",
+        unit: "",
+        totalPrice: "",
+        remark: "",
+      },
+    ]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    // setFormList((prevFormList) => [...prevFormList, formData]);
-    // setFormData({
-    //   title: "",
-    //   amount: "",
-    //   unit: "",
-    //   totalPrice: "",
-    //   remark: "",
-    // });
     setActiveStep(() => 1);
   };
 
@@ -107,14 +89,17 @@ const StorefrontForm = () => {
 
         {activeStep === 1 &&
           formData.map((item, idx) => (
-            <SfInputForm key={"sfFormData" + idx} idx={idx} data={item}/>
-          ))
-        }
+            <SfInputForm
+              key={"sfFormData" + idx}
+              idx={idx}
+              data={item}
+            />
+          ))}
 
         {activeStep === 2 && <div>ใส่ของแถมหรือของเหลือ</div>}
         {activeStep === 3 && <div>ตรวจสอบก่อนบันทึก</div>}
 
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-4">
           <button
             type="button"
             className="text-green-500 font-semibold px-4 py-2 rounded border-2 border-green-500"
