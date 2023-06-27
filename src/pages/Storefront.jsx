@@ -8,6 +8,8 @@ function Storefront() {
     setActiveTab(tabIndex);
   };
 
+  const activeTabClass = "text-blue-500 font-bold  border-b-4 border-blue-500"
+
   return (
     <div>
       <p className="text-center text-3xl">บันทึกของที่นำไปขาย</p>
@@ -17,7 +19,7 @@ function Storefront() {
           <button
             className={`py-2 px-4 ${
               activeTab === 1
-                ? "text-blue-500 border-b-4 border-blue-500"
+                ? activeTabClass
                 : " text-gray-700"
             }`}
             onClick={() => handleTabChange(1)}
@@ -27,7 +29,7 @@ function Storefront() {
           <button
             className={`py-2 px-4 ${
               activeTab === 2
-                ? "text-blue-600 font-bold border-b-4 border-blue-600"
+                ? activeTabClass
                 : " text-gray-700"
             }`}
             onClick={() => handleTabChange(2)}

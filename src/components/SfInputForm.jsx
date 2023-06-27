@@ -10,11 +10,7 @@ function SfInputForm({ data, idx }) {
   };
 
   return (
-    // <div className={`${idx % 2 && 'bg-slate-100'} p-4`}>
-    <div className="hover:bg-slate-100 p-2 border-t-4">
-      {/* <div className="flex justify-between mb-2">
-        <div className="text-2xl font-semibold">รายการที่ {idx + 1}</div>
-      </div> */}
+    <div className="hover:bg-slate-100 p-2 border-y-2">
       <div className="flex space-x-2 mb-2">
         <div className="w-1/4">
           <label className="block  mb-1">รายการ:</label>

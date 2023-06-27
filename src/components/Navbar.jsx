@@ -1,22 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Button from "./Button"
 
 const Navbar = () => {
   return (
-    <nav className="bg-gray-300 flex justify-between items-center p-4">
+    <nav className="bg-white flex justify-between items-center p-4 drop-shadow-md">
       <Link to="/" className="text-gray-700 text-base font-semibold">
         ระบบบันทึกรายรับ-รายจ่าย บ้านขนมถ้วยฟู
       </Link>
       <ul className="flex space-x-2">
         <li>
-            <Link to="/expense" className="text-gray-700 text-base">
-              expense
-            </Link>
+          <Link to="/storefront" className="text-gray-700 text-base">
+            บันทึกของที่นำไปขาย
+          </Link>
         </li>
         <li>
-          <Link to="/storefront" className="text-gray-700 text-base">
-            storefront
+          <Link to="/expense" className="text-gray-700 text-base">
+            บันทึกรายจ่าย
           </Link>
         </li>
       </ul>
