@@ -37,7 +37,7 @@ const StorefrontForm = () => {
   };
 
   return (
-    <div className=" mx-auto p-8 bg-white">
+    <div className=" mx-auto bg-white">
       {/*start stepper */}
       <SfFormStepper activeStep={activeStep} />
       <div
