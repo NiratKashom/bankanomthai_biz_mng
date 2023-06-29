@@ -10,7 +10,7 @@ function SfInputForm({ data, idx }) {
   };
 
   return (
-    <div className="hover:bg-slate-100 p-2 border-y-2">
+    <div className="hover:bg-slate-200 p-2 border-y-2">
       <div className="flex space-x-2 mb-2">
         <div className="w-1/4">
           <label className="block  mb-1">รายการ:</label>

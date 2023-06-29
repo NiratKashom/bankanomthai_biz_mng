@@ -3,6 +3,7 @@ import SfFormStepper from "./SfFormStepper";
 import SfInputForm from "./SfInputForm";
 import { SfFormDataContext } from "../context/SfFormDataContext";
 import LeftoverFormContainer from "./LeftoverFormContainer";
+import Calendar from "./Calendar";
 
 const StorefrontForm = () => {
   const { formData, setFormData } = useContext(SfFormDataContext);
@@ -39,6 +40,7 @@ const StorefrontForm = () => {
   return (
     <div className=" mx-auto bg-white">
       {/*start stepper */}
+      {/* <Calendar/> */}
       <SfFormStepper activeStep={activeStep} />
       <div
         className={`flex ${
