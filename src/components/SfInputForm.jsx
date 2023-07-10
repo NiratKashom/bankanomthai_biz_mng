@@ -1,92 +1,46 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SfFormDataContext } from "../context/SfFormDataContext";
+import SfInputFormList from "./SfInputFormList";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { th } from "date-fns/esm/locale";
+import DatepickerBuddhist from "./DatepickerBuddhist";
 
-function SfInputForm({ data, idx }) {
-  const { updateFormData, deleteFormDataItem } = useContext(SfFormDataContext);
+function SfInputForm() {
+  const { formData, setFormData } = useContext(SfFormDataContext);
+  const [startDate, setStartDate] = useState(new Date());
 
-  const handleInputChange = (target, idx) => {
-    const { name, value } = target;
-    updateFormData(idx, { [name]: value });
+  const handleAddList = () => {
+    setFormData((prevFormList) => [
+      ...prevFormList,
+      {
+        title: "",
+        amount: "",
+        unit: "",
+        totalPrice: "",
+        remark: "",
+      },
+    ]);
   };
 
   return (
-    <div className="hover:bg-slate-200 p-2 border-y-2">
-      <div className="flex space-x-2 mb-2">
-        <div className="w-1/4">
-          <label className="block  mb-1">รายการ:</label>
-          <select
-            name="title"
-            value={data.title}
-            onChange={(e) => handleInputChange(e.target, idx)}
-            className="border border-gray-300 rounded px-2 py-1 w-full"
-          >
-            <option value="">Select Title</option>
-            <option value="Option 1">Option 1</option>
-            <option value="Option 2">Option 2</option>
-            <option value="Option 3">Option 3</option>
-          </select>
-        </div>
-
-        <div className="w-1/4">
-          <label className="block mb-1">จำนวน:</label>
-          <input
-            type="number"
-            name="amount"
-            value={data.amount}
-            onChange={(e) => handleInputChange(e.target, idx)}
-            className="border border-gray-300 rounded px-2 py-1 w-full"
-          />
-        </div>
-
-        <div className="w-1/4">
-          <label className="block  mb-1">หน่วยนับ:</label>
-          <select
-            name="unit"
-            value={data.unit}
-            onChange={(e) => handleInputChange(e.target, idx)}
-            className="border border-gray-300 rounded px-2 py-1 w-full"
-          >
-            <option value="">Select Unit</option>
-            <option value="Unit 1">Unit 1</option>
-            <option value="Unit 2">Unit 2</option>
-            <option value="Unit 3">Unit 3</option>
-          </select>
-        </div>
-
-        <div className="w-1/4">
-          <label className="block  mb-1">ราคารวม:</label>
-          <input
-            type="number"
-            name="totalPrice"
-            value={data.totalPrice}
-            onChange={(e) => handleInputChange(e.target, idx)}
-            className="border border-gray-300 rounded px-2 py-1 w-full"
-          />
-        </div>
+    <div>
+      <div className="flex">
+        <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่บันทึก</h2>
+        <DatepickerBuddhist />
       </div>
 
-      <div className="flex space-x-2 mb-4">
-        <div className="w-3/4">
-          <label className="block  mb-1">หมายเหตุ:</label>
-          <input
-            type="text"
-            name="remark"
-            value={data.remark}
-            onChange={(e) => handleInputChange(e.target, idx)}
-            className="border border-gray-300 rounded px-2 py-1 w-full"
-          />
-        </div>
-
-        <div className="w-1/4 flex justify-end items-end ">
-          <button
-            type="button"
-            className="text-red-500 border-red-500  px-2 py-2 rounded border-2 
-            hover:text-white hover:bg-red-500"
-            onClick={() => deleteFormDataItem(idx)}
-          >
-            ลบรายการนี้
-          </button>
-        </div>
+      {formData.map((item, idx) => (
+        <SfInputFormList key={"sfFormData" + idx} idx={idx} data={item} />
+      ))}
+      <div className="flex justify-end mt-4">
+        <button
+          type="button"
+          className="text-green-500 font-semibold px-4 py-2 rounded border-2 border-green-500"
+          onClick={handleAddList}
+        >
+          Add List
+        </button>
       </div>
     </div>
   );

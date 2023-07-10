@@ -2,24 +2,14 @@ import React, { useContext } from "react";
 import { SfFormDataContext } from "../context/SfFormDataContext";
 import SfHeaderTable from "./SfHeaderTable";
 
-function LeftoverFormContainer() {
-  const { formData, updateFormData } = useContext(SfFormDataContext);
-
-  const handleCheckBoxChange = (target, idx) => {
-    const { name, checked: value } = target;
-    updateFormData(idx, { [name]: value });
-  };
-
-  const handleInputChange = (target, idx) => {
-    const { name, value } = target;
-    updateFormData(idx, { [name]: value });
-  };
+function SfTableBeforeSubmit() {
+  const { formData } = useContext(SfFormDataContext);
 
   return (
-    <div className="">
+    <div>
       <div className="container mx-auto px-2 py-2">
         <SfHeaderTable
-          headerColor = "blue-200"
+          headerColor="blue-200"
           headerTableColumn={[
             { label: "ลำดับ" },
             { label: "ประเภท - ชื่อ", textAlign: "center", width: "8/12" },
@@ -53,35 +43,20 @@ function LeftoverFormContainer() {
               {data.totalPrice}
             </div>
             <div className="text-center border-r-2 w-2/12 p-2">
-              <input
-                type="checkbox"
-                className="form-checkbox text-blue-500 h-6 w-6 "
-                name="isLeftover"
-                checked={data.isLeftover}
-                onChange={(e) => handleCheckBoxChange(e.target, idx)}
-              />
+              {data.isLeftover ? (
+                <input
+                  type="checkbox"
+                  className="form-checkbox text-blue-500 h-6 w-6"
+                  name="isLeftover"
+                  checked={data.isLeftover}
+                />
+              ) : '-'}
             </div>
-            <div className=" border-r-2 w-3/12 p-2">
-              <input
-                type="number"
-                name="leftoverAmount"
-                value={data.leftoverAmount}
-                placeholder="0"
-                disabled={!data.isLeftover}
-                onChange={(e) => handleInputChange(e.target, idx)}
-                className="border border-gray-300 rounded px-2 py-1 w-full"
-              />
+            <div className="text-right border-r-2 w-3/12 p-2">
+              {data.leftoverAmount || "-"}
             </div>
-            <div className=" border-r-2 w-3/12 p-2">
-              <input
-                type="number"
-                name="leftoverTotalPrice"
-                placeholder="0"
-                disabled={!data.isLeftover}
-                value={data.leftoverTotalPrice}
-                onChange={(e) => handleInputChange(e.target, idx)}
-                className="border border-gray-300 rounded px-2 py-1 w-full"
-              />
+            <div className="text-right border-r-2 w-3/12 p-2">
+              {data.leftoverTotalPrice || "-"}
             </div>
           </div>
         ))}
@@ -90,4 +65,4 @@ function LeftoverFormContainer() {
   );
 }
 
-export default LeftoverFormContainer;
+export default SfTableBeforeSubmit;

@@ -1,6 +1,6 @@
 import React from "react";
 
-function LoTableForm({headerColor,headerTableColumn}) {
+function SfHeaderTable({headerColor,headerTableColumn}) {
   
   const headerTableClasses = "font-semibold p-2";
 
@@ -16,4 +16,4 @@ function LoTableForm({headerColor,headerTableColumn}) {
   );
 }
 
-export default LoTableForm;
+export default SfHeaderTable;

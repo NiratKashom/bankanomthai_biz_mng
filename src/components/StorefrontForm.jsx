@@ -4,6 +4,7 @@ import SfInputForm from "./SfInputForm";
 import { SfFormDataContext } from "../context/SfFormDataContext";
 import LeftoverFormContainer from "./LeftoverFormContainer";
 import Calendar from "./Calendar";
+import SfTableBeforeSubmit from "./SfTableBeforeSubmit";
 
 const StorefrontForm = () => {
   const { formData, setFormData } = useContext(SfFormDataContext);
@@ -78,27 +79,9 @@ const StorefrontForm = () => {
       </div>
       {/*end stepper */}
       <form onSubmit={handleSubmit}>
-        <h2 className="text-xl font-semibold mb-4">เลือกวันที่บันทึก</h2>
-
-        {activeStep === 1 && (
-          <>
-            {formData.map((item, idx) => (
-              <SfInputForm key={"sfFormData" + idx} idx={idx} data={item} />
-            ))}
-            <div className="flex justify-end mt-4">
-              <button
-                type="button"
-                className="text-green-500 font-semibold px-4 py-2 rounded border-2 border-green-500"
-                onClick={handleAddList}
-              >
-                Add List
-              </button>
-            </div>
-          </>
-        )}
-
+        {activeStep === 1 && <SfInputForm />}
         {activeStep === 2 && <LeftoverFormContainer />}
-        {activeStep === 3 && <div>ตรวจสอบก่อนบันทึก</div>}
+        {activeStep === 3 && <SfTableBeforeSubmit />}
       </form>
 
       {/* <div className="mt-4">
