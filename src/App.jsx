@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Button from "./components/Button";
-import Expense from "./pages/Expense";
-import Storefront from "./pages/Storefront";
-import MainContainer from "./components/MainContainer";
+import Navbar from "@/components/Navbar";
+import Button from "@/components/Button";
+import Expense from "@/pages/Expense";
+import Storefront from "@/pages/Storefront";
+import MainContainer from "@/components/MainContainer";
 import "./App.css";
-import { SfFormDataProvider } from "./context/SfFormDataContext";
+import { SfFormDataProvider } from "@/context/SfFormDataContext";
 
 const Home = () => {
   return (

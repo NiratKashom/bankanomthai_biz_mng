@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StorefrontForm from "../components/StorefrontForm";
+import StorefrontForm from "@/components/storefront/StorefrontForm";
 
 function Storefront() {
   const [activeTab, setActiveTab] = useState(1);
@@ -17,21 +17,19 @@ function Storefront() {
       <div className="w-full mx-auto ">
         <div className="flex border-b">
           <button
-            className={`py-2 px-4 ${
-              activeTab === 1
-                ? activeTabClass
-                : " text-gray-700"
-            }`}
+            className={`py-2 px-4 ${activeTab === 1
+              ? activeTabClass
+              : " text-gray-700"
+              }`}
             onClick={() => handleTabChange(1)}
           >
             ฟอร์มกรอกข้อมูล
           </button>
           <button
-            className={`py-2 px-4 ${
-              activeTab === 2
-                ? activeTabClass
-                : " text-gray-700"
-            }`}
+            className={`py-2 px-4 ${activeTab === 2
+              ? activeTabClass
+              : " text-gray-700"
+              }`}
             onClick={() => handleTabChange(2)}
           >
             รายการที่บันทึกไปแล้ว

@@ -1,24 +1,13 @@
-import React, { useContext, useState } from "react";
-import { SfFormDataContext } from "../context/SfFormDataContext";
-import SfInputFormList from "./SfInputFormList";
-import DatepickerBuddhist from "./DatepickerBuddhist";
+import React, { useContext } from "react";
+import { SfFormDataContext } from "@/context/SfFormDataContext";
+import SfInputFormList from "@/components/storefront/SfInputFormList";
+import DatepickerBuddhist from "@/components/DatepickerBuddhist";
 
 function SfInputForm() {
-  const { formData, setFormData, sfSelectedDate, setSfSelectedDate } =
+  const { formData, sfSelectedDate, setSfSelectedDate, addFormData } =
     useContext(SfFormDataContext);
 
-  const handleAddList = () => {
-    setFormData((prevFormList) => [
-      ...prevFormList,
-      {
-        title: "",
-        amount: "",
-        unit: "",
-        totalPrice: "",
-        remark: "",
-      },
-    ]);
-  };
+  const handleAddList = () => addFormData()
 
   return (
     <div>

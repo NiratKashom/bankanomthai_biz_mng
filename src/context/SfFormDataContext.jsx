@@ -6,40 +6,52 @@ export const SfFormDataProvider = ({ children }) => {
   const [sfSelectedDate, setSfSelectedDate] = useState(new Date());
 
   const [formData, setFormData] = useState([
+    {
+      title: "",
+      amount: "",
+      unit: "",
+      totalPrice: "",
+      remark: "",
+      isLeftover: false,
+      leftoverAmount: "",
+      leftoverTotalPrice: ""
+    },
     // {
-    //   title: "",
-    //   amount: "",
-    //   unit: "",
-    //   totalPrice: "",
-    //   remark: "",
+    //   title: "ขนมถ้วยฟู",
+    //   amount: "2",
+    //   unit: "ชุด",
+    //   totalPrice: "450",
+    //   remark: "คนสั่ง ลูกเล็ก 50ลูก และ ถ้วยใหญ่ 10 ถ้วย",
     //   isLeftover: false,
     //   leftoverAmount: "",
-    //   leftoverTotalPrice: ""
+    //   leftoverTotalPrice: "",
     // },
-    {
-      title: "ขนมถ้วยฟู",
-      amount: "2",
-      unit: "ชุด",
-      totalPrice: "450",
-      remark: "คนสั่ง ลูกเล็ก 50ลูก และ ถ้วยใหญ่ 10 ถ้วย",
-      isLeftover: false,
-      leftoverAmount: "",
-      leftoverTotalPrice: "",
-    },
-    {
-      title: "ขนมถ้วยฟู - ถุงเล็ก 5 ลูก",
-      amount: "33",
-      unit: "ถุง",
-      totalPrice: "672",
-      remark: "บวกเศษ3 ลูก=12บาท",
-      isLeftover: false,
-      leftoverAmount: "",
-      leftoverTotalPrice: "",
-    },
+    // {
+    //   title: "ขนมถ้วยฟู - ถุงเล็ก 5 ลูก",
+    //   amount: "33",
+    //   unit: "ถุง",
+    //   totalPrice: "672",
+    //   remark: "บวกเศษ3 ลูก=12บาท",
+    //   isLeftover: false,
+    //   leftoverAmount: "",
+    //   leftoverTotalPrice: "",
+    // },
   ]);
 
+  const addFormData = () => {
+    setFormData((prevFormList) => [
+      ...prevFormList,
+      {
+        title: "",
+        amount: "",
+        unit: "",
+        totalPrice: "",
+        remark: "",
+      },
+    ]);
+  };
+
   const updateFormData = (idx, updatedData) => {
-    // console.log('idx, updatedData', idx, updatedData)
     setFormData((prevFormData) => {
       const updatedFormData = [...prevFormData];
       updatedFormData[idx] = { ...updatedFormData[idx], ...updatedData };
@@ -62,6 +74,7 @@ export const SfFormDataProvider = ({ children }) => {
         setFormData,
         sfSelectedDate,
         setSfSelectedDate,
+        addFormData,
         updateFormData,
         deleteFormDataItem,
       }}

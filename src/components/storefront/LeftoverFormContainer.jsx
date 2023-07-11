@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { SfFormDataContext } from "../context/SfFormDataContext";
+import { SfFormDataContext } from "@/context/SfFormDataContext";
 import SfHeaderTable from "./SfHeaderTable";
 import dayjs from "dayjs";
 
@@ -9,7 +9,7 @@ function LeftoverFormContainer() {
 
   const displayDate = dayjs(sfSelectedDate)
     .locale("th")
-    .format("dd DD MMMM YYYY");
+    .format("ddd DD MMMM YYYY");
 
   const handleCheckBoxChange = (target, idx) => {
     const { name, checked: value } = target;

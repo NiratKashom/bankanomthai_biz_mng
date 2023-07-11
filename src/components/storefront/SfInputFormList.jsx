@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { SfFormDataContext } from "../context/SfFormDataContext";
+import { SfFormDataContext } from "@/context/SfFormDataContext";
+import SfOptionsList from "@/components/storefront/SfOptionsList";
 
 function SfInputFormList({ data, idx }) {
   const { updateFormData, deleteFormDataItem } = useContext(SfFormDataContext);
@@ -20,10 +21,7 @@ function SfInputFormList({ data, idx }) {
             onChange={(e) => handleInputChange(e.target, idx)}
             className="border border-gray-300 rounded px-2 py-1 w-full"
           >
-            <option value="">Select Title</option>
-            <option value="Option 1">Option 1</option>
-            <option value="Option 2">Option 2</option>
-            <option value="Option 3">Option 3</option>
+            <SfOptionsList />
           </select>
         </div>
 
@@ -46,10 +44,16 @@ function SfInputFormList({ data, idx }) {
             onChange={(e) => handleInputChange(e.target, idx)}
             className="border border-gray-300 rounded px-2 py-1 w-full"
           >
-            <option value="">Select Unit</option>
-            <option value="Unit 1">Unit 1</option>
-            <option value="Unit 2">Unit 2</option>
-            <option value="Unit 3">Unit 3</option>
+            <option value="เลือกหน่วย">เลือกหน่วยนับ</option>
+            <option value="กล่อง">กล่อง</option>
+            <option value="กิโลกรัม">กิโลกรัม</option>
+            <option value="ชุด">ชุด</option>
+            <option value="ชิ้น">ชิ้น</option>
+            <option value="ถาด">ถาด</option>
+            <option value="ถุง">ถุง</option>
+            <option value="ถ้วย">ถ้วย</option>
+            <option value="ลูก">ลูก</option>
+            <option value="อื่นๆ">อื่นๆ ระบุในหมายเหตุ</option>
           </select>
         </div>
 

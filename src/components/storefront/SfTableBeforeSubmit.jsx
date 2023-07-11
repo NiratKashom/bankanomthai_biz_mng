@@ -1,37 +1,34 @@
 import React, { useContext } from "react";
-import { SfFormDataContext } from "../context/SfFormDataContext";
-import SfHeaderTable from "./SfHeaderTable";
+import { SfFormDataContext } from "@/context/SfFormDataContext";
+import SfHeaderTable from "@/components/storefront/SfHeaderTable";
 import dayjs from "dayjs";
+import th from "dayjs/locale/th";
 
 function SfTableBeforeSubmit() {
   const { formData, sfSelectedDate } = useContext(SfFormDataContext);
 
   const displayDate = dayjs(sfSelectedDate)
     .locale("th")
-    .format("dd DD MMMM YYYY");
+    .format("ddd DD MMMM YYYY");
 
   const amountDataList = formData.length;
   const sumTotalPrice = formData.reduce((total, item) => {
     return total + +item.totalPrice;
   }, 0);
-
-  // const amountIsLeftover = formData.reduce((total, item) => {
-  //   if (item.isLeftover) {
-  //     return total + +item.leftoverAmount
-  //   }
-  //   return total
-  // })
-
-  const amountIsLeftoverList = formData.reduce((total, item) => {
-    if (item.isLeftover) return (total += 1);
-  }, 0);
+  const [amountIsLeftoverList, sumLeftoverPrice] = formData.reduce((total, item) => {
+    if (item.isLeftover) {
+      total[0] += 1
+      total[1] += +item.leftoverTotalPrice
+    }
+    return total
+  }, [0, 0]);
 
   return (
     <div>
       <div>
         <span>วันที่บันทึก : </span>
         <span className="text-xl font-semibold mb-4 mr-4">{displayDate} </span>
-        <span>รายการทั้งหมด : </span>
+        <span>ทั้งหมด : </span>
         <span className="text-xl font-semibold mb-4 mr-4">
           {amountDataList} รายการ
         </span>
@@ -43,6 +40,11 @@ function SfTableBeforeSubmit() {
         <span className="text-xl font-semibold mb-4 mr-4">
           {amountIsLeftoverList} รายการ
         </span>
+        <span>ราคารวมเหลือทั้งหมด : </span>
+        <span className="text-xl font-semibold mb-4 mr-4">
+          {sumLeftoverPrice} บาท
+        </span>
+
       </div>
       <div className="container mx-auto px-2 py-2">
         <SfHeaderTable
