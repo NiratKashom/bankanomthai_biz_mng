@@ -1,9 +1,15 @@
 import React, { useContext } from "react";
 import { SfFormDataContext } from "../context/SfFormDataContext";
 import SfHeaderTable from "./SfHeaderTable";
+import dayjs from "dayjs";
 
 function LeftoverFormContainer() {
-  const { formData, updateFormData } = useContext(SfFormDataContext);
+  const { formData, updateFormData, sfSelectedDate } =
+    useContext(SfFormDataContext);
+
+  const displayDate = dayjs(sfSelectedDate)
+    .locale("th")
+    .format("dd DD MMMM YYYY");
 
   const handleCheckBoxChange = (target, idx) => {
     const { name, checked: value } = target;
@@ -17,9 +23,13 @@ function LeftoverFormContainer() {
 
   return (
     <div className="">
+      <div>
+        <span>วันที่บันทึก : </span>
+        <span className="text-xl font-semibold mb-4 mr-4">{displayDate}</span>
+      </div>
       <div className="container mx-auto px-2 py-2">
         <SfHeaderTable
-          headerColor = "blue-200"
+          headerColor="blue-200"
           headerTableColumn={[
             { label: "ลำดับ" },
             { label: "ประเภท - ชื่อ", textAlign: "center", width: "8/12" },
@@ -41,9 +51,8 @@ function LeftoverFormContainer() {
             <div className="text-left border-r-2 w-8/12 p-2">
               <div> {data.title}</div>
               <div className="mt-2">
-                {" "}
                 <span className="font-semibold">หมายเหตุ : </span>
-                {data.remark}
+                {data.remark || "-"}
               </div>
             </div>
             <div className="text-right border-r-2 w-2/12 p-2">

@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { th } from "date-fns/locale";
+import buddhistEra from 'dayjs/plugin/buddhistEra'
+import dayjs from 'dayjs'
+
+dayjs.extend(buddhistEra)
 
 registerLocale("th", th);
 
-function DatepickerBuddhist() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+function DatepickerBuddhist({
+  selectedDate,
+  setSelectedDate,
+  logDate,
+}) {
 
   const handleDateChange = (date) => {
+    if (logDate) console.log(date);
     setSelectedDate(date);
   };
 

@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 export const SfFormDataContext = createContext();
 
 export const SfFormDataProvider = ({ children }) => {
+  const [sfSelectedDate, setSfSelectedDate] = useState(new Date());
 
   const [formData, setFormData] = useState([
     // {
@@ -23,7 +24,7 @@ export const SfFormDataProvider = ({ children }) => {
       remark: "คนสั่ง ลูกเล็ก 50ลูก และ ถ้วยใหญ่ 10 ถ้วย",
       isLeftover: false,
       leftoverAmount: "",
-      leftoverTotalPrice: ""
+      leftoverTotalPrice: "",
     },
     {
       title: "ขนมถ้วยฟู - ถุงเล็ก 5 ลูก",
@@ -33,7 +34,7 @@ export const SfFormDataProvider = ({ children }) => {
       remark: "บวกเศษ3 ลูก=12บาท",
       isLeftover: false,
       leftoverAmount: "",
-      leftoverTotalPrice: ""
+      leftoverTotalPrice: "",
     },
   ]);
 
@@ -54,14 +55,16 @@ export const SfFormDataProvider = ({ children }) => {
     });
   };
 
-  const updateCheckedIsLeftOver = (idx,e) => {
-    console.log(e)
-    console.log(idx)
-  }
-
   return (
     <SfFormDataContext.Provider
-      value={{ formData, setFormData, updateFormData,deleteFormDataItem,updateCheckedIsLeftOver }}
+      value={{
+        formData,
+        setFormData,
+        sfSelectedDate,
+        setSfSelectedDate,
+        updateFormData,
+        deleteFormDataItem,
+      }}
     >
       {children}
     </SfFormDataContext.Provider>

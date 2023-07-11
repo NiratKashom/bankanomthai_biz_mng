@@ -3,11 +3,11 @@ import SfFormStepper from "./SfFormStepper";
 import SfInputForm from "./SfInputForm";
 import { SfFormDataContext } from "../context/SfFormDataContext";
 import LeftoverFormContainer from "./LeftoverFormContainer";
-import Calendar from "./Calendar";
+// import Calendar from "./Calendar";
 import SfTableBeforeSubmit from "./SfTableBeforeSubmit";
 
 const StorefrontForm = () => {
-  const { formData, setFormData } = useContext(SfFormDataContext);
+  const { formData } = useContext(SfFormDataContext);
 
   const [activeStep, setActiveStep] = useState(1);
 
@@ -17,19 +17,6 @@ const StorefrontForm = () => {
 
   const handlePrevious = () => {
     setActiveStep((prevStep) => prevStep - 1);
-  };
-
-  const handleAddList = () => {
-    setFormData((prevFormList) => [
-      ...prevFormList,
-      {
-        title: "",
-        amount: "",
-        unit: "",
-        totalPrice: "",
-        remark: "",
-      },
-    ]);
   };
 
   const handleSubmit = (e) => {
@@ -54,7 +41,7 @@ const StorefrontForm = () => {
             className="bg-blue-500 text-white px-4 py-2 rounded font-semibold"
             onClick={handlePrevious}
           >
-            Previous
+            ย้อนกลับ
           </button>
         )}
 
@@ -64,7 +51,7 @@ const StorefrontForm = () => {
             className="bg-blue-500 text-white px-4 py-2 rounded font-semibold self-end"
             onClick={handleNext}
           >
-            Next
+            ต่อไป
           </button>
         )}
 
@@ -73,7 +60,7 @@ const StorefrontForm = () => {
             type="submit"
             className="bg-green-500 text-white px-4 py-2 rounded font-semibold"
           >
-            Submit
+            บันทึก
           </button>
         )}
       </div>
@@ -84,18 +71,6 @@ const StorefrontForm = () => {
         {activeStep === 3 && <SfTableBeforeSubmit />}
       </form>
 
-      {/* <div className="mt-4">
-        <h3 className="text-lg font-semibold">รายการที่จะบันทึก:</h3>
-        {formList.map((formItem, index) => (
-          <div key={index} className="mt-2 p-2 bg-gray-100">
-            <p>Title: {formItem.title}</p>
-            <p>Amount: {formItem.amount}</p>
-            <p>Unit: {formItem.unit}</p>
-            <p>Total Price: {formItem.totalPrice}</p>
-            <p>Remark: {formItem.remark}</p>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 };

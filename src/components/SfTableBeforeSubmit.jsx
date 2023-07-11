@@ -1,12 +1,49 @@
 import React, { useContext } from "react";
 import { SfFormDataContext } from "../context/SfFormDataContext";
 import SfHeaderTable from "./SfHeaderTable";
+import dayjs from "dayjs";
 
 function SfTableBeforeSubmit() {
-  const { formData } = useContext(SfFormDataContext);
+  const { formData, sfSelectedDate } = useContext(SfFormDataContext);
+
+  const displayDate = dayjs(sfSelectedDate)
+    .locale("th")
+    .format("dd DD MMMM YYYY");
+
+  const amountDataList = formData.length;
+  const sumTotalPrice = formData.reduce((total, item) => {
+    return total + +item.totalPrice;
+  }, 0);
+
+  // const amountIsLeftover = formData.reduce((total, item) => {
+  //   if (item.isLeftover) {
+  //     return total + +item.leftoverAmount
+  //   }
+  //   return total
+  // })
+
+  const amountIsLeftoverList = formData.reduce((total, item) => {
+    if (item.isLeftover) return (total += 1);
+  }, 0);
 
   return (
     <div>
+      <div>
+        <span>วันที่บันทึก : </span>
+        <span className="text-xl font-semibold mb-4 mr-4">{displayDate} </span>
+        <span>รายการทั้งหมด : </span>
+        <span className="text-xl font-semibold mb-4 mr-4">
+          {amountDataList} รายการ
+        </span>
+        <span>ราคารวมทั้งหมด : </span>
+        <span className="text-xl font-semibold mb-4 mr-4">
+          {sumTotalPrice} บาท
+        </span>
+        <span>เหลือทั้งหมด : </span>
+        <span className="text-xl font-semibold mb-4 mr-4">
+          {amountIsLeftoverList} รายการ
+        </span>
+      </div>
       <div className="container mx-auto px-2 py-2">
         <SfHeaderTable
           headerColor="blue-200"
@@ -50,7 +87,9 @@ function SfTableBeforeSubmit() {
                   name="isLeftover"
                   checked={data.isLeftover}
                 />
-              ) : '-'}
+              ) : (
+                "-"
+              )}
             </div>
             <div className="text-right border-r-2 w-3/12 p-2">
               {data.leftoverAmount || "-"}
