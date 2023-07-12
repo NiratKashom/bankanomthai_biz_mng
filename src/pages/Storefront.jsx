@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StorefrontForm from "@/components/storefront/StorefrontForm";
+import SfViewTable from "../components/storefront/SfViewTable";
 
 function Storefront() {
   const [activeTab, setActiveTab] = useState(1);
@@ -42,7 +43,7 @@ function Storefront() {
           </div>
         )}
         {activeTab === 2 && (
-          <div className=" p-4 ">รายการที่บันทึกไปแล้ว</div>
+          <SfViewTable />
         )}
       </div>
 
