@@ -9,7 +9,7 @@ dayjs.extend(buddhistEra)
 
 registerLocale("th", th);
 
-function DatepickerBuddhist({
+function ReactDatepicker({
   selectedDate,
   setSelectedDate,
   logDate,
@@ -34,4 +34,4 @@ function DatepickerBuddhist({
   );
 }
 
-export default DatepickerBuddhist;
+export default ReactDatepicker;

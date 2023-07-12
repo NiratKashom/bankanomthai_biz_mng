@@ -1,24 +1,27 @@
-import React from 'react';
-import useFetch from '@/hooks/useFetch';
-import Loading from '@/components/Loading';
+import dayjs from "dayjs"
+
+const storefrontEndpoint = "https://script.google.com/macros/s/AKfycbw2lWExf_11o3NWyVC6QvJk4Xo0nV6pjAIC2H0mk3UV9_dfMX9EvRmOrGbYTm4iCPYIhg/exec"
 
 
-const MyComponent = () => {
-  const { data, isLoading, error } = useFetch('https://jsonplaceholder.typicode.com/posts');
-
-  if (isLoading) {
-    return <Loading />
+export const getStorefrontAPI = async (date) => {
+  console.log("getStorefrontAPI")
+  const formattedDate = dayjs(date).format("MM/DD/YYYY")
+  console.log(formattedDate)
+  // setIsLoading(true);
+  const dueDate = "?date=" + formattedDate
+  try {
+    const response = await fetch(storefrontEndpoint + dueDate);
+    if (!response.ok) {
+      console.log('Error fetching data');
+    }
+    const resData = await response.json();
+    return resData
+    // console.log(resData)
+    // setIsLoading(false);
+  } catch (error) {
+    console.log('ERR:' + error)
+    // setIsLoading(false);
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+}
 
-  return (
-    <div>
-      {JSON.stringify(data)}
-    </div>
-  );
-};
-
-export default MyComponent;

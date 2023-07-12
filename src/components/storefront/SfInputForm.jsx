@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { SfFormDataContext } from "@/context/SfFormDataContext";
 import SfInputFormList from "@/components/storefront/SfInputFormList";
-import DatepickerBuddhist from "@/components/DatepickerBuddhist";
+import ReactDatepicker from "@/components/ReactDatepicker";
 
 function SfInputForm() {
   const { formData, sfSelectedDate, setSfSelectedDate, addFormData } =
@@ -13,7 +13,7 @@ function SfInputForm() {
     <div>
       <div className="flex">
         <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่บันทึก</h2>
-        <DatepickerBuddhist
+        <ReactDatepicker
           selectedDate={sfSelectedDate}
           setSelectedDate={setSfSelectedDate}
           logDate
