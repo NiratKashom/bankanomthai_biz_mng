@@ -4,11 +4,12 @@ const storefrontEndpoint = "https://script.google.com/macros/s/AKfycbw2lWExf_11o
 
 
 export const getStorefrontAPI = async (date) => {
-  console.log("getStorefrontAPI")
+  // console.log("getStorefrontAPI")
   const formattedDate = dayjs(date).format("MM/DD/YYYY")
-  console.log(formattedDate)
+  // console.log(formattedDate)
   // setIsLoading(true);
   const dueDate = "?date=" + formattedDate
+  // const dueDate = "?date=5/17/2023"
   try {
     const response = await fetch(storefrontEndpoint + dueDate);
     if (!response.ok) {
