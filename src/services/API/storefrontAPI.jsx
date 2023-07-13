@@ -20,6 +20,9 @@ export const getStorefrontAPI = async (date) => {
 };
 
 export const postStorefrontAPI = async (formData) => {
+  console.log("postStorefrontAPI")
+  console.log("endPoint")
+  console.log(endPoint)
   try {
     const response = await axios.post(endPoint + "?service=postSfData", JSON.stringify(formData), {
       headers: {
