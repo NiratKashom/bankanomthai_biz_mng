@@ -4,10 +4,12 @@ import SfInputForm from "@/components/storefront/SfInputForm";
 import { SfFormDataContext } from "@/context/SfFormDataContext";
 import LeftoverFormContainer from "@/components/storefront/LeftoverFormContainer";
 import Swal from "sweetalert2";
+import {convertFormDataBeforeSubmit} from '@/utils/storefrontUtils';
 
 // import Calendar from "./Calendar";
 import SfTableBeforeSubmit from "@/components/storefront/SfTableBeforeSubmit";
 import dayjs from "dayjs";
+import { postStorefrontAPI } from "../../services/API/storefrontAPI";
 
 const StorefrontForm = () => {
   const { formData, sfSelectedDate } = useContext(SfFormDataContext);
@@ -24,28 +26,7 @@ const StorefrontForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const recordDate = dayjs(sfSelectedDate).format("MM/DD/YYYY");
-
-    function convertArrayOfObjectsToArray(arr) {
-      return arr.map((obj) => {
-        const convertedValues = Object.entries(obj).map(
-          ([key, value], index) => {
-            if (index === 0) {
-              const [category, title] = value.split(" : ");
-              return [recordDate, title, category];
-            }
-            if ([1, 3, 6, 7].includes(index)) return Number(value);
-            return value;
-          }
-        );
-        return convertedValues.flat();
-      });
-    }
-
-    const arr = convertArrayOfObjectsToArray(formData);
-
-    console.log(arr);
-   
+    submitSfForm(formData,sfSelectedDate);
     // console.log(formData);
     // Swal.fire({
     //   title: 'ต้องการบันทึกข้อมูลใช่หรือไม่?',
@@ -66,6 +47,14 @@ const StorefrontForm = () => {
 
     // setActiveStep(() => 1);
   };
+
+  const submitSfForm = async (data,date) => {
+    const recordDate = dayjs(date).format("MM/DD/YYYY");
+    const formData = convertFormDataBeforeSubmit(data,recordDate)
+    console.log("submitSfForm")
+    const res = await postStorefrontAPI(formData)
+    console.log(res)
+  }
 
   return (
     <div className=" mx-auto bg-white">
