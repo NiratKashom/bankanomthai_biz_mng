@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getStorefrontAPI } from "@/services/API/storefrontAPI/storefrontApiService";
+import { getStorefrontAPI } from "@/services/API/storefrontAPI";
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
-import SfHeaderTable from "@/components/storefront/SfHeaderTable";
 import SfTable from "./SfTable";
 import LoTable from "./LoTable";
 import IcTable from "./IcTable";
@@ -34,6 +33,7 @@ function SfViewTable() {
   useEffect(() => {
     fetchSfDataTable(sfTableViewDate);
   }, [sfTableViewDate]);
+
 
   return (
     <div className=" p-4 ">

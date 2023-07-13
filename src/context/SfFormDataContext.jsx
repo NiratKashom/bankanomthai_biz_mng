@@ -8,13 +8,13 @@ export const SfFormDataProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       title: "",
-      amount: "",
+      amount: 0,
       unit: "",
-      totalPrice: "",
+      totalPrice: 0,
       remark: "",
       isLeftover: false,
-      leftoverAmount: "",
-      leftoverTotalPrice: ""
+      leftoverAmount: 0,
+      leftoverTotalPrice: 0
     },
     // {
     //   title: "ขนมถ้วยฟู",
@@ -38,6 +38,21 @@ export const SfFormDataProvider = ({ children }) => {
     // },
   ]);
 
+  const clearFormData = () => {
+    setFormData(() => ([
+      {
+        title: "",
+        amount: "",
+        unit: "",
+        totalPrice: "",
+        remark: "",
+        isLeftover: false,
+        leftoverAmount: "",
+        leftoverTotalPrice: ""
+      },
+    ]));
+  }
+
   const addFormData = () => {
     setFormData((prevFormList) => [
       ...prevFormList,
@@ -47,6 +62,9 @@ export const SfFormDataProvider = ({ children }) => {
         unit: "",
         totalPrice: "",
         remark: "",
+        isLeftover: false,
+        leftoverAmount: "",
+        leftoverTotalPrice: ""
       },
     ]);
   };
@@ -77,6 +95,7 @@ export const SfFormDataProvider = ({ children }) => {
         addFormData,
         updateFormData,
         deleteFormDataItem,
+        clearFormData
       }}
     >
       {children}
