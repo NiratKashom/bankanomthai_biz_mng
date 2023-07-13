@@ -8,7 +8,7 @@ function SfTable({
     <>
       <p className="text-xl mb-3">{`รายการ เอาไปขายที่บันทึกแล้ว ${amountItems} รายการ, รวมเป็นเงิน ${sumTotalPrice} บาท`}</p>
       <SfHeaderTable
-        headerColor="blue-200"
+        // headerColor="blue-200"
         headerTableColumn={[
           { label: "เลขอ้างอิง", width: "1/12" },
           {

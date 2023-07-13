@@ -34,6 +34,7 @@ function SfViewTable() {
     fetchSfDataTable(sfTableViewDate);
   }, [sfTableViewDate]);
 
+
   return (
     <div className=" p-4 ">
       {isLoading && <Loading />}
