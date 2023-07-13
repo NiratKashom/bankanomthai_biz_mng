@@ -38,18 +38,33 @@ export const SfFormDataProvider = ({ children }) => {
     // },
   ]);
 
+  const clearFormData = () => {
+    setFormData(() => ([
+      {
+        title: "",
+        amount: "",
+        unit: "",
+        totalPrice: "",
+        remark: "",
+        isLeftover: false,
+        leftoverAmount: "",
+        leftoverTotalPrice: ""
+      },
+    ]));
+  }
+
   const addFormData = () => {
     setFormData((prevFormList) => [
       ...prevFormList,
       {
         title: "",
-        amount: 0,
+        amount: "",
         unit: "",
-        totalPrice: 0,
+        totalPrice: "",
         remark: "",
         isLeftover: false,
-        leftoverAmount: 0,
-        leftoverTotalPrice: 0
+        leftoverAmount: "",
+        leftoverTotalPrice: ""
       },
     ]);
   };
@@ -80,6 +95,7 @@ export const SfFormDataProvider = ({ children }) => {
         addFormData,
         updateFormData,
         deleteFormDataItem,
+        clearFormData
       }}
     >
       {children}

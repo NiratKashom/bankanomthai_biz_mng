@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
+import axios from 'axios'
 
+// const endPoint = import.meta.env.VITE_API_ENDPOINT;
 const endPoint = import.meta.env.VITE_API_ENDPOINT;
 
 export const getStorefrontAPI = async (date) => {
@@ -20,37 +22,20 @@ export const getStorefrontAPI = async (date) => {
 };
 
 export const postStorefrontAPI = async (formData) => {
-  // console.log(JSON.stringify(formData))
-  // console.log('JSON.stringify(formData)')
   try {
-    const response = await fetch(endPoint, {
-      method: "POST",
-      mode: "no-cors",
-      followRedirects: true,
+    const response = await axios.post(endPoint, JSON.stringify(formData), {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
       },
-      body: JSON.stringify(formData),
+      mode: 'no-cors'
     });
-    console.log(formData)
-    // var statusCode = response.getResponseCode();
-    // if (statusCode === 302) {
-    //   var redirectedUrl = response.getHeaders()["Location"];
-    //   // Handle the redirected URL as needed
-    //   console.log("redirectedUrl", redirectedUrl);
-    // } else {
-    //   var responseData = JSON.parse(response.getContentText());
-    //   // Handle the response data
-    //   console.log("responseData", responseData);
-    // }
-    // console.log(JSON.stringify(response))
-    // if (!response.ok) {
-    //   console.log("Error fetching data");
-    // }
-    // const resData = await response.json();
-    return responseData;
+    const resData = {
+      statusCode: response.status,
+      message: response.data.message,
+      data: response.data,
+    };
+    return resData;
   } catch (error) {
-    console.log("ERR:");
-    console.log(error);
+    throw new error("ERR:", error);
   }
 };
