@@ -70,8 +70,6 @@ const StorefrontForm = () => {
         text: 'เกิดข้อผิดพลาด ERROR : ' + error,
       })
     }
-
-    // console.log(res)
   }
 
   return (

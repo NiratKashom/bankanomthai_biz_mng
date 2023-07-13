@@ -5,10 +5,8 @@ import axios from 'axios'
 const endPoint = import.meta.env.VITE_API_ENDPOINT;
 
 export const getStorefrontAPI = async (date) => {
-  // console.log("getStorefrontAPI")
   const formattedDate = dayjs(date).format("MM/DD/YYYY");
   const dueDate = "?date=" + formattedDate;
-  // const dueDate = "?date=5/17/2023"
   try {
     const response = await fetch(endPoint + dueDate);
     if (!response.ok) {
@@ -23,7 +21,7 @@ export const getStorefrontAPI = async (date) => {
 
 export const postStorefrontAPI = async (formData) => {
   try {
-    const response = await axios.post(endPoint, JSON.stringify(formData), {
+    const response = await axios.post(endPoint + "?service=postSfData", JSON.stringify(formData), {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
       },
