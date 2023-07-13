@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getStorefrontAPI } from "@/services/API/storefrontAPI/storefrontApiService";
+import { getStorefrontAPI } from "@/services/API/storefrontAPI";
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import SfHeaderTable from "@/components/storefront/SfHeaderTable";

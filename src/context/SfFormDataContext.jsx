@@ -8,13 +8,13 @@ export const SfFormDataProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       title: "",
-      amount: "",
+      amount: 0,
       unit: "",
-      totalPrice: "",
+      totalPrice: 0,
       remark: "",
       isLeftover: false,
-      leftoverAmount: "",
-      leftoverTotalPrice: ""
+      leftoverAmount: 0,
+      leftoverTotalPrice: 0
     },
     // {
     //   title: "ขนมถ้วยฟู",
@@ -43,10 +43,13 @@ export const SfFormDataProvider = ({ children }) => {
       ...prevFormList,
       {
         title: "",
-        amount: "",
+        amount: 0,
         unit: "",
-        totalPrice: "",
+        totalPrice: 0,
         remark: "",
+        isLeftover: false,
+        leftoverAmount: 0,
+        leftoverTotalPrice: 0
       },
     ]);
   };
