@@ -32,8 +32,26 @@ function ExpenseForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("submit ja")
-    console.log(formData)
+    Swal.fire({
+      title: "ต้องการบันทึกข้อมูลใช่หรือไม่?",
+      text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(34 197 94)",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "บันทึกข้อมูล",
+      cancelButtonText: "ยกเลิก",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        submitExpForm(formData, expSelectedDate);
+      }
+    });
+  }
+
+  const submitExpForm = async (data, date) => {
+    console.log("submitSfForm");
+    const recordDate = dayjs(date).format("MM/DD/YYYY");
+
   }
 
   return (
