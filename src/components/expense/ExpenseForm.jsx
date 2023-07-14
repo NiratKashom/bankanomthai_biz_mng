@@ -50,15 +50,11 @@ function ExpenseForm() {
   };
 
   const submitExpForm = async (data, date) => {
-    // console.log("submitSfForm");
     const recordDate = dayjs(date).format("MM/DD/YYYY");
     const formData = convertExpDataBeforeSubmit(data, recordDate);
-    // console.log("formData", formData);
     setIsLoading(true);
     try {
-      const res = await postExpenseAPI(formData);
-      setIsLoading(false);
-      console.log(res);
+      await postExpenseAPI(formData);
       Swal.fire({
         icon: "success",
         title: "บันทึกข้อมูลสำเร็จ",
@@ -68,12 +64,13 @@ function ExpenseForm() {
       });
       return;
     } catch (error) {
-      setIsLoading(false);
       Swal.fire({
         icon: "error",
         title: "ไม่สามารถบันทึกข้อมูลได้",
         text: "เกิดข้อผิดพลาด ERROR : " + error,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

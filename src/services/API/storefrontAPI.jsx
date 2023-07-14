@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import axios from 'axios'
+import axios from "axios";
 
 const endPoint = import.meta.env.VITE_API_ENDPOINT;
 
@@ -19,29 +19,30 @@ const endPoint = import.meta.env.VITE_API_ENDPOINT;
 // };
 
 export const getStorefrontAPI = async (date) => {
-  const formattedDate = dayjs(date).format("MM/DD/YYYY");
-  const dueDate = "date=" + formattedDate;
-  const sheet = "?sheet=storefront"
-  const endPointWithQueryString = endPoint + sheet + "&" + dueDate
   try {
-    const response = await axios.get(endPointWithQueryString);
+    const formattedDate = dayjs(date).format("MM/DD/YYYY");
+    const response = await axios.get(endPoint, {
+      params: {
+        sheet: "storefront",
+        date: formattedDate,
+      },
+    });
     return response.data;
   } catch (error) {
     console.log("ERR:" + error);
   }
 };
 
-
 export const postStorefrontAPI = async (formData) => {
-  // console.log("postStorefrontAPI")
-  // console.log("endPoint")
-  // console.log(endPoint)
   try {
-    const response = await axios.post(endPoint + "?service=postSfData", JSON.stringify(formData), {
+    const response = await axios.post(endPoint, JSON.stringify(formData), {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      mode: 'no-cors'
+      mode: "no-cors",
+      params: {
+        service: "postSfData",
+      },
     });
     const resData = {
       statusCode: response.status,

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { SfFormDataContext } from "@/context/SfFormDataContext";
 
-import SfFormStepper from "@/components/storefront/SfFormStepper";
 import SfInputForm from "@/components/storefront/SfInputForm";
 import LeftoverFormContainer from "@/components/storefront/LeftoverFormContainer";
 import SfTableBeforeSubmit from "@/components/storefront/SfTableBeforeSubmit";
@@ -54,12 +53,9 @@ const StorefrontForm = () => {
   const submitSfForm = async (data, date) => {
     const recordDate = dayjs(date).format("MM/DD/YYYY");
     const formData = convertFormDataBeforeSubmit(data, recordDate);
-    console.log("submitSfForm");
     setIsLoading(true);
     try {
-      const res = await postStorefrontAPI(formData);
-      setIsLoading(false);
-      console.log(res);
+      await postStorefrontAPI(formData);
       Swal.fire({
         icon: "success",
         title: "บันทึกข้อมูลสำเร็จ",
@@ -67,14 +63,14 @@ const StorefrontForm = () => {
         clearFormData();
         setActiveStep(() => 1);
       });
-      return;
     } catch (error) {
-      setIsLoading(false);
       Swal.fire({
         icon: "error",
         title: "ไม่สามารถบันทึกข้อมูลได้",
         text: "เกิดข้อผิดพลาด ERROR : " + error,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

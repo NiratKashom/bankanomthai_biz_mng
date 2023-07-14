@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ExpenseForm from "@/components/expense/ExpenseForm";
-import ExpTableBeforeSubmit from "@/components/expense/ExpTableBeforeSubmit";
+import ExpViewTable from "@/components/expense/ExpViewTable";
 
 function Expense() {
   const [activeTab, setActiveTab] = useState(1);
@@ -39,7 +39,7 @@ function Expense() {
           </div>
         )}
         {activeTab === 2 && (
-          <ExpTableBeforeSubmit />
+          <ExpViewTable />
         )}
       </div>
     </div>

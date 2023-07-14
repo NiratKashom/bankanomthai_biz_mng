@@ -31,10 +31,7 @@ function SfTable({
           >
             <div className="text-right border-x-2 w-1/12 p-2">{refNo}</div>
             <div className="text-left border-r-2 w-4/12 p-2">
-              <div>
-                {" "}
-                {category} : {title}
-              </div>
+              {category} : {title}
             </div>
             <div className="text-right border-r-2 w-1/12 p-2">{qty}</div>
             <div className="text-right border-r-2 w-1/12 p-2">{unit}</div>

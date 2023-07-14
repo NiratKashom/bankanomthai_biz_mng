@@ -5,6 +5,7 @@ import ReactDatepicker from "@/components/ReactDatepicker";
 import SfTable from "./SfTable";
 import LoTable from "./LoTable";
 import IcTable from "./IcTable";
+import Swal from "sweetalert2";
 
 function SfViewTable() {
   const [sfData, setSfData] = useState({});
@@ -22,18 +23,25 @@ function SfViewTable() {
 
   const fetchSfDataTable = async (date) => {
     setIsLoading(true);
-    const res = await getStorefrontAPI(date);
-    // console.log(res);
-    setSfData(() => res.storeFrontData);
-    setLoData(() => res.leftOverData);
-    setIcData(() => res.incomeData);
-    setIsLoading(false);
+    try {
+      const res = await getStorefrontAPI(date);
+      setSfData(() => res.storeFrontData);
+      setLoData(() => res.leftOverData);
+      setIcData(() => res.incomeData);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "ไม่สามารถเรียกข้อมูลได้",
+        text: "เกิดข้อผิดพลาด ERROR : " + error,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchSfDataTable(sfTableViewDate);
   }, [sfTableViewDate]);
-
 
   return (
     <div className=" p-4 ">
