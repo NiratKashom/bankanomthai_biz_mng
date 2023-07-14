@@ -82,53 +82,17 @@ const StorefrontForm = () => {
     <div className=" mx-auto bg-white">
       {isLoading && <Loading />}
       <form onSubmit={handleSubmit}>
-        {/*start stepper */}
         <FormStepper
           activeStep={activeStep}
           steps={steps}
           onNextStep={handleNextStep}
           onPreviousStep={handlePreviousStep}
         />
-        {/* <SfFormStepper activeStep={activeStep} /> */}
-        {/* <div
-          className={`flex ${
-            activeStep === 1 ? "justify-end" : "justify-between"
-          } my-4`}
-        >
-          {activeStep !== 1 && (
-            <button
-              type="button"
-              className="bg-blue-500 text-white px-4 py-2 rounded font-semibold"
-              onClick={handlePrevious}
-            >
-              ย้อนกลับ
-            </button>
-          )}
-
-          {activeStep !== 3 && (
-            <button
-              type="button"
-              className="bg-blue-500 text-white px-4 py-2 rounded font-semibold self-end"
-              onClick={handleNext}
-            >
-              ต่อไป
-            </button>
-          )}
-
-          {activeStep === 3 && (
-            <button
-              type="submit"
-              className="bg-green-500 text-white px-4 py-2 rounded font-semibold"
-            >
-              บันทึก
-            </button>
-          )}
-        </div> */}
-        {/*end stepper */}
 
         {activeStep === 1 && <SfInputForm />}
         {activeStep === 2 && <LeftoverFormContainer />}
         {activeStep === 3 && <SfTableBeforeSubmit />}
+
       </form>
     </div>
   );

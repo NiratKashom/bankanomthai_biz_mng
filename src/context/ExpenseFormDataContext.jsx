@@ -12,9 +12,6 @@ export const ExpenseFormDataProvider = ({ children }) => {
       unit: "",
       totalPrice: 0,
       remark: "",
-      isLeftover: false,
-      leftoverAmount: 0,
-      leftoverTotalPrice: 0
     },
   ]);
 
@@ -26,9 +23,6 @@ export const ExpenseFormDataProvider = ({ children }) => {
         unit: "",
         totalPrice: "",
         remark: "",
-        isLeftover: false,
-        leftoverAmount: "",
-        leftoverTotalPrice: ""
       },
     ]));
   }
@@ -42,9 +36,6 @@ export const ExpenseFormDataProvider = ({ children }) => {
         unit: "",
         totalPrice: "",
         remark: "",
-        isLeftover: false,
-        leftoverAmount: "",
-        leftoverTotalPrice: ""
       },
     ]);
   };

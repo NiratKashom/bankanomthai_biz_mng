@@ -1,6 +1,6 @@
 import React from "react";
 
-function SfFormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
+function FormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
   const isLastStep = activeStep === steps.length;
 
   return (
@@ -9,11 +9,10 @@ function SfFormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
         {steps.map((step) => (
           <div key={step.number}>
             <div
-              className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${
-                activeStep === step.number
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300"
-              }`}
+              className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${activeStep === step.number
+                ? "bg-blue-500 text-white"
+                : "bg-gray-300"
+                }`}
             >
               {step.number}
             </div>
@@ -26,9 +25,8 @@ function SfFormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
         ))}
       </div>
       <div
-        className={`flex ${
-          activeStep === 1 ? "justify-end" : "justify-between"
-        } my-4`}
+        className={`flex ${activeStep === 1 ? "justify-end" : "justify-between"
+          } my-4`}
       >
         {activeStep !== 1 && (
           <button
@@ -63,4 +61,4 @@ function SfFormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
   );
 }
 
-export default SfFormStepper;
+export default FormStepper;
