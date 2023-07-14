@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export const convertFormDataBeforeSubmit = (arr, date) => {
+export const convertExpDataBeforeSubmit = (arr, date) => {
   const currentDateTime = dayjs().format("MM/DD/YYYY HH:mm:ss");
   return arr.map((obj) => {
     const convertedValues = Object.entries(obj).map(([key, value], index) => {
@@ -8,7 +8,7 @@ export const convertFormDataBeforeSubmit = (arr, date) => {
         const [category, title] = value.split(" : ");
         return [date, title, category];
       }
-      if ([1, 3, 6, 7].includes(index)) return Number(value);
+      if ([1, 3].includes(index)) return Number(value);
       return value;
     });
     convertedValues.push(currentDateTime);

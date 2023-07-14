@@ -92,7 +92,6 @@ const StorefrontForm = () => {
         {activeStep === 1 && <SfInputForm />}
         {activeStep === 2 && <LeftoverFormContainer />}
         {activeStep === 3 && <SfTableBeforeSubmit />}
-
       </form>
     </div>
   );

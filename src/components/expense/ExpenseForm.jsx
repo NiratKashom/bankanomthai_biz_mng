@@ -7,7 +7,8 @@ import dayjs from "dayjs";
 import FormStepper from "@/components/FormStepper";
 import ExpInputForm from "@/components/expense/ExpInputForm";
 import ExpTableBeforeSubmit from "@/components/expense/ExpTableBeforeSubmit";
-
+import { postExpenseAPI } from "@/services/API/expenseAPI";
+import { convertExpDataBeforeSubmit } from "@/utils/expenseUtils";
 
 function ExpenseForm() {
   const { formData, expSelectedDate, clearFormData } = useContext(
@@ -31,7 +32,7 @@ function ExpenseForm() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     Swal.fire({
       title: "ต้องการบันทึกข้อมูลใช่หรือไม่?",
       text: "กรุณาตรวจสอบข้อมูลก่อนบันทึก",
@@ -46,13 +47,35 @@ function ExpenseForm() {
         submitExpForm(formData, expSelectedDate);
       }
     });
-  }
+  };
 
   const submitExpForm = async (data, date) => {
-    console.log("submitSfForm");
+    // console.log("submitSfForm");
     const recordDate = dayjs(date).format("MM/DD/YYYY");
-
-  }
+    const formData = convertExpDataBeforeSubmit(data, recordDate);
+    // console.log("formData", formData);
+    setIsLoading(true);
+    try {
+      const res = await postExpenseAPI(formData);
+      setIsLoading(false);
+      console.log(res);
+      Swal.fire({
+        icon: "success",
+        title: "บันทึกข้อมูลสำเร็จ",
+      }).then(() => {
+        clearFormData();
+        setActiveStep(() => 1);
+      });
+      return;
+    } catch (error) {
+      setIsLoading(false);
+      Swal.fire({
+        icon: "error",
+        title: "ไม่สามารถบันทึกข้อมูลได้",
+        text: "เกิดข้อผิดพลาด ERROR : " + error,
+      });
+    }
+  };
 
   return (
     <div className=" mx-auto bg-white">
@@ -66,7 +89,6 @@ function ExpenseForm() {
         />
         {activeStep === 1 && <ExpInputForm />}
         {activeStep === 2 && <ExpTableBeforeSubmit />}
-
       </form>
     </div>
   );

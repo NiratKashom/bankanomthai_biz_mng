@@ -44,6 +44,7 @@ function ExpInputFormList({ data, idx }) {
 						onChange={(e) => handleInputChange(e.target, idx)}
 						className="border border-gray-300 rounded px-2 py-1 w-full"
 					>
+						<option value="เลือกรายการ">เลือกรายการ</option>
 						<option value="กระป๋อง">กระป๋อง</option>
 						<option value="กระสอบ">กระสอบ</option>
 						<option value="กรัม">กรัม</option>

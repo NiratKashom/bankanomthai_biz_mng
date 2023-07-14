@@ -1,28 +1,41 @@
 import dayjs from "dayjs";
 import axios from 'axios'
 
-// const endPoint = import.meta.env.VITE_API_ENDPOINT;
 const endPoint = import.meta.env.VITE_API_ENDPOINT;
+
+// export const getStorefrontAPI = async (date) => {
+//   const formattedDate = dayjs(date).format("MM/DD/YYYY");
+//   const dueDate = "?date=" + formattedDate;
+//   try {
+//     const response = await fetch(endPoint + dueDate);
+//     if (!response.ok) {
+//       console.log("Error fetching data");
+//     }
+//     const resData = await response.json();
+//     return resData;
+//   } catch (error) {
+//     console.log("ERR:" + error);
+//   }
+// };
 
 export const getStorefrontAPI = async (date) => {
   const formattedDate = dayjs(date).format("MM/DD/YYYY");
-  const dueDate = "?date=" + formattedDate;
+  const dueDate = "date=" + formattedDate;
+  const sheet = "?sheet=storefront"
+  const endPointWithQueryString = endPoint + sheet + "&" + dueDate
   try {
-    const response = await fetch(endPoint + dueDate);
-    if (!response.ok) {
-      console.log("Error fetching data");
-    }
-    const resData = await response.json();
-    return resData;
+    const response = await axios.get(endPointWithQueryString);
+    return response.data;
   } catch (error) {
     console.log("ERR:" + error);
   }
 };
 
+
 export const postStorefrontAPI = async (formData) => {
-  console.log("postStorefrontAPI")
-  console.log("endPoint")
-  console.log(endPoint)
+  // console.log("postStorefrontAPI")
+  // console.log("endPoint")
+  // console.log(endPoint)
   try {
     const response = await axios.post(endPoint + "?service=postSfData", JSON.stringify(formData), {
       headers: {
