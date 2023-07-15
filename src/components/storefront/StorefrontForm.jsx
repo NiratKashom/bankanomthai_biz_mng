@@ -85,7 +85,7 @@ const StorefrontForm = () => {
           onPreviousStep={handlePreviousStep}
         />
 
-        {activeStep === 1 && <SfInputForm />}
+        {activeStep === 1 && <SfInputForm submitSfForm={submitSfForm} />}
         {activeStep === 2 && <LeftoverFormContainer />}
         {activeStep === 3 && <SfTableBeforeSubmit />}
       </form>

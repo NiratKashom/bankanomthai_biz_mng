@@ -2,22 +2,62 @@ import React, { useContext } from "react";
 import { SfFormDataContext } from "@/context/SfFormDataContext";
 import SfInputFormList from "@/components/storefront/SfInputFormList";
 import ReactDatepicker from "@/components/ReactDatepicker";
+import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
-function SfInputForm() {
+function SfInputForm({ submitSfForm }) {
   const { formData, sfSelectedDate, setSfSelectedDate, addFormData } =
     useContext(SfFormDataContext);
 
-  const handleAddList = () => addFormData()
+  const displayDate = dayjs(sfSelectedDate)
+    .locale("th")
+    .format("ddd DD MMMM YYYY");
+
+  const handleIsOffDay = () => {
+    Swal.fire({
+      title: `${displayDate}\nจะถูกบันทึกเป็น วันหยุด / ไม่มีขาย`,
+      text: "ต้องการบันทึกใช่หรือไม่",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "rgb(34 197 94)",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "บันทึก",
+      cancelButtonText: "ยกเลิก",
+      width: "600px",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // console.log("{`วันที่ ${sfSelectedDate} จะถูกบันทึกเป็นวันหยุด`}");
+        submitOffDay(sfSelectedDate);
+      }
+    });
+  };
+
+  const submitOffDay = (date) => {
+    const recordDate = dayjs(date).format("MM/DD/YYYY");
+    const offDayData = [
+      ["หยุด/ไม่มีขาย : หยุด/ไม่มีขาย", 0, "อื่นๆ", 0, "", false, 0, 0],
+    ];
+    submitSfForm(offDayData, recordDate);
+  };
+
+  const handleAddList = () => addFormData();
 
   return (
     <div>
-      <div className="flex">
-        <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่บันทึก</h2>
+      <div className="flex items-center m-4">
+        <h2 className="text-xl font-semibold mr-4">เลือกวันที่บันทึก</h2>
         <ReactDatepicker
           selectedDate={sfSelectedDate}
           setSelectedDate={setSfSelectedDate}
-          logDate
         />
+        <button
+          type="button"
+          className="text-white bg-red-500 p-2 ml-4 rounded 
+          hover:bg-red-700"
+          onClick={handleIsOffDay}
+        >
+          เป็นวันหยุด / ไม่มีขาย
+        </button>
       </div>
       {formData.map((item, idx) => (
         <SfInputFormList key={"sfFormData" + idx} idx={idx} data={item} />
@@ -25,7 +65,8 @@ function SfInputForm() {
       <div className="flex justify-end mt-4">
         <button
           type="button"
-          className="text-green-500 font-semibold px-4 py-2 rounded border-2 border-green-500"
+          className="text-green-500 font-semibold px-4 py-2 rounded border-2 border-green-500   
+          hover:bg-green-500 hover:text-white"
           onClick={handleAddList}
         >
           เพิ่มรายการ
