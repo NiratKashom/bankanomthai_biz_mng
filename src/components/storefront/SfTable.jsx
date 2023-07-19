@@ -25,12 +25,12 @@ function SfTable({
         try {
           const res = await deleteStorefrontAPI(refNo);
           if (res.statusCode === 200)
-          Swal.fire({
-            title: "ลบรายการเรียบร้อยแล้ว:",
-            icon: "success",
-          }).then(() => {
-            refetch();
-          });
+            Swal.fire({
+              title: "ลบรายการเรียบร้อยแล้ว:",
+              icon: "success",
+            }).then(() => {
+              refetch();
+            });
           // console.log(res)
         } catch (error) {
           Swal.fire({
@@ -75,8 +75,19 @@ function SfTable({
         </div>
 
         {data.map((data, idx) => {
-          const [refNo, , title, category, qty, unit, totalPrice, remark] =
-            data;
+          const [
+            refNo,
+            ,
+            title,
+            category,
+            qty,
+            unit,
+            totalPrice,
+            remark,
+            isLeftover,
+            leftoverQty,
+            leftoverTotalPrice,
+          ] = data;
           return (
             <div
               key={"sfitem" + idx}
@@ -99,13 +110,13 @@ function SfTable({
                 {totalPrice}
               </div>
               <div className="text-center p-2 text-xl border-r-2 flex-grow-0 flex-shrink-0 w-1/12">
-                &#x2713;
+                {isLeftover ? <p>&#10004;</p> : <p>&#10060;</p>}
               </div>
-              <div className="text-right p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12">
-                3
+              <div  className={`text-right p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12`}>
+                {+leftoverQty || '-'}
               </div>
               <div className="text-right p-2 border-r-2 flex-grow w-auto">
-                Total Price
+              {+leftoverTotalPrice || '-'}
               </div>
               <div className="text-center p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12">
                 <button
