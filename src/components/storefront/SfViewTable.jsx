@@ -84,7 +84,13 @@ function SfViewTable() {
         </div>
 
         <div className=" p-4 ">
-          {activeTab === 1 && <SfTable dataTable={sfData} />}
+          {activeTab === 1 && (
+            <SfTable
+              dataTable={sfData}
+              setIsLoading={setIsLoading}
+              refetch={() => fetchSfDataTable(sfTableViewDate)}
+            />
+          )}
           {activeTab === 2 && <LoTable dataTable={loData} />}
           {activeTab === 3 && <IcTable dataTable={icData} />}
         </div>
