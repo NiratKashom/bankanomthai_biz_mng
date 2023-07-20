@@ -112,11 +112,13 @@ function SfTable({
               <div className="text-center p-2 text-xl border-r-2 flex-grow-0 flex-shrink-0 w-1/12">
                 {isLeftover ? <p>&#10004;</p> : <p>&#10060;</p>}
               </div>
-              <div  className={`text-right p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12`}>
-                {+leftoverQty || '-'}
+              <div
+                className={`text-right p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12`}
+              >
+                {+leftoverQty || "-"}
               </div>
               <div className="text-right p-2 border-r-2 flex-grow w-auto">
-              {+leftoverTotalPrice || '-'}
+                {+leftoverTotalPrice || "-"}
               </div>
               <div className="text-center p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12">
                 <button
@@ -125,7 +127,7 @@ function SfTable({
                   onClick={() => handleDeleteRow(data)}
                 >
                   ลบ
-                </button>{" "}
+                </button>
               </div>
             </div>
           );

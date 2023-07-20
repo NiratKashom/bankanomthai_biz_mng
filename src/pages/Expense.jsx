@@ -37,7 +37,7 @@ function Expense() {
           <div className=" p-4 ">
             <ExpenseForm />
           </div>
-        )}
+      )}
         {activeTab === 2 && (
           <ExpViewTable />
         )}

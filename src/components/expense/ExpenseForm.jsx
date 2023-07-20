@@ -84,7 +84,7 @@ function ExpenseForm() {
           onNextStep={handleNext}
           onPreviousStep={handlePrevious}
         />
-        {activeStep === 1 && <ExpInputForm />}
+        {activeStep === 1 && <ExpInputForm submitExpForm={submitExpForm}/>}
         {activeStep === 2 && <ExpTableBeforeSubmit />}
       </form>
     </div>

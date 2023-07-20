@@ -52,3 +52,26 @@ export const postExpenseAPI = async (formData) => {
     throw new Error(`ERR: ${error}`);
   }
 };
+
+export const deleteExpenseAPI = async (refNo) => {
+  try {
+    const response = await axios.post(endPoint,JSON.stringify({refNo}), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      mode: "no-cors",
+      params: {
+        service: "deleteExpData",
+      },
+    });
+    const resData = {
+      statusCode: response.status,
+      message: response.data.message,
+      data: response.data,
+    };
+    return resData;
+  } catch (error) {
+    throw new error("ERR:", error);
+  }
+  
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import SfHeaderTable from "@/components/storefront/SfHeaderTable";
-import { getExpenseAPI } from "@/services/API/expenseAPI";
+import { getExpenseAPI,deleteExpenseAPI } from "@/services/API/expenseAPI";
 import Swal from "sweetalert2";
 
 function ExpViewTable() {
@@ -29,6 +29,45 @@ function ExpViewTable() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDeleteRow = async (data) => {
+    const [refNo] = data;
+
+    Swal.fire({
+      title: "ยืนยันลบข้อมูลเลขที่: " + refNo,
+      text: "ต้องการลบข้อมูลใช่หรือไม่",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "ยืนยัน",
+      cancelButtonText: "ยกเลิก",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // await deleteExpenseAPI(refNo);
+        setIsLoading(true);
+        try {
+          const res = await deleteExpenseAPI(refNo);
+          if (res.statusCode === 200)
+            Swal.fire({
+              title: "ลบรายการเรียบร้อยแล้ว:",
+              icon: "success",
+            }).then(() => {
+              refetch();
+            });
+          // console.log(res)
+        } catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "ไม่สามารถเรียกข้อมูลได้",
+            text: "เกิดข้อผิดพลาด ERROR : " + error,
+          });
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    });
   };
 
   useEffect(() => {
@@ -59,6 +98,7 @@ function ExpViewTable() {
             { label: "หน่วย", width: "1/12" },
             { label: "ราคารวม", width: "1/12" },
             { label: "หมายเหตุ", textAlign: "center", width: "4/12" },
+            { label: "", textAlign: "center", width: "1/12" },
           ]}
         />
         {expData.data.map((data, idx) => {
@@ -73,16 +113,21 @@ function ExpViewTable() {
               <div className="text-left border-r-2 w-4/12 p-2">
                 {category} : {title}
               </div>
-              <div className="text-right border-r-2 w-1/12 p-2">
-                {qty}
-              </div>
-              <div className="text-right border-r-2 w-1/12 p-2">
-                {unit}
-              </div>
+              <div className="text-right border-r-2 w-1/12 p-2">{qty}</div>
+              <div className="text-right border-r-2 w-1/12 p-2">{unit}</div>
               <div className="text-right border-r-2 w-1/12 p-2">
                 {totalPrice}
               </div>
               <div className=" border-r-2 w-4/12 p-2">{data.remark || "-"}</div>
+              <div className="text-center border-r-2 w-1/12 p-2">
+                <button
+                  type="button"
+                  className="bg-red-500 font-semibold px-4 py-2 rounded hover:bg-red-700 text-white"
+                  onClick={() => handleDeleteRow(data)}
+                >
+                  ลบ
+                </button>
+              </div>
             </div>
           );
         })}
