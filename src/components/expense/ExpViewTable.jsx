@@ -45,7 +45,6 @@ function ExpViewTable() {
       cancelButtonText: "ยกเลิก",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // await deleteExpenseAPI(refNo);
         setIsLoading(true);
         try {
           const res = await deleteExpenseAPI(refNo);
@@ -54,9 +53,8 @@ function ExpViewTable() {
               title: "ลบรายการเรียบร้อยแล้ว:",
               icon: "success",
             }).then(() => {
-              refetch();
+              fetchExpDataTable(selectedDate);
             });
-          // console.log(res)
         } catch (error) {
           Swal.fire({
             icon: "error",
@@ -118,7 +116,7 @@ function ExpViewTable() {
               <div className="text-right border-r-2 w-1/12 p-2">
                 {totalPrice}
               </div>
-              <div className=" border-r-2 w-4/12 p-2">{data.remark || "-"}</div>
+              <div className=" border-r-2 w-4/12 p-2">{remark || "-"}</div>
               <div className="text-center border-r-2 w-1/12 p-2">
                 <button
                   type="button"
