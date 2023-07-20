@@ -20,7 +20,7 @@ function LoTable({ dataTable: { data = [], amountItems= 0, sumTotalPrice= 0, } }
         ]}
       />
       {data.map((data, idx) => {
-        const [refNo, , title, category, qty, unit, totalPrice] = data;
+        const [refNo, , ,title, category, qty, unit, totalPrice] = data;
         return (
           <div
             className="hover:bg-slate-100 flex items-top border-b-2"
