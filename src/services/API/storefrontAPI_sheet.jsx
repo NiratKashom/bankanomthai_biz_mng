@@ -20,9 +20,14 @@ const endPoint = import.meta.env.VITE_API_ENDPOINT;
 
 export const getStorefrontAPI = async (date) => {
   try {
-    const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    const response = await axios.get(endPoint + "/storefront/" + formattedDate);
-    return response.data.data;
+    const formattedDate = dayjs(date).format("MM/DD/YYYY");
+    const response = await axios.get(endPoint, {
+      params: {
+        sheet: "storefront",
+        date: formattedDate,
+      },
+    });
+    return response.data;
   } catch (error) {
     console.log("ERR:" + error);
   }
@@ -52,7 +57,7 @@ export const postStorefrontAPI = async (formData) => {
 
 export const deleteStorefrontAPI = async (refNo) => {
   try {
-    const response = await axios.post(endPoint, JSON.stringify({ refNo }), {
+    const response = await axios.post(endPoint,JSON.stringify({refNo}), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
@@ -70,4 +75,5 @@ export const deleteStorefrontAPI = async (refNo) => {
   } catch (error) {
     throw new error("ERR:", error);
   }
-};
+  
+}

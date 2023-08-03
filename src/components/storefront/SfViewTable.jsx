@@ -24,10 +24,10 @@ function SfViewTable() {
   const fetchSfDataTable = async (date) => {
     setIsLoading(true);
     try {
-      const res = await getStorefrontAPI(date);
-      setSfData(() => res.storeFrontData);
-      setLoData(() => res.leftOverData);
-      setIcData(() => res.incomeData);
+      const data = await getStorefrontAPI(date);
+      setSfData(() => data.storefrontData);
+      setLoData(() => data.leftoverData);
+      setIcData(() => data.incomeData);
     } catch (error) {
       Swal.fire({
         icon: "error",

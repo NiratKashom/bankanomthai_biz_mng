@@ -75,9 +75,8 @@ function SfTable({
         </div>
 
         {data.map((data, idx) => {
-          const [
-            refNo,
-            ,
+          const {
+            id,
             title,
             category,
             qty,
@@ -87,14 +86,14 @@ function SfTable({
             isLeftover,
             leftoverQty,
             leftoverTotalPrice,
-          ] = data;
+          } = data;
           return (
             <div
               key={"sfitem" + idx}
               className="hover:bg-slate-100 flex border-b border-gray-400"
             >
               <div className="text-right border-x-2 p-2 flex-grow-0 flex-shrink-0 w-1/12">
-                {refNo}
+                {id}
               </div>
               <div className="text-left border-r-2 p-2 flex-grow-0 flex-shrink-0 w-4/12">
                 {category} : {title}

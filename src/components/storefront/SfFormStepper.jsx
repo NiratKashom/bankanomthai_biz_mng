@@ -10,7 +10,7 @@ function SfFormStepper({ activeStep }) {
   return (
     <div className="flex justify-around space-x-2 mb-4">
       {steps.map((step) => (
-        <div key={step.number}>
+        <div key={"step" + step.number}>
           <div
             className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center ${
               activeStep === step.number ? "bg-blue-500 text-white" : "bg-gray-300"
