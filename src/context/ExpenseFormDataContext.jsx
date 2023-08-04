@@ -8,7 +8,7 @@ export const ExpenseFormDataProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       title: "",
-      amount: 0,
+      qty: 0,
       unit: "",
       totalPrice: 0,
       remark: "",
@@ -19,9 +19,9 @@ export const ExpenseFormDataProvider = ({ children }) => {
     setFormData(() => ([
       {
         title: "",
-        amount: "",
+        qty: 0,
         unit: "",
-        totalPrice: "",
+        totalPrice: 0,
         remark: "",
       },
     ]));
@@ -32,9 +32,9 @@ export const ExpenseFormDataProvider = ({ children }) => {
       ...prevFormList,
       {
         title: "",
-        amount: "",
+        qty: 0,
         unit: "",
-        totalPrice: "",
+        totalPrice: 0,
         remark: "",
       },
     ]);

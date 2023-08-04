@@ -2,58 +2,21 @@ import dayjs from "dayjs";
 import axios from "axios";
 
 const endPoint = import.meta.env.VITE_API_ENDPOINT;
-
-// export const getStorefrontAPI = async (date) => {
-//   const formattedDate = dayjs(date).format("MM/DD/YYYY");
-//   const dueDate = "?date=" + formattedDate;
-//   try {
-//     const response = await fetch(endPoint + dueDate);
-//     if (!response.ok) {
-//       console.log("Error fetching data");
-//     }
-//     const resData = await response.json();
-//     return resData;
-//   } catch (error) {
-//     console.log("ERR:" + error);
-//   }
-// };
+const sfEndPoint = endPoint + "/storefront/";
 
 export const getStorefrontAPI = async (date) => {
   try {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
-    const response = await axios.get(endPoint + "/storefront/" + formattedDate);
+    const response = await axios.get(sfEndPoint + formattedDate);
     return response.data.data;
   } catch (error) {
     console.log("ERR:" + error);
   }
 };
 
-// export const postStorefrontAPI = async (formData) => {
-//   try {
-//     const response = await axios.post(endPoint, JSON.stringify(formData), {
-//       headers: {
-//         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-//       },
-//       mode: "no-cors",
-//       params: {
-//         service: "postSfData",
-//       },
-//     });
-//     const resData = {
-//       statusCode: response.status,
-//       message: response.data.message,
-//       data: response.data,
-//     };
-//     return resData;
-//   } catch (error) {
-//     throw new error("ERR:", error);
-//   }
-// };
-
 export const postStorefrontAPI = async (formData) => {
   try {
-    const response = await axios.post(endPoint+ "/storefront/", formData);
-    // console.log('response', response)
+    const response = await axios.post(sfEndPoint, formData);
     const resData = {
       statusCode: response.status,
       message: response.data.message,
@@ -65,17 +28,9 @@ export const postStorefrontAPI = async (formData) => {
   }
 };
 
-export const deleteStorefrontAPI = async (refNo) => {
+export const deleteStorefrontAPI = async (id) => {
   try {
-    const response = await axios.post(endPoint, JSON.stringify({ refNo }), {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      },
-      mode: "no-cors",
-      params: {
-        service: "deleteSfData",
-      },
-    });
+    const response = await axios.delete(sfEndPoint + id);
     const resData = {
       statusCode: response.status,
       message: response.data.message,

@@ -7,11 +7,9 @@ function SfTable({
   refetch,
   setIsLoading,
 }) {
-  const handleDeleteRow = async (data) => {
-    const [refNo, , title, category, qty, unit, totalPrice, remark] = data;
-
+  const handleDeleteRow = async (rowId) => {
     Swal.fire({
-      title: "ยืนยันลบข้อมูลเลขที่: " + refNo,
+      title: "ยืนยันลบข้อมูลเลขที่: " + rowId,
       text: "ต้องการลบข้อมูลใช่หรือไม่",
       icon: "warning",
       showCancelButton: true,
@@ -23,7 +21,7 @@ function SfTable({
       if (result.isConfirmed) {
         setIsLoading(true);
         try {
-          const res = await deleteStorefrontAPI(refNo);
+          const res = await deleteStorefrontAPI(rowId);
           if (res.statusCode === 200)
             Swal.fire({
               title: "ลบรายการเรียบร้อยแล้ว:",
@@ -123,7 +121,7 @@ function SfTable({
                 <button
                   type="button"
                   className="bg-red-500 font-semibold px-4 py-2 rounded hover:bg-red-700 text-white"
-                  onClick={() => handleDeleteRow(data)}
+                  onClick={() => handleDeleteRow(id)}
                 >
                   ลบ
                 </button>

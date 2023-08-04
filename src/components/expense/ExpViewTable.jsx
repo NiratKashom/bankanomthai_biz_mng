@@ -31,11 +31,10 @@ function ExpViewTable() {
     }
   };
 
-  const handleDeleteRow = async (data) => {
-    const [refNo] = data;
+  const handleDeleteRow = async (rowId) => {
 
     Swal.fire({
-      title: "ยืนยันลบข้อมูลเลขที่: " + refNo,
+      title: "ยืนยันลบข้อมูลเลขที่: " + rowId,
       text: "ต้องการลบข้อมูลใช่หรือไม่",
       icon: "warning",
       showCancelButton: true,
@@ -47,7 +46,7 @@ function ExpViewTable() {
       if (result.isConfirmed) {
         setIsLoading(true);
         try {
-          const res = await deleteExpenseAPI(refNo);
+          const res = await deleteExpenseAPI(rowId);
           if (res.statusCode === 200)
             Swal.fire({
               title: "ลบรายการเรียบร้อยแล้ว:",
@@ -100,14 +99,14 @@ function ExpViewTable() {
           ]}
         />
         {expData.data.map((data, idx) => {
-          const [refNo, , title, category, qty, unit, totalPrice, remark] =
+          const {id, title, category, qty, unit, totalPrice, remark} =
             data;
           return (
             <div
               className="hover:bg-slate-100 flex items-top border-b-2"
               key={"expViewItem" + idx}
             >
-              <div className="text-right border-x-2 w-1/12 p-2">{refNo}</div>
+              <div className="text-right border-x-2 w-1/12 p-2">{id}</div>
               <div className="text-left border-r-2 w-4/12 p-2">
                 {category} : {title}
               </div>
@@ -121,7 +120,7 @@ function ExpViewTable() {
                 <button
                   type="button"
                   className="bg-red-500 font-semibold px-4 py-2 rounded hover:bg-red-700 text-white"
-                  onClick={() => handleDeleteRow(data)}
+                  onClick={() => handleDeleteRow(id)}
                 >
                   ลบ
                 </button>

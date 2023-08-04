@@ -29,8 +29,8 @@ function ExpInputFormList({ data, idx }) {
 					<label className="block mb-1">จำนวน:</label>
 					<input
 						type="number"
-						name="amount"
-						value={data.amount}
+						name="qty"
+						value={data.qty}
 						onChange={(e) => handleInputChange(e.target, idx)}
 						className="border border-gray-300 rounded px-2 py-1 w-full"
 					/>
