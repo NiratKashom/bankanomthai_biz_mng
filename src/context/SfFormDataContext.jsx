@@ -8,7 +8,7 @@ export const SfFormDataProvider = ({ children }) => {
   const [formData, setFormData] = useState([
     {
       title: "",
-      amount: 0,
+      qty: 0,
       unit: "",
       totalPrice: 0,
       remark: "",
@@ -42,7 +42,7 @@ export const SfFormDataProvider = ({ children }) => {
     setFormData(() => ([
       {
         title: "",
-        amount: "",
+        qty: "",
         unit: "",
         totalPrice: "",
         remark: "",
@@ -58,7 +58,7 @@ export const SfFormDataProvider = ({ children }) => {
       ...prevFormList,
       {
         title: "",
-        amount: "",
+        qty: "",
         unit: "",
         totalPrice: "",
         remark: "",

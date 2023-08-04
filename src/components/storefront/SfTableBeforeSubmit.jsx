@@ -76,7 +76,7 @@ function SfTableBeforeSubmit() {
               </div>
             </div>
             <div className="text-right border-r-2 w-2/12 p-2">
-              {data.amount} {data.unit}
+              {data.qty} {data.unit}
             </div>
             <div className="text-right border-r-2 w-2/12 p-2">
               {data.totalPrice}

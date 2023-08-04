@@ -21,22 +21,23 @@ function IcTable({
           { label: "ราคารวม", width: "2/12" },
         ]}
       />
+
       {data.map((data, idx) => {
-        const [refNo, , ,title, category, qty, unit, totalPrice] = data;
+        const {storefrontId, title, category, incomeAmount, unit, incomeTotalPrice} = data;
         return (
           <div
             className="hover:bg-slate-100 flex items-top border-b-2"
             key={"sfitem" + idx}
           >
-            <div className="text-right border-x-2 w-2/12 p-2">{refNo}</div>
+            <div className="text-right border-x-2 w-2/12 p-2">{storefrontId}</div>
             <div className="text-left border-r-2 w-4/12 p-2">
               <div>
                 {category} : {title}
               </div>
             </div>
-            <div className="text-right border-r-2 w-2/12 p-2">{qty}</div>
+            <div className="text-right border-r-2 w-2/12 p-2">{incomeAmount}</div>
             <div className="text-right border-r-2 w-2/12 p-2">{unit}</div>
-            <div className="text-right border-r-2 w-2/12 p-2">{totalPrice}</div>
+            <div className="text-right border-r-2 w-2/12 p-2">{incomeTotalPrice}</div>
           </div>
         );
       })}

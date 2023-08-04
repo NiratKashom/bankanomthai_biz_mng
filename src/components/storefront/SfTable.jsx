@@ -84,7 +84,7 @@ function SfTable({
             totalPrice,
             remark,
             isLeftover,
-            leftoverQty,
+            leftoverAmount,
             leftoverTotalPrice,
           } = data;
           return (
@@ -114,7 +114,7 @@ function SfTable({
               <div
                 className={`text-right p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12`}
               >
-                {+leftoverQty || "-"}
+                {+leftoverAmount || "-"}
               </div>
               <div className="text-right p-2 border-r-2 flex-grow w-auto">
                 {+leftoverTotalPrice || "-"}

@@ -53,6 +53,7 @@ const StorefrontForm = () => {
   const submitSfForm = async (data, date) => {
     const recordDate = dayjs(date).format("MM/DD/YYYY");
     const formData = convertFormDataBeforeSubmit(data, recordDate);
+    // console.log('formData', formData)
     setIsLoading(true);
     try {
       await postStorefrontAPI(formData);
