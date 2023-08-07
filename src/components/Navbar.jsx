@@ -2,10 +2,10 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const activeStyle = "text-red";
 
   return (
-    <nav className="bg-white flex justify-between items-center p-4 drop-shadow-md">
+    // <nav className="bg-white flex justify-between items-center p-4 drop-shadow-md">
+    <nav className="bg-white flex justify-between items-center p-4 drop-shadow-md fixed top-0 w-full z-10">
       <Link to="/" className="text-gray-700 text-base font-semibold">
         ระบบบันทึกรายรับ-รายจ่าย บ้านขนมถ้วยฟู
       </Link>
@@ -28,12 +28,13 @@ const Navbar = () => {
           <NavLink
             to="/expense"
             className={({ isActive, isPending }) =>
-            isPending
-              ? "text-gray-700 text-base"
-              : isActive
-              ? "text-blue-700 text-bold border-b-2 border-blue-700"
-              : ""
-          }          >
+              isPending
+                ? "text-gray-700 text-base"
+                : isActive
+                ? "text-blue-700 text-bold border-b-2 border-blue-700"
+                : ""
+            }
+          >
             บันทึกรายจ่าย
           </NavLink>
         </li>
