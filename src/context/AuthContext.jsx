@@ -15,7 +15,7 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.setToken:
       // Set the authentication token in axios headers and local storage
-      console.log('ACTIONS.setToken', action.payload )
+      // console.log('ACTIONS.setToken', action.payload )
       axios.defaults.headers.common["Authorization"] = "Bearer " + action.payload;
       localStorage.setItem("token", action.payload);
 

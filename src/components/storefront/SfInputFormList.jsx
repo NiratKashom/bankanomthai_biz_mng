@@ -84,7 +84,7 @@ function SfInputFormList({ data, idx }) {
         <div className="w-1/4 flex justify-end items-end ">
           <button
             type="button"
-            className="text-red-500 border-red-500  px-2 py-2 rounded border-2 
+            className="text-red-500 border-red-500 p-2 rounded border-2 
               hover:text-white hover:bg-red-500"
             onClick={() => deleteFormDataItem(idx)}
           >
