@@ -36,7 +36,13 @@ function ExpInputForm({submitExpForm}) {
   const submitOffDay = (date) => {
     const recordDate = dayjs(date).format("MM/DD/YYYY");
     const offDayData = [
-      ["หยุด/ไม่มีขาย : หยุด/ไม่มีขาย", 0, "อื่นๆ", 0, ""]
+      {
+        title: "หยุด/ไม่มีขาย : หยุด/ไม่มีขาย",
+        qty: 0,
+        unit: "อื่นๆ",
+        totalPrice: 0,
+        remark: "",
+      }
     ];
     submitExpForm(offDayData, recordDate);
   };

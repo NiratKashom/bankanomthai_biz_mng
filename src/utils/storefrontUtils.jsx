@@ -19,7 +19,6 @@ import dayjs from "dayjs";
 // };
 
 export const convertFormDataBeforeSubmit = (arr, date) => {
-  console.log("======= convertFormDataBeforeSubmit =======");
   const selectedDate = dayjs(date).format("MM/DD/YYYY HH:mm:ss");
   return arr.map((obj) => {
     const [category, title] = obj.title.split(" : ");

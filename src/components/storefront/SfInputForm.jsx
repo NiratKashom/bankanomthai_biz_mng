@@ -26,16 +26,25 @@ function SfInputForm({ submitSfForm }) {
       width: "600px",
     }).then((result) => {
       if (result.isConfirmed) {
-        // console.log("{`วันที่ ${sfSelectedDate} จะถูกบันทึกเป็นวันหยุด`}");
         submitOffDay(sfSelectedDate);
       }
     });
   };
 
   const submitOffDay = (date) => {
+    console.log("submitOffDay=========");
     const recordDate = dayjs(date).format("MM/DD/YYYY");
     const offDayData = [
-      ["หยุด/ไม่มีขาย : หยุด/ไม่มีขาย", 0, "อื่นๆ", 0, "", false, 0, 0],
+      {
+        title: "หยุด/ไม่มีขาย : หยุด/ไม่มีขาย",
+        qty: 0,
+        unit: "อื่นๆ",
+        totalPrice: 0,
+        remark: "",
+        isLeftover: false,
+        leftoverAmount: 0,
+        leftoverTotalPrice: 0,
+      },
     ];
     submitSfForm(offDayData, recordDate);
   };
