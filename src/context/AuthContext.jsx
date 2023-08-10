@@ -8,6 +8,7 @@ const AuthContext = createContext();
 const ACTIONS = {
   setToken: "setToken",
   clearToken: "clearToken",
+  setUser: "setUser",
 };
 
 // Reducer function to handle authentication state changes
@@ -15,8 +16,8 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.setToken:
       // Set the authentication token in axios headers and local storage
-      // console.log('ACTIONS.setToken', action.payload )
-      axios.defaults.headers.common["Authorization"] = "Bearer " + action.payload;
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + action.payload;
       localStorage.setItem("token", action.payload);
 
       // Update the state with the new token
@@ -32,6 +33,10 @@ const authReducer = (state, action) => {
 
     // Handle other actions (if any)
 
+    case ACTIONS.setUser:
+      localStorage.removeItem("token");
+      return { ...state, user: action.payload };
+
     default:
       console.error(
         `You passed an action.type: ${action.type} which doesn't exist`
@@ -42,12 +47,18 @@ const authReducer = (state, action) => {
 // Initial state for the authentication context
 const initialData = {
   token: localStorage.getItem("token"),
+  user: "",
 };
 
 // AuthProvider component to provide the authentication context to children
 export const AuthProvider = ({ children }) => {
   // Use reducer to manage the authentication state
   const [state, dispatch] = useReducer(authReducer, initialData);
+
+  const setUser = (user) => {
+    // Dispatch the setToken action to update the state
+    dispatch({ type: ACTIONS.setUser, payload: user });
+  };
 
   // Function to set the authentication token
   const setToken = (newToken) => {
@@ -66,6 +77,7 @@ export const AuthProvider = ({ children }) => {
     () => ({
       ...state,
       setToken,
+      setUser,
       clearToken,
     }),
     [state]
