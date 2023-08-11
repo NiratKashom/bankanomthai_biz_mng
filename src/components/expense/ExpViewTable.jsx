@@ -11,43 +11,15 @@ import useSWR from "swr";
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
 function ExpViewTable() {
-  // const [expData, setExpData] = useState({
-  //   data: [],
-  //   amountItems: 0,
-  //   sumTotalPrice: 0,
-  // });
-
-  // const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(
     dayjs(selectedDate).format("YYYY-MM-DD")
   );
-  // const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
   const {
     data: expData,
     isLoading,
     mutate,
-    error,
-  } = useSWR(`/expense/${formatDate}`, fetcher, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-  });
-
-  // const fetchExpDataTable = async (date) => {
-  //   setIsLoading(true);
-  //   try {
-  //     const res = await getExpenseAPI(date);
-  //     setExpData(() => ({ ...res }));
-  //   } catch (error) {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "ไม่สามารถเรียกข้อมูลได้",
-  //       text: "เกิดข้อผิดพลาด ERROR : " + error,
-  //     });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  } = useSWR(`/expense/${formatDate}`, fetcher);
 
   const handleDeleteRow = async (rowId) => {
     Swal.fire({
@@ -85,6 +57,7 @@ function ExpViewTable() {
   };
 
   useEffect(() => {
+    console.log("USE EFFECT ========>");
     const newDate = dayjs(selectedDate).format("YYYY-MM-DD");
     setFormatDate(newDate);
   }, [selectedDate]);
