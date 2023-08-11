@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import Loading from "@/components/Loading";
 
 const Login = () => {
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -37,7 +37,7 @@ const Login = () => {
       errors.password = "กรุณาใส่รหัสผ่าน";
     } else if (password.length < 6) {
       errors.password = "รหัสผ่านต้องมีอย่างน้อย 6 ตัว";
-    } 
+    }
 
     return {
       isValid: Object.keys(errors).length === 0,
@@ -51,10 +51,12 @@ const Login = () => {
     const password = e.target.password.value;
     const { isValid, errors } = validateLoginForm(email, password);
     if (isValid) {
-      setErrors({ email: "", password: "" })
+      setErrors({ email: "", password: "" });
       setIsLoading(true);
       try {
         const res = await loginAPI({ email, password });
+        console.log(res);
+        setUser(res.userInfo.user);
         setToken(res.userInfo.token);
         navigate("/", { replace: true });
       } catch (error) {

@@ -11,10 +11,6 @@ const Routes = () => {
   // Define public routes accessible to all users
   const routesForPublic = [
     {
-      path: "/service",
-      element: <div>Service Page</div>,
-    },
-    {
       path: "/about-us",
       element: <div>About Us</div>,
     },
@@ -28,7 +24,7 @@ const Routes = () => {
       children: [
         {
           path: "/",
-          element: <div>User Home Page Ja</div>,
+          element: <div className="text-xl text-center">ยินดีต้อนรับ</div>,
         },
         {
           path: "/expense",
