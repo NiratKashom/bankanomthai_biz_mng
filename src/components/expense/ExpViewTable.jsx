@@ -2,37 +2,54 @@ import React, { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import SfHeaderTable from "@/components/storefront/SfHeaderTable";
-import { getExpenseAPI,deleteExpenseAPI } from "@/services/API/expenseAPI";
+import { getExpenseAPI, deleteExpenseAPI } from "@/services/API/expenseAPI";
 import Swal from "sweetalert2";
+import axios from "@/config/axios.config.js";
+import dayjs from "dayjs";
+import useSWR from "swr";
+
+const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
 function ExpViewTable() {
-  const [expData, setExpData] = useState({
-    data: [],
-    amountItems: 0,
-    sumTotalPrice: 0,
+  // const [expData, setExpData] = useState({
+  //   data: [],
+  //   amountItems: 0,
+  //   sumTotalPrice: 0,
+  // });
+
+  // const [isLoading, setIsLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [formatDate, setFormatDate] = useState(
+    dayjs(selectedDate).format("YYYY-MM-DD")
+  );
+  // const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
+  const {
+    data: expData,
+    isLoading,
+    mutate,
+    error,
+  } = useSWR(`/expense/${formatDate}`, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const fetchExpDataTable = async (date) => {
-    setIsLoading(true);
-    try {
-      const res = await getExpenseAPI(date);
-      setExpData(() => ({ ...res }));
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "ไม่สามารถเรียกข้อมูลได้",
-        text: "เกิดข้อผิดพลาด ERROR : " + error,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const fetchExpDataTable = async (date) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const res = await getExpenseAPI(date);
+  //     setExpData(() => ({ ...res }));
+  //   } catch (error) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "ไม่สามารถเรียกข้อมูลได้",
+  //       text: "เกิดข้อผิดพลาด ERROR : " + error,
+  //     });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   const handleDeleteRow = async (rowId) => {
-
     Swal.fire({
       title: "ยืนยันลบข้อมูลเลขที่: " + rowId,
       text: "ต้องการลบข้อมูลใช่หรือไม่",
@@ -52,7 +69,7 @@ function ExpViewTable() {
               title: "ลบรายการเรียบร้อยแล้ว:",
               icon: "success",
             }).then(() => {
-              fetchExpDataTable(selectedDate);
+              // fetchExpDataTable(selectedDate);
             });
         } catch (error) {
           Swal.fire({
@@ -68,7 +85,8 @@ function ExpViewTable() {
   };
 
   useEffect(() => {
-    fetchExpDataTable(selectedDate);
+    const newDate = dayjs(selectedDate).format("YYYY-MM-DD");
+    setFormatDate(newDate);
   }, [selectedDate]);
 
   return (
@@ -82,7 +100,9 @@ function ExpViewTable() {
         />
       </div>
       <div className=" p-4 ">
-        <p className="text-xl mb-3">{`รายการ รายจ่ายที่บันทึกแล้ว ${expData.amountItems} รายการ, รวมเป็นเงิน ${expData.sumTotalPrice} บาท`}</p>
+        <p className="text-xl mb-3">{`รายการ รายจ่ายที่บันทึกแล้ว ${
+          expData?.amountItems || 0
+        } รายการ, รวมเป็นเงิน ${expData?.sumTotalPrice || 0} บาท`}</p>
         <SfHeaderTable
           headerTableColumn={[
             { label: "ลำดับ", width: "1/12" },
@@ -98,9 +118,8 @@ function ExpViewTable() {
             { label: "", textAlign: "center", width: "1/12" },
           ]}
         />
-        {expData.data.map((data, idx) => {
-          const {id, title, category, qty, unit, totalPrice, remark} =
-            data;
+        {expData?.data.map((data, idx) => {
+          const { id, title, category, qty, unit, totalPrice, remark } = data;
           return (
             <div
               className="hover:bg-slate-100 flex items-top border-b-2"
@@ -127,7 +146,7 @@ function ExpViewTable() {
               </div>
             </div>
           );
-        })}
+        }) || []}
       </div>
     </div>
   );
