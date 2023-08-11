@@ -14,7 +14,7 @@ function SfTable({
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+    cancelButtonColor: "#d33",
       confirmButtonText: "ยืนยัน",
       cancelButtonText: "ยกเลิก",
     }).then(async (result) => {
