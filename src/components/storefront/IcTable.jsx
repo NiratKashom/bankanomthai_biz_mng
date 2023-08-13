@@ -22,7 +22,7 @@ function IcTable({
         ]}
       />
 
-      {data.map((data, idx) => {
+      {data?.map((data, idx) => {
         const {storefrontId, title, category, incomeAmount, unit, incomeTotalPrice} = data;
         return (
           <div
@@ -40,7 +40,7 @@ function IcTable({
             <div className="text-right border-r-2 w-2/12 p-2">{incomeTotalPrice}</div>
           </div>
         );
-      })}
+      })|| null}
     </>
   );
 }

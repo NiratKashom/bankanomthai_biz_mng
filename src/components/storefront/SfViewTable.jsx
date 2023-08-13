@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getStorefrontAPI } from "@/services/API/storefrontAPI";
+import { updatedByDelSfDataById } from "@/utils/storefrontUtils";
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import SfTable from "./SfTable";
@@ -7,13 +8,27 @@ import LoTable from "./LoTable";
 import IcTable from "./IcTable";
 import Swal from "sweetalert2";
 
+import dayjs from "dayjs";
+import useSWR from "swr";
+
 function SfViewTable() {
   const [sfData, setSfData] = useState({});
   const [loData, setLoData] = useState({});
   const [icData, setIcData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [sfTableViewDate, setSfTableViewDate] = useState(new Date());
+
   const [activeTab, setActiveTab] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [sfTableViewDate, setSfTableViewDate] = useState(new Date());
+  const [formatDate, setFormatDate] = useState(
+    dayjs(sfTableViewDate).format("YYYY-MM-DD")
+  );
+
+  const {
+    data: responseData,
+    isLoading: fetching,
+    mutate,
+  } = useSWR(`/storefront/${formatDate}`);
 
   const handleTabChange = (tabIndex) => {
     setActiveTab(tabIndex);
@@ -40,12 +55,13 @@ function SfViewTable() {
   };
 
   useEffect(() => {
-    fetchSfDataTable(sfTableViewDate);
+    const newDate = dayjs(sfTableViewDate).format("YYYY-MM-DD");
+    setFormatDate(newDate);
   }, [sfTableViewDate]);
 
   return (
     <div className=" p-4 ">
-      {isLoading && <Loading />}
+      {fetching || isLoading ? <Loading /> : null}
       <div>
         <div className="flex">
           <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่จะดู</h2>
@@ -86,13 +102,20 @@ function SfViewTable() {
         <div className=" p-4 ">
           {activeTab === 1 && (
             <SfTable
-              dataTable={sfData}
+              dataTable={responseData?.storefrontData || []}
               setIsLoading={setIsLoading}
               refetch={() => fetchSfDataTable(sfTableViewDate)}
+              deleteById={(rowId) =>
+                mutate(updatedByDelSfDataById(responseData, rowId), false)
+              }
             />
           )}
-          {activeTab === 2 && <LoTable dataTable={loData} />}
-          {activeTab === 3 && <IcTable dataTable={icData} />}
+          {activeTab === 2 && (
+            <LoTable dataTable={responseData?.leftoverData || []} />
+          )}
+          {activeTab === 3 && (
+            <IcTable dataTable={responseData?.incomeData || []} />
+          )}
         </div>
       </div>
     </div>

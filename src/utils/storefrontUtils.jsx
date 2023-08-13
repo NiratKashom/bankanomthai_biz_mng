@@ -1,23 +1,5 @@
 import dayjs from "dayjs";
 
-//   console.log("======= convertFormDataBeforeSubmit =======")
-//   console.log('arr', arr)
-//   console.log('date', date)
-//   const currentDateTime = dayjs().format("MM/DD/YYYY HH:mm:ss");
-//   return arr.map((obj) => {
-//     const convertedValues = Object.entries(obj).map(([key, value], index) => {
-//       if (index === 0) {
-//         const [category, title] = value.split(" : ");
-//         return [date, title, category];
-//       }
-//       if ([1, 3, 6, 7].includes(index)) return Number(value);
-//       return value;
-//     });
-//     convertedValues.push(currentDateTime);
-//     return convertedValues.flat();
-//   });
-// };
-
 export const convertFormDataBeforeSubmit = (arr, date) => {
   const selectedDate = dayjs(date).format("MM/DD/YYYY HH:mm:ss");
   return arr.map((obj) => {
@@ -35,27 +17,81 @@ export const convertFormDataBeforeSubmit = (arr, date) => {
   });
 };
 
-// [{
-//   "category": "ขนมมัน",
-//   "date": "2023-05-30T17:00:00.000Z",
-//   "is_leftover": false,
-//   "leftover_amount": 0,
-//   "leftover_total_price": 0,
-//   "qty": 10,
-//   "remark": "",
-//   "title": "จัดเบรคกล่องเล็ก",
-//   "total_price": 200,
-//   "unit": "กล่อง"
-// }, {
-//   "category": "ขนมต้ม",
-//   "date": "2023-05-30T17:00:00.000Z",
-//   "is_leftover": false,
-//   "leftover_amount": 0,
-//   "leftover_total_price": 0,
-//   "qty": 1,
-//   "remark": "",
-//   "title": "ถุงเล็ก",
-//   "total_price": 15,
-//   "unit": "ถุง"
-// }
-// ]
+export const updatedByDelSfDataById = (data, rowId) => {
+  if (!data || (typeof data === "object" && Object.keys(data).length === 0)) {
+    return {
+      storefrontData: {
+        data: [],
+        sumTotalPrice: "0",
+        amountItems: "0"
+      },
+      leftoverData: {
+        data: [],
+        sumTotalPrice: "0",
+        amountItems: "0"
+      },
+      incomeData: {
+        data: [],
+        sumTotalPrice: "0",
+        amountItems: "0"
+      }
+    };
+  }
+
+  const { storefrontData, leftoverData, incomeData } = data;
+
+  const updatedStorefrontData = updateTableData(
+    storefrontData,
+    rowId,
+    "totalPrice"
+  );
+  const updatedLeftoverData = updateTableData(
+    leftoverData,
+    rowId,
+    "leftoverTotalPrice"
+  );
+  const updatedIncomeData = updateTableData(
+    incomeData,
+    rowId,
+    "incomeTotalPrice"
+  );
+  return {
+    storefrontData: updatedStorefrontData,
+    leftoverData: updatedLeftoverData,
+    incomeData: updatedIncomeData
+  };
+};
+
+const updateTableData = (data, rowId, priceKey) => {
+  if (
+    !data ||
+    data.length === 0 ||
+    (typeof data === "object" && Object.keys(data).length === 0)
+  )
+    return {
+      data: [],
+      sumTotalPrice: "0",
+      amountItems: "0"
+    };
+
+  const updatedData = {
+    data: [],
+    sumTotalPrice: 0,
+    amountItems: 0
+  };
+
+  // console.log(data);
+  data.data.forEach((item) => {
+    const itemId = item.id || item.storefrontId;
+    if (itemId !== rowId) {
+      updatedData.data.push(item);
+      updatedData.sumTotalPrice += +item[priceKey];
+      updatedData.amountItems += 1;
+    }
+  });
+
+  updatedData.amountItems = updatedData.amountItems.toLocaleString();
+  updatedData.sumTotalPrice = updatedData.sumTotalPrice.toLocaleString();
+
+  return updatedData;
+};

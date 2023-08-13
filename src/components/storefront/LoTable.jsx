@@ -20,8 +20,7 @@ function LoTable({ dataTable: { data = [], amountItems= 0, sumTotalPrice= 0, } }
         ]}
       />
  
-      {data.map((data, idx) => {
-        // const [refNo, , ,title, category, qty, unit, totalPrice] = data;
+      {data?.map((data, idx) => {
         const {storefrontId, title, category, leftoverAmount,unit, leftoverTotalPrice} = data;
         return (
           <div
@@ -39,7 +38,7 @@ function LoTable({ dataTable: { data = [], amountItems= 0, sumTotalPrice= 0, } }
             <div className="text-right border-r-2 w-2/12 p-2">{leftoverTotalPrice}</div>
           </div>
         );
-      })}
+      }) || null}
     </>
   );
 }

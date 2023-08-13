@@ -6,6 +6,7 @@ function SfTable({
   dataTable: { data = [], amountItems = 0, sumTotalPrice = 0 },
   refetch,
   setIsLoading,
+  deleteById,
 }) {
   const handleDeleteRow = async (rowId) => {
     Swal.fire({
@@ -14,7 +15,7 @@ function SfTable({
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+      cancelButtonColor: "#d33",
       confirmButtonText: "ยืนยัน",
       cancelButtonText: "ยกเลิก",
     }).then(async (result) => {
@@ -22,14 +23,11 @@ function SfTable({
         setIsLoading(true);
         try {
           const res = await deleteStorefrontAPI(rowId);
-          if (res.statusCode === 200)
-            Swal.fire({
-              title: "ลบรายการเรียบร้อยแล้ว:",
-              icon: "success",
-            }).then(() => {
-              refetch();
-            });
-          // console.log(res)
+          if (res.statusCode === 200) deleteById(rowId);
+          Swal.fire({
+            title: "ลบรายการเรียบร้อยแล้ว:",
+            icon: "success",
+          });
         } catch (error) {
           Swal.fire({
             icon: "error",
@@ -72,7 +70,7 @@ function SfTable({
           <div className="p-2 border-r-2 flex-grow-0 flex-shrink-0 w-1/12"></div>
         </div>
 
-        {data.map((data, idx) => {
+        {data?.map((data, idx) => {
           const {
             id,
             title,
@@ -128,7 +126,7 @@ function SfTable({
               </div>
             </div>
           );
-        })}
+        }) || null}
       </div>
     </>
   );
