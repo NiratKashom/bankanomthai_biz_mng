@@ -7,10 +7,9 @@ function FormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
     <>
       <div className="flex justify-around space-x-2 mb-4">
         {steps.map((step) => (
-          <>
-            <div key={step.number}>
-              <div
-                className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center 
+          <div key={step.number}>
+            <div
+              className={`w-8 h-8 mx-auto rounded-full flex items-center justify-center 
               ${
                 activeStep === step.number
                   ? "bg-blue-500 text-white"
@@ -18,22 +17,21 @@ function FormStepper({ activeStep, steps, onNextStep, onPreviousStep }) {
                   ? "bg-green-500 text-white"
                   : "bg-gray-300"
               }`}
-              >
-                {step.number}
-              </div>
-              <span
-                className={`${
-                  activeStep === step.number
-                    ? "text-blue-500"
-                    : activeStep > step.number
-                    ? "text-green-500"
-                    : ""
-                }`}
-              >
-                {step.label}
-              </span>
+            >
+              {step.number}
             </div>
-          </>
+            <span
+              className={`${
+                activeStep === step.number
+                  ? "text-blue-500"
+                  : activeStep > step.number
+                  ? "text-green-500"
+                  : ""
+              }`}
+            >
+              {step.label}
+            </span>
+          </div>
         ))}
       </div>
       <div

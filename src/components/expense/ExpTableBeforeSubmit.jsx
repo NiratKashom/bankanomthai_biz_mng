@@ -53,7 +53,7 @@ function ExpTableBeforeSubmit() {
               {idx + 1 + "."}
             </div>
             <div className="text-left border-r-2 w-4/12 p-2">{data.title}</div>
-            <div className="text-right border-r-2 w-1/12 p-2">{data.amount}</div>
+            <div className="text-right border-r-2 w-1/12 p-2">{data.qty}</div>
             <div className="text-right border-r-2 w-1/12 p-2">{data.unit}</div>
             <div className="text-right border-r-2 w-1/12 p-2">
               {data.totalPrice}

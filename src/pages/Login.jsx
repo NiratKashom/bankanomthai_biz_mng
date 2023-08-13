@@ -55,7 +55,6 @@ const Login = () => {
       setIsLoading(true);
       try {
         const res = await loginAPI({ email, password });
-        console.log(res);
         setUser(res.userInfo.user);
         setToken(res.userInfo.token);
         navigate("/", { replace: true });

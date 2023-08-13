@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import SfHeaderTable from "@/components/storefront/SfHeaderTable";
-import { getExpenseAPI, deleteExpenseAPI } from "@/services/API/expenseAPI";
+import { deleteExpenseAPI } from "@/services/API/expenseAPI";
+import { updatedByDeleteExpDataByRowId } from "@/utils/expenseUtils";
 import Swal from "sweetalert2";
-import axios from "@/config/axios.config.js";
 import dayjs from "dayjs";
 import useSWR from "swr";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data.data);
-
 function ExpViewTable() {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(
     dayjs(selectedDate).format("YYYY-MM-DD")
   );
+
   const {
     data: expData,
-    isLoading,
-    mutate,
-  } = useSWR(`/expense/${formatDate}`, fetcher);
+    isLoading: fetching,
+    mutate
+  } = useSWR(`/expense/${formatDate}`);
 
   const handleDeleteRow = async (rowId) => {
     Swal.fire({
@@ -36,13 +36,13 @@ function ExpViewTable() {
         setIsLoading(true);
         try {
           const res = await deleteExpenseAPI(rowId);
-          if (res.statusCode === 200)
+          if (res.statusCode === 200) {
+            mutate(updatedByDeleteExpDataByRowId(expData, rowId), false);
             Swal.fire({
               title: "ลบรายการเรียบร้อยแล้ว:",
               icon: "success",
-            }).then(() => {
-              // fetchExpDataTable(selectedDate);
             });
+          }
         } catch (error) {
           Swal.fire({
             icon: "error",
@@ -57,14 +57,13 @@ function ExpViewTable() {
   };
 
   useEffect(() => {
-    console.log("USE EFFECT ========>");
     const newDate = dayjs(selectedDate).format("YYYY-MM-DD");
     setFormatDate(newDate);
   }, [selectedDate]);
 
   return (
     <div className=" p-4 ">
-      {isLoading && <Loading />}
+      {fetching || isLoading ? <Loading /> : null}
       <div className="flex">
         <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่จะดู</h2>
         <ReactDatepicker
@@ -119,7 +118,7 @@ function ExpViewTable() {
               </div>
             </div>
           );
-        }) || []}
+        }) || null}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { ExpenseFormDataContext } from "@/context/ExpenseFormDataContext";
-
 import Loading from "@/components/Loading";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
@@ -8,14 +7,23 @@ import FormStepper from "@/components/FormStepper";
 import ExpInputForm from "@/components/expense/ExpInputForm";
 import ExpTableBeforeSubmit from "@/components/expense/ExpTableBeforeSubmit";
 import { postExpenseAPI } from "@/services/API/expenseAPI";
-import { convertExpDataBeforeSubmit } from "@/utils/expenseUtils";
+import {
+  convertExpDataBeforeSubmit,
+  updateExpDataWithNewData,
+} from "@/utils/expenseUtils";
+
+import { useSWRConfig } from "swr";
+import { getExpenseAPI } from "../../services/API/expenseAPI";
 
 function ExpenseForm() {
+  const { cache, mutate } = useSWRConfig();
+
   const { formData, expSelectedDate, clearFormData } = useContext(
     ExpenseFormDataContext
   );
 
   const [activeStep, setActiveStep] = useState(1);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const steps = [
@@ -50,11 +58,19 @@ function ExpenseForm() {
   };
 
   const submitExpForm = async (data, date) => {
-    const recordDate = dayjs(date).format("MM/DD/YYYY");
-    const formData = convertExpDataBeforeSubmit(data, recordDate);
-    setIsLoading(true);
     try {
-      await postExpenseAPI(formData);
+      const recordDate = dayjs(date).format("MM/DD/YYYY");
+      const formData = convertExpDataBeforeSubmit(data, recordDate);
+      setIsLoading(true);
+      const res = await postExpenseAPI(formData);
+      const newDataFromRes = res.data;
+      const formattedDate = dayjs(date).format("YYYY-MM-DD");
+      const keyCache = `/expense/${formattedDate}`;
+
+      await updateCacheWithKey(keyCache, newDataFromRes, () =>
+        getExpenseAPI(date)
+      );
+
       Swal.fire({
         icon: "success",
         title: "บันทึกข้อมูลสำเร็จ",
@@ -84,7 +100,7 @@ function ExpenseForm() {
           onNextStep={handleNext}
           onPreviousStep={handlePrevious}
         />
-        {activeStep === 1 && <ExpInputForm submitExpForm={submitExpForm}/>}
+        {activeStep === 1 && <ExpInputForm submitExpForm={submitExpForm} />}
         {activeStep === 2 && <ExpTableBeforeSubmit />}
       </form>
     </div>
