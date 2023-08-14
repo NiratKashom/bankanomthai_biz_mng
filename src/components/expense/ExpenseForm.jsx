@@ -1,18 +1,20 @@
 import React, { useContext, useState } from "react";
-import { ExpenseFormDataContext } from "@/context/ExpenseFormDataContext";
-import Loading from "@/components/Loading";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
+
 import FormStepper from "@/components/FormStepper";
 import ExpInputForm from "@/components/expense/ExpInputForm";
 import ExpTableBeforeSubmit from "@/components/expense/ExpTableBeforeSubmit";
+import Loading from "@/components/Loading";
+
+import { ExpenseFormDataContext } from "@/context/ExpenseFormDataContext";
 import { postExpenseAPI } from "@/services/API/expenseAPI";
 import {
   convertExpDataBeforeSubmit,
   updateExpDataWithNewData,
 } from "@/utils/expenseUtils";
 import { getExpenseAPI } from "../../services/API/expenseAPI";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function ExpenseForm() {
   const queryClient = useQueryClient();
@@ -22,32 +24,28 @@ function ExpenseForm() {
   );
 
   const [activeStep, setActiveStep] = useState(1);
-  // const [isLoading, setIsLoading] = useState(false);
 
-  const { mutateAsync: createSfData, isLoading } = useMutation(
-    (formData, date) => postExpenseAPI(formData, date),
-    {
-      onSuccess: async (response) => {
-        const queryDate = dayjs(expSelectedDate).format("YYYY-MM-DD");
-        const previousData = queryClient.getQueryData(["expense", queryDate]);
-        const newDataFromRes = response.data;
-        if (previousData) {
-          const newData = updateExpDataWithNewData(
-            previousData,
-            newDataFromRes.data
-          );
-          queryClient.setQueryData(["expense", queryDate], newData);
-        } else {
-          try {
-            const res = await getExpenseAPI(queryDate);
-            queryClient.setQueryData(["expense", queryDate], res);
-          } catch (error) {
-            throw new Error(error);
-          }
+  const { mutateAsync: createSfData, isLoading } = useMutation(postExpenseAPI, {
+    onSuccess: async (response) => {
+      const queryDate = dayjs(expSelectedDate).format("YYYY-MM-DD");
+      const previousData = queryClient.getQueryData(["expense", queryDate]);
+      const newDataFromRes = response.data;
+      if (previousData) {
+        const newData = updateExpDataWithNewData(
+          previousData,
+          newDataFromRes.data
+        );
+        queryClient.setQueryData(["expense", queryDate], newData);
+      } else {
+        try {
+          const res = await getExpenseAPI(queryDate);
+          queryClient.setQueryData(["expense", queryDate], res);
+        } catch (error) {
+          throw new Error(error);
         }
-      },
-    }
-  );
+      }
+    },
+  });
 
   const steps = [
     { number: 1, label: "บันทึกรายจ่าย" },
@@ -81,7 +79,7 @@ function ExpenseForm() {
   };
 
   const submitExpForm = async (data, date) => {
-    console.log("submitExpForm =======");
+    // console.log("submitExpForm =======");
     try {
       const formattedDate = dayjs(date).format("YYYY-MM-DD");
       const formData = convertExpDataBeforeSubmit(data, formattedDate);
@@ -100,7 +98,6 @@ function ExpenseForm() {
         title: "ไม่สามารถบันทึกข้อมูลได้",
         text: "เกิดข้อผิดพลาด ERROR : " + error,
       });
-    } finally {
     }
   };
 

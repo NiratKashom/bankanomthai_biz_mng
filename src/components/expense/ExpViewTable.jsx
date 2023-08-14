@@ -27,19 +27,12 @@ function ExpViewTable() {
   const { mutateAsync: deleteByRow, isLoading } = useMutation(
     deleteExpenseAPI,
     {
-      onSuccess: async (response, rowId) => {
+      onSuccess: async (_, rowId) => {
         const previousData = queryClient.getQueryData(["expense", formatDate]);
         if (previousData) {
           const newData = updatedByDeleteExpDataByRowId(previousData, rowId);
           queryClient.setQueryData(["expense", formatDate], newData);
-        } else {
-          try {
-            const res = await getExpenseAPI(formatDate);
-            queryClient.setQueryData(["expense", formatDate], [...res.data]);
-          } catch (error) {
-            console.log("Error", Error);
-          }
-        }
+        } 
       },
     }
   );

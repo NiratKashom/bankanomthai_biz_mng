@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import dayjs from "dayjs";
+
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { getStorefrontAPI } from "@/services/API/storefrontAPI";
 import { updatedByDelSfDataById } from "@/utils/storefrontUtils";
+
 import Loading from "@/components/Loading";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import SfTable from "./SfTable";
 import LoTable from "./LoTable";
 import IcTable from "./IcTable";
-import Swal from "sweetalert2";
 
-import dayjs from "dayjs";
 
 function SfViewTable() {
   const [sfData, setSfData] = useState({});
@@ -23,31 +27,17 @@ function SfViewTable() {
     dayjs(sfTableViewDate).format("YYYY-MM-DD")
   );
 
-  const responseData = []
+  const { isLoading: fetching, data: responseData } = useQuery(
+    ["storefront", formatDate],
+    () => getStorefrontAPI(formatDate)
+  );
+
 
   const handleTabChange = (tabIndex) => {
     setActiveTab(tabIndex);
   };
 
   const activeTabClass = "text-blue-500 font-bold border-b-4 border-blue-500";
-
-  const fetchSfDataTable = async (date) => {
-    setIsLoading(true);
-    try {
-      const data = await getStorefrontAPI(date);
-      setSfData(() => data.storefrontData);
-      setLoData(() => data.leftoverData);
-      setIcData(() => data.incomeData);
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "ไม่สามารถเรียกข้อมูลได้",
-        text: "เกิดข้อผิดพลาด ERROR : " + error,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   useEffect(() => {
     const newDate = dayjs(sfTableViewDate).format("YYYY-MM-DD");
@@ -98,8 +88,8 @@ function SfViewTable() {
           {activeTab === 1 && (
             <SfTable
               dataTable={responseData?.storefrontData || []}
-              setIsLoading={setIsLoading}
-              refetch={() => fetchSfDataTable(sfTableViewDate)}
+              date={formatDate}
+              refetch={() => {}}
           
             />
           )}

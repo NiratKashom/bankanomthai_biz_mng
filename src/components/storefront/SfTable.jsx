@@ -1,13 +1,30 @@
 import React from "react";
 import Swal from "sweetalert2";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { deleteStorefrontAPI } from "../../services/API/storefrontAPI";
+import { updatedByDelSfDataById } from "@/utils/storefrontUtils";
+
+import Loading from "@/components/Loading";
 
 function SfTable({
-  dataTable: { data = [], amountItems = 0, sumTotalPrice = 0 },
-  refetch,
-  setIsLoading,
-  deleteById,
+  dataTable: { data = [], amountItems = 0, sumTotalPrice = 0 },date
 }) {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: deleteByRow, isLoading } = useMutation(
+    deleteStorefrontAPI,
+    {
+      onSuccess: async (_, rowId) => {
+        const previousData = queryClient.getQueryData(["storefront", date]);
+        if (previousData) {
+          const newData = updatedByDelSfDataById(previousData, rowId);
+          queryClient.setQueryData(["storefront", date], newData);
+        }
+      },
+    }
+  );
+
   const handleDeleteRow = async (rowId) => {
     Swal.fire({
       title: "ยืนยันลบข้อมูลเลขที่: " + rowId,
@@ -20,29 +37,18 @@ function SfTable({
       cancelButtonText: "ยกเลิก",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setIsLoading(true);
-        try {
-          const res = await deleteStorefrontAPI(rowId);
-          if (res.statusCode === 200) deleteById(rowId);
-          Swal.fire({
-            title: "ลบรายการเรียบร้อยแล้ว:",
-            icon: "success",
-          });
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "ไม่สามารถเรียกข้อมูลได้",
-            text: "เกิดข้อผิดพลาด ERROR : " + error,
-          });
-        } finally {
-          setIsLoading(false);
-        }
+        await deleteByRow(rowId);
+        Swal.fire({
+          title: "ลบรายการเรียบร้อยแล้ว:",
+          icon: "success",
+        });
       }
     });
   };
 
   return (
     <>
+      {isLoading ? <Loading /> : null}
       <p className="text-xl mb-3">{`รายการ เอาไปขายที่บันทึกแล้ว ${amountItems} รายการ, รวมเป็นเงิน ${sumTotalPrice} บาท`}</p>
       <div className="w-full">
         <div className="flex bg-blue-200 border-b border-gray-400">

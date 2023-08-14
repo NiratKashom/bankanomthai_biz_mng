@@ -1,11 +1,6 @@
 import dayjs from "dayjs";
 import axios from "@/config/axios.config.js";
 
-// import axios from "axios";
-// const endPoint = import.meta.env.VITE_API_ENDPOINT;
-
-// const sfEndPoint = endPoint + "/storefront/";
-
 export const getStorefrontAPI = async (date) => {
   try {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");

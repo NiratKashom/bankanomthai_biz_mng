@@ -32,7 +32,6 @@ function SfInputForm({ submitSfForm }) {
   };
 
   const submitOffDay = (date) => {
-    console.log("submitOffDay=========");
     const recordDate = dayjs(date).format("MM/DD/YYYY");
     const offDayData = [
       {

@@ -1,22 +1,55 @@
 import React, { useContext, useState } from "react";
-import { SfFormDataContext } from "@/context/SfFormDataContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import dayjs from "dayjs";
 
+import Loading from "@/components/Loading";
+import FormStepper from "@/components/FormStepper";
 import SfInputForm from "@/components/storefront/SfInputForm";
 import LeftoverFormContainer from "@/components/storefront/LeftoverFormContainer";
 import SfTableBeforeSubmit from "@/components/storefront/SfTableBeforeSubmit";
 
-import { postStorefrontAPI } from "../../services/API/storefrontAPI";
-import Swal from "sweetalert2";
-import dayjs from "dayjs";
-import { convertFormDataBeforeSubmit } from "@/utils/storefrontUtils";
-import Loading from "@/components/Loading";
-import FormStepper from "@/components/FormStepper";
+import {
+  postStorefrontAPI,
+  getStorefrontAPI,
+} from "../../services/API/storefrontAPI";
+import { SfFormDataContext } from "@/context/SfFormDataContext";
+import {
+  convertFormDataBeforeSubmit,
+  updateSfDataWithNewData,
+} from "@/utils/storefrontUtils";
 
 const StorefrontForm = () => {
+  const queryClient = useQueryClient();
+
   const { formData, sfSelectedDate, clearFormData } =
     useContext(SfFormDataContext);
   const [activeStep, setActiveStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { mutateAsync: createSfData, isLoading } = useMutation(
+    postStorefrontAPI,
+    {
+      onSuccess: async (response) => {
+        const queryDate = dayjs(sfSelectedDate).format("YYYY-MM-DD");
+        const previousData = queryClient.getQueryData([
+          "storefront",
+          queryDate,
+        ]);
+        const newDataFromRes = response.data;
+        if (previousData) {
+          const newData = updateSfDataWithNewData(previousData, newDataFromRes.data);
+          queryClient.setQueryData(["storefront", queryDate], newData);
+        } else {
+          try {
+            const res = await getStorefrontAPI(queryDate);
+            queryClient.setQueryData(["storefront", queryDate], res);
+          } catch (error) {
+            throw new Error(error);
+          }
+        }
+      },
+    }
+  );
 
   const steps = [
     { number: 1, label: "บันทึกของที่นำไปขาย" },
@@ -52,15 +85,9 @@ const StorefrontForm = () => {
 
   const submitSfForm = async (data, date) => {
     try {
-      setIsLoading(true);
       const recordDate = dayjs(date).format("MM/DD/YYYY");
       const formData = convertFormDataBeforeSubmit(data, recordDate);
-      const res = await postStorefrontAPI(formData);
-      const newDataFromRes = res.data;
-      const formattedDate = dayjs(date).format("YYYY-MM-DD");
-
-      console.log('newDataFromRes', newDataFromRes)
-
+      await createSfData(formData);
       Swal.fire({
         icon: "success",
         title: "บันทึกข้อมูลสำเร็จ",
@@ -74,8 +101,6 @@ const StorefrontForm = () => {
         title: "ไม่สามารถบันทึกข้อมูลได้",
         text: "เกิดข้อผิดพลาด ERROR : " + error,
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
