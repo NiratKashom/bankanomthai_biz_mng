@@ -9,7 +9,6 @@ import IcTable from "./IcTable";
 import Swal from "sweetalert2";
 
 import dayjs from "dayjs";
-import useSWR from "swr";
 
 function SfViewTable() {
   const [sfData, setSfData] = useState({});
@@ -24,11 +23,7 @@ function SfViewTable() {
     dayjs(sfTableViewDate).format("YYYY-MM-DD")
   );
 
-  const {
-    data: responseData,
-    isLoading: fetching,
-    mutate,
-  } = useSWR(`/storefront/${formatDate}`);
+  const responseData = []
 
   const handleTabChange = (tabIndex) => {
     setActiveTab(tabIndex);
@@ -105,9 +100,7 @@ function SfViewTable() {
               dataTable={responseData?.storefrontData || []}
               setIsLoading={setIsLoading}
               refetch={() => fetchSfDataTable(sfTableViewDate)}
-              deleteById={(rowId) =>
-                mutate(updatedByDelSfDataById(responseData, rowId), false)
-              }
+          
             />
           )}
           {activeTab === 2 && (

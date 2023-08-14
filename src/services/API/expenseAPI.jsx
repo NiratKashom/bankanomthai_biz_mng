@@ -1,16 +1,13 @@
 import dayjs from "dayjs";
 import axios from "@/config/axios.config.js";
 
-// const endPoint = import.meta.env.VITE_API_ENDPOINT;
-// const expEndPoint = endPoint + "/expense/";
-
 export const getExpenseAPI = async (date) => {
   try {
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
     const response = await axios.get("/expense/" + formattedDate);
     return response.data.data;
   } catch (error) {
-    console.log("ERR:" + error);
+    throw new Error(error);
   }
 };
 
@@ -23,7 +20,7 @@ export const postExpenseAPI = async (formData) => {
       data: response.data,
     };
   } catch (error) {
-    throw new Error(`ERR: ${error}`);
+    throw new Error(error);
   }
 };
 
@@ -37,7 +34,7 @@ export const deleteExpenseAPI = async (id) => {
     };
     return resData;
   } catch (error) {
-    throw new error("ERR:", error);
+    throw new Error(error);
   }
   
 }

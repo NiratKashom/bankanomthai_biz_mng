@@ -1,25 +1,48 @@
 import React, { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
-import ReactDatepicker from "@/components/ReactDatepicker";
-import SfHeaderTable from "@/components/storefront/SfHeaderTable";
-import { deleteExpenseAPI } from "@/services/API/expenseAPI";
-import { updatedByDeleteExpDataByRowId } from "@/utils/expenseUtils";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
-import useSWR from "swr";
+
+import ReactDatepicker from "@/components/ReactDatepicker";
+import Loading from "@/components/Loading";
+import SfHeaderTable from "@/components/storefront/SfHeaderTable";
+
+import { deleteExpenseAPI, getExpenseAPI } from "@/services/API/expenseAPI";
+import { updatedByDeleteExpDataByRowId } from "@/utils/expenseUtils";
 
 function ExpViewTable() {
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
+
+  // const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(
     dayjs(selectedDate).format("YYYY-MM-DD")
   );
 
-  const {
-    data: expData,
-    isLoading: fetching,
-    mutate
-  } = useSWR(`/expense/${formatDate}`);
+  const { isLoading: fetching, data: expData } = useQuery(
+    ["expense", formatDate],
+    () => getExpenseAPI(formatDate)
+  );
+
+  const { mutateAsync: deleteByRow, isLoading } = useMutation(
+    deleteExpenseAPI,
+    {
+      onSuccess: async (response, rowId) => {
+        const previousData = queryClient.getQueryData(["expense", formatDate]);
+        if (previousData) {
+          const newData = updatedByDeleteExpDataByRowId(previousData, rowId);
+          queryClient.setQueryData(["expense", formatDate], newData);
+        } else {
+          try {
+            const res = await getExpenseAPI(formatDate);
+            queryClient.setQueryData(["expense", formatDate], [...res.data]);
+          } catch (error) {
+            console.log("Error", Error);
+          }
+        }
+      },
+    }
+  );
 
   const handleDeleteRow = async (rowId) => {
     Swal.fire({
@@ -33,25 +56,11 @@ function ExpViewTable() {
       cancelButtonText: "ยกเลิก",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setIsLoading(true);
-        try {
-          const res = await deleteExpenseAPI(rowId);
-          if (res.statusCode === 200) {
-            mutate(updatedByDeleteExpDataByRowId(expData, rowId), false);
-            Swal.fire({
-              title: "ลบรายการเรียบร้อยแล้ว:",
-              icon: "success",
-            });
-          }
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "ไม่สามารถเรียกข้อมูลได้",
-            text: "เกิดข้อผิดพลาด ERROR : " + error,
-          });
-        } finally {
-          setIsLoading(false);
-        }
+        await deleteByRow(rowId);
+        Swal.fire({
+          title: "ลบรายการเรียบร้อยแล้ว:",
+          icon: "success",
+        });
       }
     });
   };
@@ -90,7 +99,7 @@ function ExpViewTable() {
             { label: "", textAlign: "center", width: "1/12" },
           ]}
         />
-        {expData?.data.map((data, idx) => {
+        {expData?.data?.map((data, idx) => {
           const { id, title, category, qty, unit, totalPrice, remark } = data;
           return (
             <div

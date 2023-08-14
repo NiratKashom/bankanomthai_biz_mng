@@ -11,20 +11,43 @@ import {
   convertExpDataBeforeSubmit,
   updateExpDataWithNewData,
 } from "@/utils/expenseUtils";
-
-import { useSWRConfig } from "swr";
 import { getExpenseAPI } from "../../services/API/expenseAPI";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function ExpenseForm() {
-  const { cache, mutate } = useSWRConfig();
+  const queryClient = useQueryClient();
 
   const { formData, expSelectedDate, clearFormData } = useContext(
     ExpenseFormDataContext
   );
 
   const [activeStep, setActiveStep] = useState(1);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutateAsync: createSfData, isLoading } = useMutation(
+    (formData, date) => postExpenseAPI(formData, date),
+    {
+      onSuccess: async (response) => {
+        const queryDate = dayjs(expSelectedDate).format("YYYY-MM-DD");
+        const previousData = queryClient.getQueryData(["expense", queryDate]);
+        const newDataFromRes = response.data;
+        if (previousData) {
+          const newData = updateExpDataWithNewData(
+            previousData,
+            newDataFromRes.data
+          );
+          queryClient.setQueryData(["expense", queryDate], newData);
+        } else {
+          try {
+            const res = await getExpenseAPI(queryDate);
+            queryClient.setQueryData(["expense", queryDate], res);
+          } catch (error) {
+            throw new Error(error);
+          }
+        }
+      },
+    }
+  );
 
   const steps = [
     { number: 1, label: "บันทึกรายจ่าย" },
@@ -58,19 +81,11 @@ function ExpenseForm() {
   };
 
   const submitExpForm = async (data, date) => {
+    console.log("submitExpForm =======");
     try {
-      const recordDate = dayjs(date).format("MM/DD/YYYY");
-      const formData = convertExpDataBeforeSubmit(data, recordDate);
-      setIsLoading(true);
-      const res = await postExpenseAPI(formData);
-      const newDataFromRes = res.data;
       const formattedDate = dayjs(date).format("YYYY-MM-DD");
-      const keyCache = `/expense/${formattedDate}`;
-
-      await updateCacheWithKey(keyCache, newDataFromRes, () =>
-        getExpenseAPI(date)
-      );
-
+      const formData = convertExpDataBeforeSubmit(data, formattedDate);
+      await createSfData(formData);
       Swal.fire({
         icon: "success",
         title: "บันทึกข้อมูลสำเร็จ",
@@ -86,7 +101,6 @@ function ExpenseForm() {
         text: "เกิดข้อผิดพลาด ERROR : " + error,
       });
     } finally {
-      setIsLoading(false);
     }
   };
 

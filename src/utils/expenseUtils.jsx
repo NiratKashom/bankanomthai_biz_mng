@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
 
-export const convertExpDataBeforeSubmit = (arr, date) => {
-  const selectedDate = dayjs(date).format("MM/DD/YYYY HH:mm:ss");
+
+export const convertExpDataBeforeSubmit = (arr, selectedDate) => {
+  // const selectedDate = dayjs(date).format("YYYY-MM-DD");
   return arr.map((obj) => {
     const [category, title] = obj.title.split(" : ");
     return {

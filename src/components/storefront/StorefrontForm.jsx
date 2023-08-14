@@ -51,11 +51,16 @@ const StorefrontForm = () => {
   };
 
   const submitSfForm = async (data, date) => {
-    const recordDate = dayjs(date).format("MM/DD/YYYY");
-    const formData = convertFormDataBeforeSubmit(data, recordDate);
-    setIsLoading(true);
     try {
-      await postStorefrontAPI(formData);
+      setIsLoading(true);
+      const recordDate = dayjs(date).format("MM/DD/YYYY");
+      const formData = convertFormDataBeforeSubmit(data, recordDate);
+      const res = await postStorefrontAPI(formData);
+      const newDataFromRes = res.data;
+      const formattedDate = dayjs(date).format("YYYY-MM-DD");
+
+      console.log('newDataFromRes', newDataFromRes)
+
       Swal.fire({
         icon: "success",
         title: "บันทึกข้อมูลสำเร็จ",

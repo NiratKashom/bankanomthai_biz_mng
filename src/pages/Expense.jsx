@@ -3,9 +3,6 @@ import ExpenseForm from "@/components/expense/ExpenseForm";
 import ExpViewTable from "@/components/expense/ExpViewTable";
 import axios from "@/config/axios.config.js";
 import dayjs from "dayjs";
-import useSWR from "swr";
-
-const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
 function Expense() {
   const [activeTab, setActiveTab] = useState(1);
@@ -15,8 +12,6 @@ function Expense() {
   };
 
   const activeTabClass = "text-blue-500 font-bold  border-b-4 border-blue-500";
-
-
 
   return (
     <div>
