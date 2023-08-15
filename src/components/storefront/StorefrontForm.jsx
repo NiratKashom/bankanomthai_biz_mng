@@ -38,6 +38,7 @@ const StorefrontForm = () => {
         const newDataFromRes = response.data;
         if (previousData) {
           const newData = updateSfDataWithNewData(previousData, newDataFromRes.data);
+          console.log('newData', newData)
           queryClient.setQueryData(["storefront", queryDate], newData);
         } else {
           try {

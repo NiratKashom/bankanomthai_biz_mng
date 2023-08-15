@@ -18,8 +18,14 @@ export const convertFormDataBeforeSubmit = (arr, date) => {
 };
 
 // funcstion updtedSfDataWithNewData
+
 export const updateSfDataWithNewData = (prevData, newArrData) => {
-  const mergeSfData = [...prevData.storefrontData.data, ...newArrData];
+  // console.log('prevData', prevData)
+  const prevSfData = prevData.storefrontData?.data || {}
+  const mergeSfData = prevSfData.length
+    ? [...prevSfData, ...newArrData]
+    : [...newArrData];
+
   let leftoverList = [];
   let incomeList = [];
   let sfAmountItems = 0;
@@ -39,7 +45,7 @@ export const updateSfDataWithNewData = (prevData, newArrData) => {
       isLeftover,
       unit,
       leftoverAmount,
-      leftoverTotalPrice,
+      leftoverTotalPrice
     }) => {
       sfAmountItems++;
       sfTotalPrice += totalPrice;
@@ -52,7 +58,7 @@ export const updateSfDataWithNewData = (prevData, newArrData) => {
           category,
           unit,
           leftoverAmount,
-          leftoverTotalPrice,
+          leftoverTotalPrice
         });
       }
       let incomeItem = {
@@ -61,27 +67,28 @@ export const updateSfDataWithNewData = (prevData, newArrData) => {
         unit,
         category,
         incomeAmount: qty - leftoverAmount,
-        incomeTotalPrice: totalPrice - leftoverTotalPrice,
+        incomeTotalPrice: totalPrice - leftoverTotalPrice
       };
       icAmountItems++;
       icTotalPrice += incomeItem.incomeTotalPrice;
       incomeList.push(incomeItem);
     }
   );
+
   const storefrontData = {
     amountItems: sfAmountItems.toLocaleString(),
     sumTotalPrice: sfTotalPrice.toLocaleString(),
-    data: mergeSfData,
+    data: mergeSfData || []
   };
   const leftoverData = {
     amountItems: loAmountItems.toLocaleString(),
     sumTotalPrice: loTotalPrice.toLocaleString(),
-    data: leftoverList,
+    data: leftoverList || []
   };
   const incomeData = {
     amountItems: icAmountItems.toLocaleString(),
     sumTotalPrice: icTotalPrice.toLocaleString(),
-    data: incomeList,
+    data: incomeList || []
   };
 
   return { storefrontData, leftoverData, incomeData };

@@ -22,7 +22,7 @@ export const ProtectRoute = () => {
   if (isJwtExpired(token)) {
     delete axios.defaults.headers.common["Authorization"];
     localStorage.removeItem("token");
-    navigate("/login", { replace: true });
+    return <Navigate to="/login" />;
   }
 
   return <Outlet />;
