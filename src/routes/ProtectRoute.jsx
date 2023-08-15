@@ -1,15 +1,29 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 export const ProtectRoute = () => {
   const { token } = useAuth();
+  const navigate = useNavigate();
 
-  // Check if the user is authenticated
+  const isJwtExpired = (token) => {
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    if (decodedToken.exp < currentTime) {
+      return true;
+    }
+  };
+
   if (!token) {
-    // If not authenticated, redirect to the login page
     return <Navigate to="/login" />;
   }
 
-  // If authenticated, render the child routes
+  if (isJwtExpired(token)) {
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  }
+
   return <Outlet />;
 };
