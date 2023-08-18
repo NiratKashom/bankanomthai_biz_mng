@@ -5,7 +5,6 @@ import axios from "axios";
 
 export const ProtectRoute = () => {
   const { token } = useAuth();
-  const navigate = useNavigate();
 
   const isJwtExpired = (token) => {
     const decodedToken = jwtDecode(token);

@@ -4,6 +4,7 @@ import { ProtectRoute } from "./ProtectRoute";
 import Login from "@/pages/Login";
 import Expense from "@/pages/Expense";
 import Storefront from "@/pages/Storefront";
+import Home from "@/pages/Home";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -24,7 +25,7 @@ const Routes = () => {
       children: [
         {
           path: "/",
-          element: <div className="text-xl text-center">ยินดีต้อนรับ</div>,
+          element: <Home />,
         },
         {
           path: "/expense",
@@ -58,11 +59,7 @@ const Routes = () => {
       {routesForAuthenticatedOnly.map((route) => (
         <Route key={route.path} path={route.path} element={route.element}>
           {route.children.map((child) => (
-            <Route
-              key={child.path}
-              path={child.path}
-              element={child.element}
-            />
+            <Route key={child.path} path={child.path} element={child.element} />
           ))}
         </Route>
       ))}
