@@ -9,7 +9,7 @@ const Button = ({
   isOutlinedStyle = false,
   className,
 }) => {
-  const getButtonStyle = () => {
+  const getButtonStyle = (color) => {
     const bgStyle = isOutlinedStyle ? "bg-white" : `bg-${color}-500`;
     const textStyle = isOutlinedStyle ? `text-${color}-500` : "text-white";
     const hoverBgStyle = isOutlinedStyle ? `hover:bg-${color}-500` : `hover:bg-${color}-700`;
@@ -17,11 +17,11 @@ const Button = ({
 
     return `${bgStyle} ${textStyle} ${hoverBgStyle} ${hoverTextStyle} border-2 border-${color}-500`;
   };
-
+  const btnStyle = getButtonStyle(color)
   return (
     <button
       type={type}
-      className={`font-bold py-1 px-2  rounded ${getButtonStyle()} ${className}`}
+      className={`font-bold py-1 px-2 rounded ${btnStyle} ${className || ''}`}
       onClick={onClick}
       disabled={disabled}
     >

@@ -3,9 +3,11 @@ import dayjs from "dayjs";
 import ReactDatepicker from "@/components/ReactDatepicker";
 import AccordianDailyReport from "@/components/report/AccordianDailyReport";
 import Button from "@/components/Button";
+import Loading from "@/components/Loading";
+import { getDailyReportAPIByDate } from "../../services/API/reportAPI";
 
-const DailyReportModal = ({ selectedDate = new Date(), closeModal }) => {
-  const [data, setData] = useState([]);
+const DailyReportModal = ({ selectedDate = null, closeModal }) => {
+  const [data, setData] = useState({});
   const [date, setDate] = useState(selectedDate);
 
   const accordionItems = [
@@ -13,18 +15,22 @@ const DailyReportModal = ({ selectedDate = new Date(), closeModal }) => {
     { title: "Accordion Item 2", content: "Content 2" },
   ];
 
-  const fetchData = async () => {
-    // try {
-    //   const response = await fetch("https://api.example.com/data");
-    //   const jsonData = await response.json();
-    //   setData(jsonData);
-    // } catch (error) {
-    //   console.error("Error fetching data:", error);
-    // }
+  const fetchData = async (selectedDate) => {
+    try {
+      const response = await getDailyReportAPIByDate(selectedDate);
+      console.log("response", response);
+      setData(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
+  // console.log('data', data)
+
   useEffect(() => {
-    console.log("UseEffect Ja");
+    if (selectedDate) {
+      fetchData(selectedDate);
+    }
   }, []);
 
   return (
@@ -37,7 +43,7 @@ const DailyReportModal = ({ selectedDate = new Date(), closeModal }) => {
         </h1>
         <div className="flex items-center m-2">
           <h1 className="mr-2">วันที่ :</h1>
-          <ReactDatepicker selectedDate={date} setSelectedDate={setDate} />
+          <ReactDatepicker className="border-2-red" selectedDate={date} setSelectedDate={setDate} />
         </div>
 
         <AccordianDailyReport items={accordionItems} />

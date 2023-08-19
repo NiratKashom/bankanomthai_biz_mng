@@ -19,24 +19,24 @@ function Home() {
         className="flex justify-center"
         style={{ height: "calc(100vh - 128px)" }}
       >
-        <div className="border w-1/2 my-4">
-          <div className="flex justify-around my-4">
+        <div className="border p-4 w-1/2 my-4">
+          <div className="flex justify-between my-4">
             <Button
               className="w-1/3"
               isOutlinedStyle
-              color="blue"
+              color={"blue"}
               text="สรุปรายงานวันนี้"
               onClick={() => setIsOpenModal(true)}
             />
 
-            <Button
+            {/* <Button
               className="w-1/3"
               isOutlinedStyle
               color="blue"
               text="หน้ารวมสรุปรายงาน"
-            />
+            /> */}
           </div>
-          <div className="flex justify-around my-4">
+          <div className="flex justify-between my-4">
             <Button
               className="w-1/3"
               isOutlinedStyle
