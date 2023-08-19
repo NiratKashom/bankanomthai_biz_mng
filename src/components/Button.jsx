@@ -18,6 +18,7 @@ const Button = ({
     return `${bgStyle} ${textStyle} ${hoverBgStyle} ${hoverTextStyle} border-2 border-${color}-500`;
   };
   const btnStyle = getButtonStyle(color)
+
   return (
     <button
       type={type}

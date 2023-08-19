@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-const AccordionItem = ({ title, content }) => {
+const AccordionItem = ({ item }) => {
+  const { data = null, amountItems = "0", sumTotalPrice = "0", type } = item;
   const [isOpen, setIsOpen] = useState(false);
-
+  const title = type === "income" ? "รายรับ" : "รายจ่าย";
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
@@ -11,25 +12,52 @@ const AccordionItem = ({ title, content }) => {
     <div className="border mb-2">
       <button
         className={`w-full ${isOpen ? "text-black" : "text-gray-500"}
-        bg-gray-100 hover:text-black font-bold py-2 px-4 flex justify-between`}
+        bg-gray-200 hover:text-black font-bold py-2 px-4 flex justify-between`}
         onClick={toggleAccordion}
       >
-        <div>รายรับ</div>
+        <div>{title}</div>
         <div className="flex justify-between w-1/3">
-          <p>xx รายการ</p>
-          <p>xxxx บาท</p>
+          <p>{amountItems} รายการ</p>
+          <p>{sumTotalPrice} บาท</p>
         </div>
       </button>
-      {isOpen && <div className="p-4">{content}</div>}
+      {isOpen && (
+        <div className="m-2">
+          {data?.map((item, idx) => (
+            <div
+              key={"item" + idx}
+              className={`flex justify-between  py-2 px-4  ${
+                idx % 2 && "bg-gray-100"
+              }`}
+            >
+              <div>{idx + 1 + "."} </div>
+              <div className="flex justify-between w-1/3">
+                <div>{item.category} </div>
+                <div>{item.title}</div>
+              </div>
+              <div className="flex justify-between w-1/3">
+                <div className="w-1/6 text-right">
+                  {title === "รายรับ" ? item.incomeAmount : item.qty}
+                </div>
+
+                <div className="w-1/6">{item.unit}</div>
+                <div>
+                  {title === "รายรับ" ? item.incomeTotalPrice : item.totalPrice}
+                </div>
+              </div>
+            </div>
+          )) || <div className="text-center">ไม่มีข้อมูล</div>}
+        </div>
+      )}
     </div>
   );
 };
 
-const AccordianDailyReport = ({ items }) => {
+const AccordianDailyReport = ({ reportList = [] }) => {
   return (
     <div className="w-full">
-      {items.map((item, index) => (
-        <AccordionItem key={index} title={item.title} content={item.content} />
+      {reportList.map((list, index) => (
+        <AccordionItem key={"accordianDailyReport" + index} item={list || {}} />
       ))}
     </div>
   );

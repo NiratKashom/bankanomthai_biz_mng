@@ -19,39 +19,36 @@ function Home() {
         className="flex justify-center"
         style={{ height: "calc(100vh - 128px)" }}
       >
-        <div className="border p-4 w-1/2 my-4">
-          <div className="flex justify-between my-4">
-            <Button
-              className="w-1/3"
-              isOutlinedStyle
-              color={"blue"}
-              text="สรุปรายงานวันนี้"
-              onClick={() => setIsOpenModal(true)}
-            />
+        <div className="border text-center p-4 w-1/2 my-4">
+          <Button
+            className="mx-1"
+            isOutlinedStyle
+            color={"blue"}
+            text="สรุปรายรับรายจ่าย"
+            onClick={() => setIsOpenModal(true)}
+          />
 
-            {/* <Button
+          {/* <Button
               className="w-1/3"
               isOutlinedStyle
               color="blue"
               text="หน้ารวมสรุปรายงาน"
             /> */}
-          </div>
-          <div className="flex justify-between my-4">
-            <Button
-              className="w-1/3"
-              isOutlinedStyle
-              color="green"
-              text="บันทึกของเอาไปขาย"
-              onClick={() => navigate("/storefront", { replace: true })}
-            />
-            <Button
-              color="red"
-              className="w-1/3"
-              isOutlinedStyle
-              text="บันทึกรายจ่าย"
-              onClick={() => navigate("/expense", { replace: true })}
-            />
-          </div>
+
+          <Button
+            className="mx-1"
+            isOutlinedStyle
+            color="green"
+            text="บันทึกของเอาไปขาย"
+            onClick={() => navigate("/storefront", { replace: true })}
+          />
+          <Button
+            color="red"
+            className="mx-1"
+            isOutlinedStyle
+            text="บันทึกรายจ่าย"
+            onClick={() => navigate("/expense", { replace: true })}
+          />
         </div>
       </div>
     </div>
