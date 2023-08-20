@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Pie } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-
+import { convertCommaStringToNumber } from "@/utils/reportUtils";
 ChartJS.register(ArcElement, Legend, Tooltip, ChartDataLabels);
 function DailyPieChart({ dataSet }) {
-  const convertCommaStringToNumber = (str) => {
-    if (!str) return 0;
-    return Number(str.replace(/,/g, ""));
-  };
-
   // const { income, expense } = dataSet;
   const initData = {
     labels: ["รายรับ", "รายจ่าย"],
@@ -27,6 +22,7 @@ function DailyPieChart({ dataSet }) {
 
   useEffect(() => {
     console.log("useEffect Chart");
+    console.log("dataSet", dataSet);
     setData((prev) => {
       return {
         ...prev,
@@ -44,8 +40,10 @@ function DailyPieChart({ dataSet }) {
   }, [dataSet]);
 
   return (
-    <div className="">
+    <>
       <Pie
+        // width={"100%"}
+        height={320}
         data={data}
         options={{
           plugins: {
@@ -64,10 +62,19 @@ function DailyPieChart({ dataSet }) {
                 return value.toLocaleString() + "\n" + "(" + percentage + "%)";
               },
             },
+            legend: {
+              position: "left",
+              align: "start",
+              labels: {
+                padding: 0,
+              },
+            },
           },
+          responsive: true,
+          maintainAspectRatio: false,
         }}
       />
-    </div>
+    </>
   );
 }
 
