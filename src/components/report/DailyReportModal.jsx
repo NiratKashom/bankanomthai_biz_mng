@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { getDailyReportAPIByDate } from "../../services/API/reportAPI";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import DailyPieChart from "./DailyPieChart";
 
 const DailyReportModal = ({ selectedDate = null, closeModal }) => {
   const queryClient = useQueryClient();
@@ -65,7 +66,19 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
               setSelectedDate={setDate}
             />
           </div>
-
+          <div className="flex justify-between my-4">
+            <div className="text-2xl w-1/3">
+              <div className="flex justify-between">
+                <span>รายรับ</span> 
+                <span>5000</span>
+              </div>
+              <p>รายจ่าย</p>
+              <p>รวมสุทธิ</p>
+            </div>
+            <DailyPieChart
+              dataSet={{ income: data?.storefront, expense: data?.expense }}
+            />
+          </div>
           <AccordianDailyReport
             reportList={[
               { ...data?.storefront, type: "income" },

@@ -19,22 +19,13 @@ function Home() {
         className="flex justify-center"
         style={{ height: "calc(100vh - 128px)" }}
       >
-        <div className="border text-center p-4 w-1/2 my-4">
-          <Button
-            className="mx-1"
-            isOutlinedStyle
-            color={"blue"}
-            text="สรุปรายรับรายจ่าย"
+        <div className="text-center p-4 w-1/2 my-4">
+          <button
+            className={`font-bold py-1 px-2 mx-1 rounded text-blue-500  hover:bg-blue-500 hover:text-white border-2 border-blue-500`}
             onClick={() => setIsOpenModal(true)}
-          />
-
-          {/* <Button
-              className="w-1/3"
-              isOutlinedStyle
-              color="blue"
-              text="หน้ารวมสรุปรายงาน"
-            /> */}
-
+          >
+            สรุปรายรับรายจ่าย
+          </button>
           <Button
             className="mx-1"
             isOutlinedStyle
@@ -51,6 +42,8 @@ function Home() {
           />
         </div>
       </div>
+
+    
     </div>
   );
 }
