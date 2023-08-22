@@ -5,15 +5,20 @@ import Login from "@/pages/Login";
 import Expense from "@/pages/Expense";
 import Storefront from "@/pages/Storefront";
 import Home from "@/pages/Home";
+import Report from "@/pages/Report";
 
 const Routes = () => {
   const { token } = useAuth();
 
   // Define public routes accessible to all users
   const routesForPublic = [
+    // {
+    //   path: "/about-us",
+    //   element: <div>About Us</div>,
+    // },
     {
-      path: "/about-us",
-      element: <div>About Us</div>,
+      path: "/report",
+      element: <Report />,
     },
   ];
 
@@ -34,6 +39,10 @@ const Routes = () => {
         {
           path: "/storefront",
           element: <Storefront />,
+        },
+        {
+          path: "/report",
+          element: <Report />,
         },
       ],
     },

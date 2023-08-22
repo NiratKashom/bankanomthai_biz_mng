@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut, Pie } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
 ChartJS.register(ArcElement, Legend, Tooltip, ChartDataLabels);
