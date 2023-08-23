@@ -16,10 +16,10 @@ const Routes = () => {
     //   path: "/about-us",
     //   element: <div>About Us</div>,
     // },
-    {
-      path: "/report",
-      element: <Report />,
-    },
+    // {
+    //   path: "/report",
+    //   element: <Report />,
+    // },
   ];
 
   // Define routes accessible only to authenticated users

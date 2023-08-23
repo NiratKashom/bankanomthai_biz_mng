@@ -18,11 +18,39 @@ function DailyPieChart({ dataSet }) {
     ],
   };
 
+  const options = {
+    plugins: {
+      datalabels: {
+        color: "#fff",
+        font: {
+          size: "18",
+          weight: "bold",
+        },
+        formatter: function (value, context) {
+          if (!value) return "";
+          const sumValue = context.dataset.data.reduce((sum, value) => {
+            return (sum += value);
+          }, 0);
+          const percentage = ((value / sumValue) * 100).toFixed();
+          return value.toLocaleString() + "\n" + "(" + percentage + "%)";
+        },
+      },
+      legend: {
+        position: "left",
+        align: "start",
+        labels: {
+          padding: 0,
+        },
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   const [data, setData] = useState(initData);
 
+
   useEffect(() => {
-    console.log("useEffect Chart");
-    console.log("dataSet", dataSet);
     setData((prev) => {
       return {
         ...prev,
@@ -45,34 +73,7 @@ function DailyPieChart({ dataSet }) {
         // width={"100%"}
         height={320}
         data={data}
-        options={{
-          plugins: {
-            datalabels: {
-              color: "#fff",
-              font: {
-                size: "18",
-                weight: "bold",
-              },
-              formatter: function (value, context) {
-                if (!value) return "";
-                const sumValue = context.dataset.data.reduce((sum, value) => {
-                  return (sum += value);
-                }, 0);
-                const percentage = ((value / sumValue) * 100).toFixed();
-                return value.toLocaleString() + "\n" + "(" + percentage + "%)";
-              },
-            },
-            legend: {
-              position: "left",
-              align: "start",
-              labels: {
-                padding: 0,
-              },
-            },
-          },
-          responsive: true,
-          maintainAspectRatio: false,
-        }}
+        options={options}
       />
     </>
   );
