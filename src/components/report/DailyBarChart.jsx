@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+} from "chart.js";
+import { Pie, Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
-ChartJS.register(ArcElement, Legend, Tooltip, ChartDataLabels);
-function DailyPieChart({ dataSet }) {
-  // const { income, expense } = dataSet;
+ChartJS.register(ArcElement, Legend, Tooltip, ChartDataLabels, BarElement);
+function DailyBarChart({ dataSet }) {
   const initData = {
     labels: ["รายรับ", "รายจ่าย"],
     datasets: [
@@ -35,11 +40,16 @@ function DailyPieChart({ dataSet }) {
           return value.toLocaleString() + "\n" + "(" + percentage + "%)";
         },
       },
-      legend: {
-        position: "left",
-        align: "start",
-        labels: {
-          padding: 0,
+      legend: false,
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "จำนวนเงิน(บาท)",
+        },
+        ticks: {
+          stepSize: 500,
         },
       },
     },
@@ -48,7 +58,6 @@ function DailyPieChart({ dataSet }) {
   };
 
   const [data, setData] = useState(initData);
-
 
   useEffect(() => {
     setData((prev) => {
@@ -69,9 +78,9 @@ function DailyPieChart({ dataSet }) {
 
   return (
     <>
-      <Pie
+      <Bar
         // width={"100%"}
-        height={320}
+        height={280}
         data={data}
         options={options}
       />
@@ -79,4 +88,4 @@ function DailyPieChart({ dataSet }) {
   );
 }
 
-export default DailyPieChart;
+export default DailyBarChart;

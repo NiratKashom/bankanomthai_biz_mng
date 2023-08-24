@@ -5,17 +5,17 @@ import AccordianDailyReport from "@/components/report/AccordianDailyReport";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { getDailyReportAPIByDate } from "../../services/API/reportAPI";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import DailyPieChart from "./DailyPieChart";
+import { useQueryClient } from "@tanstack/react-query";
+import DailyBarChart from "./DailyBarChart";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
 
 const DailyReportModal = ({ selectedDate = null, closeModal }) => {
   const queryClient = useQueryClient();
-
   const [data, setData] = useState({});
   const [date, setDate] = useState(selectedDate);
   const [isLoading, setIsLoading] = useState(false);
   const [netValue, setNetValue] = useState(0);
+
 
   const fetchData = async (selectedDate) => {
     setIsLoading(true);
@@ -63,7 +63,7 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
       <div className="fixed inset-0 bg-black opacity-50 "></div>{" "}
       {/* Overlay div with black background and opacity */}
       <div
-        className="bg-white flex flex-col justify-between w-2/5 m-8
+        className="bg-white flex flex-col justify-between w-1/2 m-8
        overflow-x-hidden overflow-y-auto max-h-full rounded-lg p-4 shadow-lg relative z-10"
       >
         <div className="">
@@ -80,9 +80,10 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
               <div className="flex items-center">
                 <h1 className="mr-2">วันที่ :</h1>
                 <ReactDatepicker
-                  className="border-2-red"
                   selectedDate={date}
                   setSelectedDate={setDate}
+                  dateFormat={"dd MMM yyyy"}
+                  // showMonthYearPicker={false}
                 />
               </div>
 
@@ -123,7 +124,10 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
 
             {/* chart container */}
             <div className=" w-1/2 mr-6">
-              <DailyPieChart
+              {/* <DailyPieChart
+                dataSet={{ income: data?.storefront, expense: data?.expense }}
+              /> */}
+              <DailyBarChart
                 dataSet={{ income: data?.storefront, expense: data?.expense }}
               />
             </div>
@@ -140,11 +144,6 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
         {/* footer */}
         <div className="self-end">
           <Button text="ปิด" color="red" onClick={closeModal} isOutlinedStyle />
-          {/* <button
-            className="mt-4  bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          >
-            ปิด
-          </button> */}
         </div>
       </div>
     </div>

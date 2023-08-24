@@ -13,6 +13,8 @@ function ReactDatepicker({
   selectedDate,
   setSelectedDate,
   logDate,
+  showMonthYearPicker,
+  dateFormat
 }) {
 
   const handleDateChange = (date) => {
@@ -28,8 +30,9 @@ function ReactDatepicker({
         onChange={handleDateChange}
         className="border border-gray-300 rounded px-2 py-1"
         locale="th"
-        dateFormat="dd MMM yyyy"
+        dateFormat={dateFormat}
         placeholderText="เลือกวันที่"
+        showMonthYearPicker={showMonthYearPicker}
       />
     </div>
   );

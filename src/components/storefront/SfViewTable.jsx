@@ -15,12 +15,8 @@ import IcTable from "./IcTable";
 
 
 function SfViewTable() {
-  const [sfData, setSfData] = useState({});
-  const [loData, setLoData] = useState({});
-  const [icData, setIcData] = useState({});
 
   const [activeTab, setActiveTab] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [sfTableViewDate, setSfTableViewDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(
@@ -46,13 +42,15 @@ function SfViewTable() {
 
   return (
     <div className=" p-4 ">
-      {fetching || isLoading ? <Loading /> : null}
+      {fetching ? <Loading /> : null}
       <div>
         <div className="flex">
           <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่จะดู</h2>
           <ReactDatepicker
             selectedDate={sfTableViewDate}
             setSelectedDate={setSfTableViewDate}
+            dateFormat={"dd MMM yyyy"}
+            showMonthYearPicker={false}
           />
         </div>
         <div className="w-full mx-auto ">

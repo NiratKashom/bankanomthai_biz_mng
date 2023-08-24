@@ -18,7 +18,7 @@ const Navbar = () => {
       </Link>
       {token && (
         <ul className="flex space-x-2">
-          <li className="h-full">
+          <li className="">
             <NavLink
               to="/storefront"
               className={({ isActive, isPending }) =>
@@ -32,6 +32,7 @@ const Navbar = () => {
               บันทึกของที่นำไปขาย
             </NavLink>
           </li>
+
           <li>
             <NavLink
               to="/expense"
@@ -44,6 +45,21 @@ const Navbar = () => {
               }
             >
               บันทึกรายจ่าย
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/report"
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? "text-gray-700 text-base"
+                  : isActive
+                  ? "text-blue-700 text-bold border-b-2 border-blue-700"
+                  : "text-gray-400 text-base hover:text-gray-700"
+              }
+            >
+              รายงาน
             </NavLink>
           </li>
 

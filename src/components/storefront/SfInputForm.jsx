@@ -55,6 +55,8 @@ function SfInputForm({ submitSfForm }) {
       <div className="flex items-center m-4">
         <h2 className="text-xl font-semibold mr-4">เลือกวันที่บันทึก</h2>
         <ReactDatepicker
+          dateFormat={"dd MMM yyyy"}
+          showMonthYearPicker={false}
           selectedDate={sfSelectedDate}
           setSelectedDate={setSfSelectedDate}
         />

@@ -52,6 +52,8 @@ function ExpInputForm({submitExpForm}) {
       <div className="flex items-center m-4">
         <h2 className="text-xl font-semibold mb-4 mr-4">เลือกวันที่บันทึก</h2>
         <ReactDatepicker
+          dateFormat={"dd MMM yyyy"}
+          showMonthYearPicker={false}
           selectedDate={expSelectedDate}
           setSelectedDate={setExpSelectedDate}
         />
