@@ -30,7 +30,7 @@ function Home() {
             className={`font-bold py-1 px-2 mx-1 rounded text-blue-500  hover:bg-blue-500 hover:text-white border-2 border-blue-500`}
             onClick={() => navigate("/report", { replace: true })}
           >
-            ดูสรุปรายงาน
+            สรุปยอดประจำเดือน
           </button>
           <Button
             className="mx-1"

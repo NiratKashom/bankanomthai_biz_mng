@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { getDailyReportAPIByDate } from "../../services/API/reportAPI";
 import { useQueryClient } from "@tanstack/react-query";
-import DailyPieChart from "./DailyPieChart";
+import DailyBarChart from "./DailyBarChart";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
 
 const DailyReportModal = ({ selectedDate = null, closeModal }) => {
@@ -124,7 +124,10 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
 
             {/* chart container */}
             <div className=" w-1/2 mr-6">
-              <DailyPieChart
+              {/* <DailyPieChart
+                dataSet={{ income: data?.storefront, expense: data?.expense }}
+              /> */}
+              <DailyBarChart
                 dataSet={{ income: data?.storefront, expense: data?.expense }}
               />
             </div>

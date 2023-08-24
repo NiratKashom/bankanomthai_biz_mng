@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDatepicker from "@/components/ReactDatepicker";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import Loading from "@/components/Loading";
 
@@ -26,7 +26,7 @@ function MonthlyReport() {
   }, [date]);
 
   return (
-    <div className="">
+    <div>
       {isLoading && <Loading />}
       <h1 className="text-2xl text-center">สรุปยอดประจำเดือน</h1>
       <div className="px-2">

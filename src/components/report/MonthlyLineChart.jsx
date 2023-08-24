@@ -53,10 +53,12 @@ const LINE_CHART_OPTIONS = {
       },
     },
   },
+  // responsive: true,
+  maintainAspectRatio: true,
 };
 
 const INIT_DATASET = {
-  labels : [],
+  labels: [],
   datasets: [
     {
       label: "รายรับ",
@@ -121,6 +123,7 @@ function MonthlyLineChart({ reportData }) {
   return (
     <>
       <Line
+        // height={"100px"}
         data={data}
         ref={chartRef}
         options={{
