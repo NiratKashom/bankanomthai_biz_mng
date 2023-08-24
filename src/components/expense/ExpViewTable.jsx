@@ -71,6 +71,8 @@ function ExpViewTable() {
         <ReactDatepicker
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          dateFormat={"dd MMM yyyy"}
+          showMonthYearPicker={false}
         />
       </div>
       <div className=" p-4 ">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,6 +8,7 @@ import {
   Title,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import DailyReportModal from "./DailyReportModal";
 import { extractDataSetForMonthlyLineChart } from "../../utils/reportUtils";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
@@ -54,10 +55,8 @@ const LINE_CHART_OPTIONS = {
   },
 };
 
-const LABELS = ["รายรับ", "รายจ่าย", "สุทธิ"];
-
-const INITDATA = {
-  LABELS,
+const INIT_DATASET = {
+  labels : [],
   datasets: [
     {
       label: "รายรับ",
@@ -90,7 +89,10 @@ const INITDATA = {
 };
 
 function MonthlyLineChart({ reportData }) {
-  const [data, setData] = useState(INITDATA);
+  const chartRef = useRef();
+  const [data, setData] = useState(INIT_DATASET);
+  const [date, setDate] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!reportData) return;
@@ -116,7 +118,31 @@ function MonthlyLineChart({ reportData }) {
     }));
   }, [reportData]);
 
-  return <Line options={LINE_CHART_OPTIONS} data={data} />;
+  return (
+    <>
+      <Line
+        data={data}
+        ref={chartRef}
+        options={{
+          ...LINE_CHART_OPTIONS,
+          onClick: function (_, element) {
+            if (element.length > 0) {
+              const idx = element[0].index;
+              const selectedDate = data.labels[idx];
+              setDate(new Date(selectedDate));
+              setShowModal(true);
+            }
+          },
+        }}
+      />
+      {showModal && (
+        <DailyReportModal
+          selectedDate={date}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
+    </>
+  );
 }
 
 export default MonthlyLineChart;

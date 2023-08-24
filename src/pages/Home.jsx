@@ -19,12 +19,18 @@ function Home() {
         className="flex justify-center"
         style={{ height: "calc(100vh - 128px)" }}
       >
-        <div className="text-center p-4 w-1/2 my-4">
+        <div className="text-center p-4 w-2/2 my-4">
           <button
             className={`font-bold py-1 px-2 mx-1 rounded text-blue-500  hover:bg-blue-500 hover:text-white border-2 border-blue-500`}
             onClick={() => setIsOpenModal(true)}
           >
             สรุปรายรับรายจ่าย
+          </button>
+          <button
+            className={`font-bold py-1 px-2 mx-1 rounded text-blue-500  hover:bg-blue-500 hover:text-white border-2 border-blue-500`}
+            onClick={() => navigate("/report", { replace: true })}
+          >
+            ดูสรุปรายงาน
           </button>
           <Button
             className="mx-1"
