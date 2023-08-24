@@ -4,7 +4,7 @@ import MonthlyReport from "../components/report/MonthlyReport";
 function Report() {
 
   return (
-    <div className="border">
+    <div className="">
       <MonthlyReport />
     </div>
   );

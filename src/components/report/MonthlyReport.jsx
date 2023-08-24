@@ -26,10 +26,10 @@ function MonthlyReport() {
   }, [date]);
 
   return (
-    <div className="border">
+    <div className="">
       {isLoading && <Loading />}
-      <h1>สรุปยอดประจำเดือน</h1>
-      <div className="border">
+      <h1 className="text-2xl text-center">สรุปยอดประจำเดือน</h1>
+      <div className="">
         <div className="flex items-center">
           <h1 className="mr-2">เลือกเดือน / ปี :</h1>
           <ReactDatepicker
@@ -40,7 +40,7 @@ function MonthlyReport() {
             dateFormat="MMMM yyyy"
           />
         </div>
-        <div className="border">
+        <div className="">
           <MonthlyLineChart reportData={monthlyReportData} />
         </div>
       </div>
