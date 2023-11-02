@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ExpenseForm from "@/components/expense/ExpenseForm";
 import ExpViewTable from "@/components/expense/ExpViewTable";
-import axios from "@/config/axios.config.js";
-import dayjs from "dayjs";
 
 function Expense() {
   const [activeTab, setActiveTab] = useState(1);
