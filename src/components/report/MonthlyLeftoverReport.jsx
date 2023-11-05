@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import Loading from "@/components/Loading";
 
 import { getMonthlyLeftoverReportAPIByDate } from "../../services/API/reportAPI";
-import MonthlyLineChart from "./MonthlyLineChart";
+import MonthlyLeftoverLineChart from "./MonthlyLeftoverLineChart";
 
 function MonthlyLeftoverReport() {
   // const queryClient = useQueryClient();
@@ -28,7 +28,7 @@ function MonthlyLeftoverReport() {
   return (
     <div>
       {isLoading && <Loading />}
-      <h1 className="text-2xl text-center">สรุปยอด ของเอาไปขาย-ของเหลือ</h1>
+      <h1 className="text-2xl text-center">สรุปยอด ของเอาไปขาย-ของเหลือกลับ</h1>
       <div className="px-2">
         <div className="my-2 flex justify-between">
           <div className="px-8 flex items-center ">
@@ -60,8 +60,8 @@ function MonthlyLeftoverReport() {
         </div>
 
         <hr />
-        <div className="">
-          <MonthlyLineChart
+        <div>
+          <MonthlyLeftoverLineChart
             reportData={monthlyLeftoverReportData?.data || []}
           />
         </div>

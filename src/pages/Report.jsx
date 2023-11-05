@@ -29,7 +29,7 @@ function Report() {
             }`}
             onClick={() => handleTabChange(2)}
           >
-            เอาไปขาย/เหลือ
+            เอาไปขาย-เหลือกลับ
           </button>
         </div>
 

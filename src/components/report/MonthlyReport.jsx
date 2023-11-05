@@ -41,36 +41,32 @@ function MonthlyReport() {
               dateFormat="MMMM yyyy"
             />
           </div>
-        </div>
 
-        <div className="px-8 flex items-center">
-          <div className="flex justify-between mr-2">
+          <div className="flex">
             <div className="flex justify-between items-baseline mr-2">
               <span className="mr-2">รายรับ : </span>
               <span className="text-2xl font-semibold text-green-500">
                 {monthlyReportData?.sumIncome || 0}
               </span>
             </div>
-          </div>
 
-          <div className="flex justify-between items-baseline">
             <div className="flex justify-between items-baseline mr-2">
               <span className="mr-2">รายจ่าย : </span>
               <span className="text-2xl font-semibold text-red-600">
                 {monthlyReportData?.sumExpense || 0}
               </span>
             </div>
-          </div>
 
-          <div className="flex justify-between items-baseline">
-            <div className="flex justify-between mr-2">
+            <div className="flex justify-between items-baseline mr-2">
               <span className="mr-2">สุทธิ : </span>
-            </div>
-            <span className="text-2xl font-semibold text-blue-600">
+              <span className="text-2xl font-semibold text-blue-600">
               {monthlyReportData?.sumNetIncome || 0}
             </span>
+            </div>
+           
           </div>
         </div>
+
         <hr />
         <div className="">
           <MonthlyLineChart reportData={monthlyReportData?.data || []} />
