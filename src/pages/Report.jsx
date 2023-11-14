@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MonthlyReport from "../components/report/MonthlyReport";
 import MonthlyLeftoverReport from "../components/report/MonthlyLeftoverReport";
+import MonthlyExpenseReport from "../components/report/MonthlyExpenseReport";
 
 function Report() {
   const [activeTab, setActiveTab] = useState(1);
@@ -31,6 +32,14 @@ function Report() {
           >
             เอาไปขาย-เหลือกลับ
           </button>
+          <button
+            className={`py-2 px-4 ${
+              activeTab === 3 ? activeTabClass : " text-gray-700"
+            }`}
+            onClick={() => handleTabChange(3)}
+          >
+            รายจ่ายตามประเภท
+          </button>
         </div>
 
         {activeTab === 1 && (
@@ -41,6 +50,11 @@ function Report() {
         {activeTab === 2 && (
           <div className="p-4">
             <MonthlyLeftoverReport />
+          </div>
+        )}
+             {activeTab === 3 && (
+          <div className="p-4">
+            <MonthlyExpenseReport />
           </div>
         )}
       </div>

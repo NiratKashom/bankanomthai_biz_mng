@@ -33,3 +33,14 @@ export const getMonthlyLeftoverReportAPIByDate = async (date) => {
     throw new Error(error);
   }
 };
+
+export const getMonthlyExpenseReportAPI= async (date) => {
+  try {
+    if (!date) throw new Error('Date is required');
+    const formattedDate = dayjs(date).format("YYYY-MM-DD");
+    const response = await axios.get("/report/monthly/expense/" + formattedDate);
+    return response.data.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
