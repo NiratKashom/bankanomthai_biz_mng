@@ -4,7 +4,6 @@ export const convertCommaStringToNumber = (str) => {
 };
 
 export const extractDataSetForMonthlyLineChart = (data, reportType) => {
-  console.log("extractDataSetForMonthlyLineChart");
   const monthlyDataset = {
     dateLabels: [],
     incomeDataset: [],
@@ -22,22 +21,10 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
   };
 
   if (reportType === "expenseByCate") {
-    const lenghtArr = data.length || 0;
-    monthlyDataset.expByCategoryDataset.packagingDataset = new Array(
-      lenghtArr
-    ).fill(0);
-    monthlyDataset.expByCategoryDataset.rawMaterialDataset = new Array(
-      lenghtArr
-    ).fill(0);
-    monthlyDataset.expByCategoryDataset.consumeDataset = new Array(
-      lenghtArr
-    ).fill(0);
-    monthlyDataset.expByCategoryDataset.otherCostsDataset = new Array(
-      lenghtArr
-    ).fill(0);
-    monthlyDataset.expByCategoryDataset.otherDataset = new Array(
-      lenghtArr
-    ).fill(0);
+    const length = data.length || 0;
+    for (const dataset in monthlyDataset.expByCategoryDataset) {
+      monthlyDataset.expByCategoryDataset[dataset] = new Array(length).fill(0);
+    }
   }
 
   data?.forEach((item, idx) => {
@@ -50,6 +37,7 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
       net_income,
       expList,
     } = item;
+
     monthlyDataset.dateLabels.push(date);
 
     if (reportType === "networth") {
@@ -60,10 +48,7 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
       monthlyDataset.storefrontDataset.push(sum_storefront);
       monthlyDataset.leftoverDataset.push(sum_leftover);
     } else if (reportType === "expenseByCate") {
-      // console.log('item', item)
-      for (const [key, value] of Object.entries(expList)) {
-        console.log("idx", idx);
-        console.log(key);
+      Object.entries(expList).forEach(([key, value]) => {
         switch (key) {
           case "วัตถุดิบ":
             monthlyDataset.expByCategoryDataset.rawMaterialDataset[idx] +=
@@ -76,25 +61,24 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
             monthlyDataset.expByCategoryDataset.consumeDataset[idx] += value;
             break;
           case "ต้นทุนอื่นๆ":
-            console.log("ต้นทุนอื่นๆ");
             monthlyDataset.expByCategoryDataset.otherCostsDataset[idx] += value;
             break;
           case "อื่นๆ":
-            console.log("อื่นๆ");
             monthlyDataset.expByCategoryDataset.otherDataset[idx] += value;
+            break;
           default:
             break;
         }
-      }
+      });
+
       // rawMaterial
       // packaging
       // consume
       // otherCosts
       // other
     }
+
+    console.log(monthlyDataset);
   });
-
-  console.log("monthlyDataset", monthlyDataset);
-
   return monthlyDataset;
 };

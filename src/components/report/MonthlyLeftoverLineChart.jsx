@@ -120,7 +120,7 @@ function MonthlyLeftoverLineChart({ reportData }) {
                 const idx = element[0].index;
                 const selectedDate = data.labels[idx];
                 setDate(new Date(selectedDate));
-                setShowModal(true);
+                // setShowModal(true);
               }
             },
           }}
