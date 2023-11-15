@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import Loading from "@/components/Loading";
 
 import { getMonthlyExpenseReportAPI } from "../../services/API/reportAPI";
-import MonthlyLeftoverLineChart from "./MonthlyLeftoverLineChart";
+import MonthlyExpenseReportLineChart from "./MonthlyExpenseReportLineChart";
 
 function MonthlyExpenseReport() {
   // const queryClient = useQueryClient();
@@ -20,7 +20,7 @@ function MonthlyExpenseReport() {
     () => getMonthlyExpenseReportAPI(formatDate)
   );
 
-  console.log(expenseReportData)
+  // console.log(expenseReportData)
 
   useEffect(() => {
     const newDate = dayjs(date).format("YYYY-MM-DD");
@@ -49,9 +49,9 @@ function MonthlyExpenseReport() {
 
         <hr />
         <div>
-          {/* <MonthlyLeftoverLineChart
-            reportData={MonthlyExpenseReportData?.data || []}
-          /> */}
+          <MonthlyExpenseReportLineChart
+            reportData={expenseReportData || []}
+          />
         </div>
       </div>
     </div>
