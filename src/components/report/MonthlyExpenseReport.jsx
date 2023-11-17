@@ -6,6 +6,7 @@ import Loading from "@/components/Loading";
 
 import { getMonthlyExpenseReportAPI } from "../../services/API/reportAPI";
 import MonthlyExpenseReportLineChart from "./MonthlyExpenseReportLineChart";
+import AmountLabel from "./AmountLabel";
 
 function MonthlyExpenseReport() {
   const [date, setDate] = useState(new Date());
@@ -13,12 +14,10 @@ function MonthlyExpenseReport() {
     dayjs(date).format("YYYY-MM-DD")
   );
 
-  const { isLoading, data: expenseReportData } = useQuery(
+  const { isLoading, data: expData } = useQuery(
     ["report/monthly/expense", formatDate],
     () => getMonthlyExpenseReportAPI(formatDate)
   );
-
-  console.log(expenseReportData)
 
   useEffect(() => {
     const newDate = dayjs(date).format("YYYY-MM-DD");
@@ -42,13 +41,60 @@ function MonthlyExpenseReport() {
             />
           </div>
 
-        
+          <div className="flex">
+            <AmountLabel
+              label={"รวมทั้งเดือน"}
+              value={expData?.summarizeExpenseData?.sumExpense}
+              additionalValClass={"text-red-500"}
+              marginRight
+            />
+            <AmountLabel
+              label={"วัตถุดิบ"}
+              value={expData?.summarizeExpenseData?.sumRawMaterial.sum}
+              additionalValClass={"text-purple-500"}
+              marginRight
+              showPercentage
+              percentage={expData?.summarizeExpenseData?.sumRawMaterial.ratio}
+            />
+            <AmountLabel
+              label={"บรรจุภัณฑ์"}
+              value={expData?.summarizeExpenseData?.sumPackaging.sum}
+              additionalValClass={"text-sky-400"}
+              marginRight
+              showPercentage
+              percentage={expData?.summarizeExpenseData?.sumPackaging.ratio}
+            />
+            <AmountLabel
+              label={"บริโภค"}
+              value={expData?.summarizeExpenseData?.sumConsume.sum}
+              additionalValClass={"text-green-400"}
+              marginRight
+              showPercentage
+              percentage={expData?.summarizeExpenseData?.sumConsume.ratio}
+            />
+
+            <AmountLabel
+              label={"ต้นทุนอื่นๆ"}
+              value={expData?.summarizeExpenseData?.sumOtherCosts.sum}
+              additionalValClass={"text-orange-400"}
+              marginRight
+              showPercentage
+              percentage={expData?.summarizeExpenseData?.sumOtherCosts.ratio}
+            />
+            <AmountLabel
+              label={"อื่นๆ"}
+              value={expData?.summarizeExpenseData?.sumOther.sum}
+              additionalValClass={"text-red-400"}
+              showPercentage
+              percentage={expData?.summarizeExpenseData?.sumOther.ratio}
+            />
+          </div>
         </div>
 
         <hr />
         <div>
           <MonthlyExpenseReportLineChart
-            reportData={expenseReportData?.expenseData || []}
+            reportData={expData?.expenseData || []}
           />
         </div>
       </div>

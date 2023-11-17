@@ -108,6 +108,27 @@ const INIT_DATASET = {
   ],
 };
 
+// summarizeExpenseData
+// : 
+// sumConsume
+// : 
+// {sum: 2827, ratio: 15.7}
+// sumExpense
+// : 
+// 18043
+// sumOther
+// : 
+// {sum: 0, ratio: 0}
+// sumOtherCosts
+// : 
+// {sum: 5279, ratio: 29.3}
+// sumPackaging
+// : 
+// {sum: 1255, ratio: 7}
+// sumRawMaterial
+// : 
+// {sum: 8682, ratio: 48.1}
+
 function MonthlyExpenseReportLineChart({ reportData }) {
   const chartRef = useRef();
   const [data, setData] = useState(INIT_DATASET);
