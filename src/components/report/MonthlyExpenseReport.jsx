@@ -8,8 +8,6 @@ import { getMonthlyExpenseReportAPI } from "../../services/API/reportAPI";
 import MonthlyExpenseReportLineChart from "./MonthlyExpenseReportLineChart";
 
 function MonthlyExpenseReport() {
-  // const queryClient = useQueryClient();
-
   const [date, setDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(
     dayjs(date).format("YYYY-MM-DD")
@@ -20,7 +18,7 @@ function MonthlyExpenseReport() {
     () => getMonthlyExpenseReportAPI(formatDate)
   );
 
-  // console.log(expenseReportData)
+  console.log(expenseReportData)
 
   useEffect(() => {
     const newDate = dayjs(date).format("YYYY-MM-DD");
@@ -50,7 +48,7 @@ function MonthlyExpenseReport() {
         <hr />
         <div>
           <MonthlyExpenseReportLineChart
-            reportData={expenseReportData || []}
+            reportData={expenseReportData?.expenseData || []}
           />
         </div>
       </div>

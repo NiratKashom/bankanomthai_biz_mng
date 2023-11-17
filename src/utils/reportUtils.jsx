@@ -20,14 +20,7 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
     },
   };
 
-  if (reportType === "expenseByCate") {
-    const length = data.length || 0;
-    for (const dataset in monthlyDataset.expByCategoryDataset) {
-      monthlyDataset.expByCategoryDataset[dataset] = new Array(length).fill(0);
-    }
-  }
-
-  data?.forEach((item, idx) => {
+  for (let i = 0; i < data.length; i++) {
     const {
       date,
       sum_income,
@@ -36,7 +29,7 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
       sum_leftover,
       net_income,
       expList,
-    } = item;
+    } = data[i];
 
     monthlyDataset.dateLabels.push(date);
 
@@ -48,37 +41,18 @@ export const extractDataSetForMonthlyLineChart = (data, reportType) => {
       monthlyDataset.storefrontDataset.push(sum_storefront);
       monthlyDataset.leftoverDataset.push(sum_leftover);
     } else if (reportType === "expenseByCate") {
-      Object.entries(expList).forEach(([key, value]) => {
-        switch (key) {
-          case "วัตถุดิบ":
-            monthlyDataset.expByCategoryDataset.rawMaterialDataset[idx] +=
-              value;
-            break;
-          case "บรรจุภัณฑ์":
-            monthlyDataset.expByCategoryDataset.packagingDataset[idx] += value;
-            break;
-          case "บริโภค":
-            monthlyDataset.expByCategoryDataset.consumeDataset[idx] += value;
-            break;
-          case "ต้นทุนอื่นๆ":
-            monthlyDataset.expByCategoryDataset.otherCostsDataset[idx] += value;
-            break;
-          case "อื่นๆ":
-            monthlyDataset.expByCategoryDataset.otherDataset[idx] += value;
-            break;
-          default:
-            break;
-        }
-      });
-
-      // rawMaterial
-      // packaging
-      // consume
-      // otherCosts
-      // other
+      monthlyDataset.expByCategoryDataset.rawMaterialDataset.push(
+        expList.rawMaterial
+      );
+      monthlyDataset.expByCategoryDataset.packagingDataset.push(
+        expList.packaging
+      );
+      monthlyDataset.expByCategoryDataset.consumeDataset.push(expList.consume);
+      monthlyDataset.expByCategoryDataset.otherCostsDataset.push(
+        expList.otherCosts
+      );
+      monthlyDataset.expByCategoryDataset.otherDataset.push(expList.other);
     }
-
-    console.log(monthlyDataset);
-  });
+  }
   return monthlyDataset;
 };
