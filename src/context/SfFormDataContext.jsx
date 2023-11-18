@@ -16,26 +16,6 @@ export const SfFormDataProvider = ({ children }) => {
       leftoverAmount: 0,
       leftoverTotalPrice: 0
     },
-    // {
-    //   title: "ขนมถ้วยฟู",
-    //   amount: "2",
-    //   unit: "ชุด",
-    //   totalPrice: "450",
-    //   remark: "คนสั่ง ลูกเล็ก 50ลูก และ ถ้วยใหญ่ 10 ถ้วย",
-    //   isLeftover: false,
-    //   leftoverAmount: "",
-    //   leftoverTotalPrice: "",
-    // },
-    // {
-    //   title: "ขนมถ้วยฟู - ถุงเล็ก 5 ลูก",
-    //   amount: "33",
-    //   unit: "ถุง",
-    //   totalPrice: "672",
-    //   remark: "บวกเศษ3 ลูก=12บาท",
-    //   isLeftover: false,
-    //   leftoverAmount: "",
-    //   leftoverTotalPrice: "",
-    // },
   ]);
 
   const clearFormData = () => {
