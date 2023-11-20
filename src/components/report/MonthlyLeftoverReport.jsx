@@ -3,6 +3,7 @@ import ReactDatepicker from "@/components/ReactDatepicker";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import Loading from "@/components/Loading";
+import AmountLabel from "./AmountLabel";
 
 import { getMonthlyLeftoverReportAPIByDate } from "../../services/API/reportAPI";
 import MonthlyLeftoverLineChart from "./MonthlyLeftoverLineChart";
@@ -43,19 +44,21 @@ function MonthlyLeftoverReport() {
           </div>
 
           <div className="flex">
-            <div className="flex justify-between items-baseline mr-2">
-              <span className="mr-2">มูลค่าของเอาไปขาย : </span>
-              <span className="text-2xl font-semibold text-green-500">
-                {monthlyLeftoverReportData?.sumStorefront || 0}
-              </span>
-            </div>
+            <AmountLabel
+              label={"มูลค่าของเอาไปขาย"}
+              value={monthlyLeftoverReportData?.sumStorefront}
+              additionalValClass="text-green-500"
+              marginRight
+            />
 
-            <div className="flex justify-between items-baseline">
-                <span className="mr-2">มูลค่าของที่เหลือ : </span>
-                <span className="text-2xl font-semibold text-red-600">
-                  {monthlyLeftoverReportData?.sumLeftover || 0}
-                </span>
-            </div>
+            <AmountLabel
+              label={"มูลค่าของที่เหลือ"}
+              value={monthlyLeftoverReportData?.sumLeftover}
+              additionalValClass="text-red-600"
+              showPercentage
+              percentage={monthlyLeftoverReportData?.leftoverRatio}
+            />
+
           </div>
         </div>
 
