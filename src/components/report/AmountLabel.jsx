@@ -14,7 +14,7 @@ function AmountLabel({
     marginRight ? "mr-2" : ""
   }`;
   return (
-    <div>
+   
       <div
         className={`flex justify-between items-baseline ${marginClass} ${additionalLabelClass}`}
       >
@@ -30,7 +30,7 @@ function AmountLabel({
           )}
         </div>
       </div>
-    </div>
+    
   );
 }
 

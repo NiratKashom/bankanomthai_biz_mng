@@ -4,10 +4,11 @@ import ReactDatepicker from "@/components/ReactDatepicker";
 import AccordianDailyReport from "@/components/report/AccordianDailyReport";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
-import { getDailyReportAPIByDate } from "../../services/API/reportAPI";
+import { getDailyExpenseByDateAPI } from "@/services/API/reportAPI";
 import { useQueryClient } from "@tanstack/react-query";
 import DailyBarChart from "@/components/report/chart/DailyBarChart";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
+import AmountLabel from "./AmountLabel";
 
 const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
   const queryClient = useQueryClient();
@@ -16,15 +17,18 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [netValue, setNetValue] = useState(0);
 
-
   const fetchData = async (selectedDate) => {
     setIsLoading(true);
     try {
-      const response = await getDailyReportAPIByDate(selectedDate);
+      const response = await getDailyExpenseByDateAPI(selectedDate);
       const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
-      queryClient.setQueryData(["report/daily", formattedDate], response);
-      const newNetValue = calcNetValue(response);
-      setNetValue(newNetValue);
+      queryClient.setQueryData(
+        ["report/daily/expense", formattedDate],
+        response
+      );
+      console.log("response", response);
+      // const newNetValue = calcNetValue(response);
+      // setNetValue(newNetValue);
       setData(response);
     } catch (error) {
       throw new Error(error);
@@ -44,12 +48,13 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
     if (date) {
       const formattedDate = dayjs(date).format("YYYY-MM-DD");
       const cachedData = queryClient.getQueryData([
-        "report/daily",
+        "report/daily/expense",
         formattedDate,
       ]);
       if (cachedData) {
-        const newNetValue = calcNetValue(cachedData);
-        setNetValue(newNetValue);
+        console.log("cachedData", cachedData);
+        // const newNetValue = calcNetValue(cachedData);
+        // setNetValue(newNetValue);
         setData(cachedData);
       } else {
         fetchData(date);
@@ -88,64 +93,41 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
               </div>
 
               <div className=" my-2 text-gray-500 w-2/3 pl-4">
-                <div className=" mb-2 flex justify-between items-baseline">
-                  <div className="flex justify-between w-1/2">
-                    <span className="">วัตถุดิบ</span>
-                    <span className="">:</span>
-                  </div>
-                  <span className=" text-2xl">
-                    {data?.storefront?.sumTotalPrice || "-"}
-                  </span>
-                </div>
-                <div className="mb-2 flex justify-between items-baseline">
-                  <div className="flex justify-between w-1/2">
-                    <span className="">บรรจุภัณฑ์</span>
-                    <span className="">:</span>
-                  </div>
-                  <span className=" text-2xl">
-                    {data?.expense?.sumTotalPrice || "-"}
-                  </span>
-                </div>
-                <div className="mb-2 flex justify-between items-baseline">
-                  <div className="flex justify-between w-1/2">
-                    <span className="">บริโภค</span>
-                    <span className="">:</span>
-                  </div>
-                  <span className=" text-2xl">
-                    {data?.expense?.sumTotalPrice || "-"}
-                  </span>
-                </div>
-                <div className="mb-2 flex justify-between items-baseline">
-                  <div className="flex justify-between w-1/2">
-                    <span className="">ต้นทุนอื่นๆ</span>
-                    <span className="">:</span>
-                  </div>
-                  <span className=" text-2xl">
-                    {data?.expense?.sumTotalPrice || "-"}
-                  </span>
-                </div>
-                <div className="mb-2 flex justify-between items-baseline">
-                  <div className="flex justify-between w-1/2">
-                    <span className="">อื่นๆ</span>
-                    <span className="">:</span>
-                  </div>
-                  <span className=" text-2xl">
-                    {data?.expense?.sumTotalPrice || "-"}
-                  </span>
-                </div>
-                <div className="mb-2 flex justify-between items-baseline">
-                  <div className="flex justify-between w-1/2">
-                    <span className="">รวมทั้งหมด</span>
-                    <span className="">:</span>
-                  </div>
-                  <span
-                    className={`${
-                      netValue > 0 ? "text-green-500" : "text-red-500"
-                    } underline text-3xl`}
-                  >
-                    {netValue.toLocaleString()}
-                  </span>
-                </div>
+                <AmountLabel
+                  label="รวมทั้งหมด"
+                  value={data?.summarizeExpense?.sumExpense}
+                  additionalLabelClass="mb-2"
+                  additionalValClass={"text-red-500 underline"}
+                />
+                <AmountLabel
+                  label="วัตถุดิบ"
+                  value={data?.summarizeExpense?.sumRawMaterial.sum}
+                  additionalLabelClass="mb-1"
+                  additionalValClass={"text-purple-500"}
+                />
+                <AmountLabel
+                  label="บรรจุภัณฑ์"
+                  value={data?.summarizeExpense?.sumPackaging.sum}
+                  additionalLabelClass="mb-2"
+                  additionalValClass={"text-sky-400"}
+                />
+                <AmountLabel
+                  label="บริโภค"
+                  value={data?.summarizeExpense?.sumConsume.sum}
+                  additionalLabelClass="mb-2"
+                  additionalValClass={"text-green-500"}
+                />
+                <AmountLabel
+                  label="ต้นทุนอื่นๆ"
+                  value={data?.summarizeExpense?.sumOtherCosts.sum}
+                  additionalLabelClass="mb-2"
+                  additionalValClass={"text-orange-400"}
+                />
+                <AmountLabel
+                  label="อื่นๆ"
+                  value={data?.summarizeExpense?.sumOther.sum}
+                  additionalValClass={"text-pink-500"}
+                />
               </div>
             </div>
 
