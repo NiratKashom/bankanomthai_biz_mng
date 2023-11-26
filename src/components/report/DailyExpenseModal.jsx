@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { getDailyExpenseByDateAPI } from "@/services/API/reportAPI";
 import { useQueryClient } from "@tanstack/react-query";
-import DailyBarChart from "@/components/report/chart/DailyBarChart";
+import DailyExpensePieChart from "@/components/report/chart/DailyExpensePieChart";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
 import AmountLabel from "./AmountLabel";
 
@@ -15,7 +15,11 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
   const [data, setData] = useState({});
   const [date, setDate] = useState(selectedDate);
   const [isLoading, setIsLoading] = useState(false);
-  const [netValue, setNetValue] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
 
   const fetchData = async (selectedDate) => {
     setIsLoading(true);
@@ -26,22 +30,12 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
         ["report/daily/expense", formattedDate],
         response
       );
-      console.log("response", response);
-      // const newNetValue = calcNetValue(response);
-      // setNetValue(newNetValue);
       setData(response);
     } catch (error) {
       throw new Error(error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const calcNetValue = (data) => {
-    const { storefront, expense } = data;
-    const sumExpense = convertCommaStringToNumber(expense?.sumTotalPrice);
-    const sumIncome = convertCommaStringToNumber(storefront?.sumTotalPrice);
-    return sumIncome - sumExpense;
   };
 
   useEffect(() => {
@@ -52,9 +46,6 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
         formattedDate,
       ]);
       if (cachedData) {
-        console.log("cachedData", cachedData);
-        // const newNetValue = calcNetValue(cachedData);
-        // setNetValue(newNetValue);
         setData(cachedData);
       } else {
         fetchData(date);
@@ -92,7 +83,7 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
                 />
               </div>
 
-              <div className=" my-2 text-gray-500 w-2/3 pl-4">
+              <div className=" my-2 text-gray-500 w-4/5 pl-4">
                 <AmountLabel
                   label="รวมทั้งหมด"
                   value={data?.summarizeExpense?.sumExpense}
@@ -133,22 +124,45 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
 
             {/* chart container */}
             <div className=" w-1/2 mr-6">
-              {/* <DailyPieChart
-                dataSet={{ income: data?.storefront, expense: data?.expense }}
-              /> */}
-              <DailyBarChart
-                dataSet={{ income: data?.storefront, expense: data?.expense }}
-              />
+              <DailyExpensePieChart dataSet={data?.summarizeExpense || []} />
             </div>
           </div>
 
           {/* accordian section */}
-          {/* <AccordianDailyReport
-            reportList={[
-              { ...data?.storefront, type: "income" },
-              { ...data?.expense, type: "expense" },
-            ]}
-          /> */}
+          <div className="w-full border mb-2">
+            <button
+              className={`w-full ${isOpen ? "text-black" : "text-gray-500"}
+        bg-gray-200 hover:text-black hover:underline font-bold py-2 px-4 text-center`}
+              onClick={toggleAccordion}
+            >
+              <div>กดเพื่อดูรายละเอียด</div>
+              
+            </button>
+            {isOpen && (
+              <div className="m-2">
+                {data?.expenseList.map((item, idx) => (
+                  <div
+                    key={"dailyExpense" + idx}
+                    className={`flex justify-between  py-2 px-4  ${
+                      idx % 2 && "bg-gray-100"
+                    }`}
+                  >
+                    <div>{idx + 1 + "."} </div>
+                    <div className="flex justify-between w-1/3">
+                      <div>{item.category} </div>
+                      <div>{item.title}</div>
+                    </div>
+                    <div className="flex justify-between w-1/3">
+                      <div className="w-1/6 text-right">{item.qty}</div>
+
+                      <div className="w-1/6">{item.unit}</div>
+                      <div>{item.totalPrice}</div>
+                    </div>
+                  </div>
+                )) || <div className="text-center">ไม่มีข้อมูล</div>}
+              </div>
+            )}
+          </div>
         </div>
         {/* footer */}
         <div className="self-end">
