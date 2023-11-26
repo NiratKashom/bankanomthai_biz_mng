@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import Loading from "@/components/Loading";
 
 import { getMonthlyExpenseReportAPI } from "../../services/API/reportAPI";
-import MonthlyExpenseReportLineChart from "./MonthlyExpenseReportLineChart";
+import MonthlyExpenseReportLineChart from "@/components/report/chart/MonthlyExpenseReportLineChart";
 import AmountLabel from "./AmountLabel";
 
 function MonthlyExpenseReport() {

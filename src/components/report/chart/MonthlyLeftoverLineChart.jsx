@@ -8,8 +8,8 @@ import {
   Title,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import DailyReportModal from "./DailyReportModal";
-import { extractDataSetForMonthlyLineChart } from "../../utils/reportUtils";
+import DailyReportModal from "../DailyReportModal";
+import { extractDataSetForMonthlyLineChart } from "../../../utils/reportUtils";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 

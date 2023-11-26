@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import DailyBarChart from "@/components/report/chart/DailyBarChart";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
 
-const DailyReportModal = ({ selectedDate = null, closeModal }) => {
+const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
   const queryClient = useQueryClient();
   const [data, setData] = useState({});
   const [date, setDate] = useState(selectedDate);
@@ -69,7 +69,7 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
         <div className="">
           {/* header */}
           <h1 className="text-xl text-center font-bold mb-2">
-            สรุปรายรับ-รายจ่าย
+            รายจ่ายตามประเภท
           </h1>
           <hr />
 
@@ -90,7 +90,7 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
               <div className=" my-2 text-gray-500 w-2/3 pl-4">
                 <div className=" mb-2 flex justify-between items-baseline">
                   <div className="flex justify-between w-1/2">
-                    <span className="">รายรับ</span>
+                    <span className="">วัตถุดิบ</span>
                     <span className="">:</span>
                   </div>
                   <span className=" text-2xl">
@@ -99,7 +99,7 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
                 </div>
                 <div className="mb-2 flex justify-between items-baseline">
                   <div className="flex justify-between w-1/2">
-                    <span className="">รายจ่าย</span>
+                    <span className="">บรรจุภัณฑ์</span>
                     <span className="">:</span>
                   </div>
                   <span className=" text-2xl">
@@ -108,7 +108,34 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
                 </div>
                 <div className="mb-2 flex justify-between items-baseline">
                   <div className="flex justify-between w-1/2">
-                    <span className="">รายได้สุทธิ</span>
+                    <span className="">บริโภค</span>
+                    <span className="">:</span>
+                  </div>
+                  <span className=" text-2xl">
+                    {data?.expense?.sumTotalPrice || "-"}
+                  </span>
+                </div>
+                <div className="mb-2 flex justify-between items-baseline">
+                  <div className="flex justify-between w-1/2">
+                    <span className="">ต้นทุนอื่นๆ</span>
+                    <span className="">:</span>
+                  </div>
+                  <span className=" text-2xl">
+                    {data?.expense?.sumTotalPrice || "-"}
+                  </span>
+                </div>
+                <div className="mb-2 flex justify-between items-baseline">
+                  <div className="flex justify-between w-1/2">
+                    <span className="">อื่นๆ</span>
+                    <span className="">:</span>
+                  </div>
+                  <span className=" text-2xl">
+                    {data?.expense?.sumTotalPrice || "-"}
+                  </span>
+                </div>
+                <div className="mb-2 flex justify-between items-baseline">
+                  <div className="flex justify-between w-1/2">
+                    <span className="">รวมทั้งหมด</span>
                     <span className="">:</span>
                   </div>
                   <span
@@ -134,12 +161,12 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
           </div>
 
           {/* accordian section */}
-          <AccordianDailyReport
+          {/* <AccordianDailyReport
             reportList={[
               { ...data?.storefront, type: "income" },
               { ...data?.expense, type: "expense" },
             ]}
-          />
+          /> */}
         </div>
         {/* footer */}
         <div className="self-end">
@@ -150,4 +177,4 @@ const DailyReportModal = ({ selectedDate = null, closeModal }) => {
   );
 };
 
-export default DailyReportModal;
+export default DailyExpenseModal;

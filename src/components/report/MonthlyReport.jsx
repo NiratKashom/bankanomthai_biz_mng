@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import Loading from "@/components/Loading";
 
 import { getMonthlyReportAPIByDate } from "../../services/API/reportAPI";
-import MonthlyLineChart from "./MonthlyLineChart";
+import MonthlyLineChart from "@/components/report/chart/MonthlyLineChart";
 
 function MonthlyReport() {
   // const queryClient = useQueryClient();

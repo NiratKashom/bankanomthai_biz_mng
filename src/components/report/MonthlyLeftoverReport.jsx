@@ -6,11 +6,9 @@ import Loading from "@/components/Loading";
 import AmountLabel from "./AmountLabel";
 
 import { getMonthlyLeftoverReportAPIByDate } from "../../services/API/reportAPI";
-import MonthlyLeftoverLineChart from "./MonthlyLeftoverLineChart";
+import MonthlyLeftoverLineChart from "./chart/MonthlyLeftoverLineChart";
 
 function MonthlyLeftoverReport() {
-  // const queryClient = useQueryClient();
-
   const [date, setDate] = useState(new Date());
   const [formatDate, setFormatDate] = useState(
     dayjs(date).format("YYYY-MM-DD")

@@ -8,8 +8,8 @@ import {
   Title,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import DailyReportModal from "./DailyReportModal";
-import { extractDataSetForMonthlyLineChart } from "../../utils/reportUtils";
+import DailyExpenseModal from "../DailyExpenseModal";
+import { extractDataSetForMonthlyLineChart } from "../../../utils/reportUtils";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title);
 
@@ -108,27 +108,6 @@ const INIT_DATASET = {
   ],
 };
 
-// summarizeExpenseData
-// : 
-// sumConsume
-// : 
-// {sum: 2827, ratio: 15.7}
-// sumExpense
-// : 
-// 18043
-// sumOther
-// : 
-// {sum: 0, ratio: 0}
-// sumOtherCosts
-// : 
-// {sum: 5279, ratio: 29.3}
-// sumPackaging
-// : 
-// {sum: 1255, ratio: 7}
-// sumRawMaterial
-// : 
-// {sum: 8682, ratio: 48.1}
-
 function MonthlyExpenseReportLineChart({ reportData }) {
   const chartRef = useRef();
   const [data, setData] = useState(INIT_DATASET);
@@ -188,18 +167,18 @@ function MonthlyExpenseReportLineChart({ reportData }) {
               const idx = element[0].index;
               const selectedDate = data.labels[idx];
               setDate(new Date(selectedDate));
-              // setShowModal(true);
+              setShowModal(true);
             }
           },
         }}
       />
 
-      {/* {showModal && (
-        <DailyReportModal
+      {showModal && (
+        <DailyExpenseModal
           selectedDate={date}
           closeModal={() => setShowModal(false)}
         />
-      )} */}
+      )}
     </>
   );
 }
