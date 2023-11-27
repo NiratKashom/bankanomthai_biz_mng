@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import ReactDatepicker from "@/components/ReactDatepicker";
-import AccordianDailyReport from "@/components/report/AccordianDailyReport";
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
 import { getDailyExpenseByDateAPI } from "@/services/API/reportAPI";
 import { useQueryClient } from "@tanstack/react-query";
 import DailyExpensePieChart from "@/components/report/chart/DailyExpensePieChart";
-import { convertCommaStringToNumber } from "@/utils/reportUtils";
 import AmountLabel from "./AmountLabel";
-import DailyExpListTable from "./DailyExpListTable";
+import DailyExpListContainer from "./DailyExpListContainer";
 
 const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
   const queryClient = useQueryClient();
-  const [data, setData] = useState({expenseList: [],});
+  const [data, setData] = useState({expenseList: []});
   const [date, setDate] = useState(selectedDate);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -75,7 +73,6 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
                   selectedDate={date}
                   setSelectedDate={setDate}
                   dateFormat={"dd MMM yyyy"}
-                  // showMonthYearPicker={false}
                 />
               </div>
 
@@ -126,29 +123,7 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
 
           {/* expense list section */}
           <div className="w-full border mb-2">
-            <DailyExpListTable />
-            {/* <div className="m-2">
-              {data?.expenseList.map((item, idx) => (
-                <div
-                  key={"dailyExpense" + idx}
-                  className={`flex justify-between  py-2 px-4  ${
-                    idx % 2 && "bg-gray-100"
-                  }`}
-                >
-                  <div>{idx + 1 + "."} </div>
-                  <div className="flex justify-between w-1/3">
-                    <div>{item.category} </div>
-                    <div>{item.title}</div>
-                  </div>
-                  <div className="flex justify-between w-1/3">
-                    <div className="w-1/6 text-right">{item.qty}</div>
-
-                    <div className="w-1/6">{item.unit}</div>
-                    <div>{item.totalPrice}</div>
-                  </div>
-                </div>
-              )) || <div className="text-center">ไม่มีข้อมูล</div>}
-            </div> */}
+            <DailyExpListContainer expenseData={data?.expenseList || []} />
           </div>
         </div>
 

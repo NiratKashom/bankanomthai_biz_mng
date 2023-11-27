@@ -1,6 +1,6 @@
 import React from "react";
 
-function TabButton({ activeTab, handleClick, text,selfIdx }) {
+function TabButton({ activeTab, handleClick, text, selfIdx }) {
   const activeTabClass = "text-blue-500 font-bold  border-b-4 border-blue-500";
 
   return (

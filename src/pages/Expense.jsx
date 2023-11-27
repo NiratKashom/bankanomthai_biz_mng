@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ExpenseForm from "@/components/expense/ExpenseForm";
 import ExpViewTable from "@/components/expense/ExpViewTable";
+import TabButton from "../components/TabButton";
 
 function Expense() {
   const [activeTab, setActiveTab] = useState(1);
@@ -9,40 +10,31 @@ function Expense() {
     setActiveTab(tabIndex);
   };
 
-  const activeTabClass = "text-blue-500 font-bold  border-b-4 border-blue-500";
+  const TAB_FORM_LIST = [
+    "ฟอร์มกรอกข้อมูล",
+    "รายการที่บันทึกไปแล้ว",
+  ]
 
   return (
     <div>
       <p className="text-center text-3xl">บันทึกรายจ่าย</p>
 
       <div className="w-full mx-auto ">
+
         <div className="flex border-b">
-          <button
-            className={`py-2 px-4 ${
-              activeTab === 1 ? activeTabClass : " text-gray-700"
-            }`}
-            onClick={() => handleTabChange(1)}
-          >
-            ฟอร์มกรอกข้อมูล
-          </button>
-          <button
-            className={`py-2 px-4 ${
-              activeTab === 2 ? activeTabClass : " text-gray-700"
-            }`}
-            onClick={() => handleTabChange(2)}
-          >
-            รายการที่บันทึกไปแล้ว
-          </button>
+          {TAB_FORM_LIST.map((item, index) => (
+            <TabButton
+              key={"expForm" + index}
+              selfIdx={index + 1}
+              activeTab={activeTab}
+              handleClick={() => handleTabChange(index + 1)}
+              text={item}
+            />
+          ))}
         </div>
 
-        {activeTab === 1 && (
-          <div className=" p-4 ">
-            <ExpenseForm />
-          </div>
-        )}
-        {activeTab === 2 && (
-          <ExpViewTable />
-        )}
+        {activeTab === 1 && <ExpenseForm />}
+        {activeTab === 2 && <ExpViewTable />}
       </div>
     </div>
   );

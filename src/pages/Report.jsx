@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import MonthlyReport from "../components/report/MonthlyReport";
-import MonthlyLeftoverReport from "../components/report/MonthlyLeftoverReport";
-import MonthlyExpenseReport from "../components/report/MonthlyExpenseReport";
+import TabButton from "@/components/TabButton";
+import MonthlyReport from "@/components/report/MonthlyReport";
+import MonthlyLeftoverReport from "@/components/report/MonthlyLeftoverReport";
+import MonthlyExpenseReport from "@/components/report/MonthlyExpenseReport";
 
 function Report() {
   const [activeTab, setActiveTab] = useState(1);
@@ -10,53 +11,31 @@ function Report() {
     setActiveTab(tabIndex);
   };
 
-  const activeTabClass = "text-blue-500 font-bold  border-b-4 border-blue-500";
+  const TAB_REPORT_LIST = [
+    "ยอดประจำเดือน",
+    "เอาไปขาย-เหลือกลับ",
+    "รายจ่ายตามประเภท",
+  ];
 
   return (
     <div>
       <div className="w-full mx-auto ">
         <div className="flex border-b">
-          <button
-            className={`py-2 px-4 ${
-              activeTab === 1 ? activeTabClass : " text-gray-700"
-            }`}
-            onClick={() => handleTabChange(1)}
-          >
-            ยอดประจำเดือน
-          </button>
-          <button
-            className={`py-2 px-4 ${
-              activeTab === 2 ? activeTabClass : " text-gray-700"
-            }`}
-            onClick={() => handleTabChange(2)}
-          >
-            เอาไปขาย-เหลือกลับ
-          </button>
-          <button
-            className={`py-2 px-4 ${
-              activeTab === 3 ? activeTabClass : " text-gray-700"
-            }`}
-            onClick={() => handleTabChange(3)}
-          >
-            รายจ่ายตามประเภท
-          </button>
+          {TAB_REPORT_LIST.map((item, index) => (
+            <TabButton
+              key={"reportTabList" + index}
+              selfIdx={index + 1}
+              activeTab={activeTab}
+              handleClick={() => handleTabChange(index + 1)}
+              text={item}
+            />
+          ))}
         </div>
-
-        {activeTab === 1 && (
-          <div className="p-4">
-            <MonthlyReport />
-          </div>
-        )}
-        {activeTab === 2 && (
-          <div className="p-4">
-            <MonthlyLeftoverReport />
-          </div>
-        )}
-             {activeTab === 3 && (
-          <div className="p-4">
-            <MonthlyExpenseReport />
-          </div>
-        )}
+        <div className="p-4">
+          {activeTab === 1 && <MonthlyReport />}
+          {activeTab === 2 && <MonthlyLeftoverReport />}
+          {activeTab === 3 && <MonthlyExpenseReport />}
+        </div>
       </div>
     </div>
   );

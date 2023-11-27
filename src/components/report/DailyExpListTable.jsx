@@ -1,42 +1,23 @@
-import React, { useState } from "react";
-import TabButton from "../TabButton";
+import React from "react";
 
-function DailyExpListTable() {
-  const [activeTab, setActiveTab] = useState(1);
-
-  const handleTabChange = (tabIndex) => {
-    setActiveTab(tabIndex);
-  };
-
-  const expCategoryList = [
-    "ทั้งหมด",
-    "วัตถุดิบ",
-    "บรรจุภัณฑ์",
-    "บริโภค",
-    "ต้นทุนอื่นๆ",
-    "อื่นๆ",
-  ];
-
+function DailyExpListTable({ data, idx, key }) {
+  const { category, title, qty, unit, totalPrice } = data;
   return (
-    <div className="w-full mx-auto ">
-      <div className="flex border-b">
-        {expCategoryList.map((item, index) => (
-          <TabButton
-            key={"expenseTab" + index}
-            activeTab={activeTab}
-            selfIdx={index + 1}
-            handleClick={() => handleTabChange(index + 1)}
-            text={item}
-          />
-        ))}
+    <div
+      key={key}
+      className={`flex justify-between  py-2 px-4  ${idx % 2 || "bg-gray-100"}`}
+    >
+      <div>{idx + 1 + "."} </div>
+      <div className="flex justify-between w-1/3">
+        <div>{category} </div>
+        <div>{title}</div>
       </div>
+      <div className="flex justify-between w-1/3">
+        <div className="w-1/6 text-right">{qty}</div>
 
-      {activeTab === 1 && <div className="p-4">1</div>}
-      {activeTab === 2 && <div className="p-4">2</div>}
-      {activeTab === 3 && <div className="p-4">3</div>}
-      {activeTab === 4 && <div className="p-4">4</div>}
-      {activeTab === 5 && <div className="p-4">5</div>}
-      {activeTab === 6 && <div className="p-4">6</div>}
+        <div className="w-1/6">{unit}</div>
+        <div>{totalPrice}</div>
+      </div>
     </div>
   );
 }
