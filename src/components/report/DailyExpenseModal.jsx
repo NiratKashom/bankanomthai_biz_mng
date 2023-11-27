@@ -9,17 +9,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import DailyExpensePieChart from "@/components/report/chart/DailyExpensePieChart";
 import { convertCommaStringToNumber } from "@/utils/reportUtils";
 import AmountLabel from "./AmountLabel";
+import DailyExpListTable from "./DailyExpListTable";
 
 const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
   const queryClient = useQueryClient();
-  const [data, setData] = useState({});
+  const [data, setData] = useState({expenseList: [],});
   const [date, setDate] = useState(selectedDate);
   const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
 
   const fetchData = async (selectedDate) => {
     setIsLoading(true);
@@ -30,7 +26,7 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
         ["report/daily/expense", formattedDate],
         response
       );
-      setData(response);
+      setData((prev) => ({ prev, ...response }));
     } catch (error) {
       throw new Error(error);
     } finally {
@@ -128,47 +124,40 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
             </div>
           </div>
 
-          {/* accordian section */}
+          {/* expense list section */}
           <div className="w-full border mb-2">
-            <button
-              className={`w-full ${isOpen ? "text-black" : "text-gray-500"}
-        bg-gray-200 hover:text-black hover:underline font-bold py-2 px-4 text-center`}
-              onClick={toggleAccordion}
-            >
-              <div>กดเพื่อดูรายละเอียด</div>
-              
-            </button>
-            {isOpen && (
-              <div className="m-2">
-                {data?.expenseList.map((item, idx) => (
-                  <div
-                    key={"dailyExpense" + idx}
-                    className={`flex justify-between  py-2 px-4  ${
-                      idx % 2 && "bg-gray-100"
-                    }`}
-                  >
-                    <div>{idx + 1 + "."} </div>
-                    <div className="flex justify-between w-1/3">
-                      <div>{item.category} </div>
-                      <div>{item.title}</div>
-                    </div>
-                    <div className="flex justify-between w-1/3">
-                      <div className="w-1/6 text-right">{item.qty}</div>
-
-                      <div className="w-1/6">{item.unit}</div>
-                      <div>{item.totalPrice}</div>
-                    </div>
+            <DailyExpListTable />
+            {/* <div className="m-2">
+              {data?.expenseList.map((item, idx) => (
+                <div
+                  key={"dailyExpense" + idx}
+                  className={`flex justify-between  py-2 px-4  ${
+                    idx % 2 && "bg-gray-100"
+                  }`}
+                >
+                  <div>{idx + 1 + "."} </div>
+                  <div className="flex justify-between w-1/3">
+                    <div>{item.category} </div>
+                    <div>{item.title}</div>
                   </div>
-                )) || <div className="text-center">ไม่มีข้อมูล</div>}
-              </div>
-            )}
+                  <div className="flex justify-between w-1/3">
+                    <div className="w-1/6 text-right">{item.qty}</div>
+
+                    <div className="w-1/6">{item.unit}</div>
+                    <div>{item.totalPrice}</div>
+                  </div>
+                </div>
+              )) || <div className="text-center">ไม่มีข้อมูล</div>}
+            </div> */}
           </div>
         </div>
+
         {/* footer */}
         <div className="self-end">
           <Button text="ปิด" color="red" onClick={closeModal} isOutlinedStyle />
         </div>
       </div>
+
     </div>
   );
 };
