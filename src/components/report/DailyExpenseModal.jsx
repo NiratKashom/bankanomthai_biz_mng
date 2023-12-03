@@ -113,6 +113,7 @@ const DailyExpenseModal = ({ selectedDate = null, closeModal }) => {
                   additionalValClass={"text-pink-500"}
                 />
               </div>
+              
             </div>
 
             {/* chart container */}

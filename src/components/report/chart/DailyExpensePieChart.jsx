@@ -47,7 +47,8 @@ function DailyExpensePieChart({ dataSet }) {
         },
       },
       legend: {
-        position: "top",
+        display: false,
+        position: "left",
         align: "start",
       },
     },

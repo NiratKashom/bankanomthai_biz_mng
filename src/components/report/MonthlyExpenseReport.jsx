@@ -6,10 +6,14 @@ import Loading from "@/components/Loading";
 
 import { getMonthlyExpenseReportAPI } from "../../services/API/reportAPI";
 import MonthlyExpenseReportLineChart from "@/components/report/chart/MonthlyExpenseReportLineChart";
+import DailyExpensePieChart from "@/components/report/chart/DailyExpensePieChart";
+
 import AmountLabel from "./AmountLabel";
+import MonthlyExpListContainer from "./MonthlyExpListContainer";
 
 function MonthlyExpenseReport() {
   const [date, setDate] = useState(new Date());
+
   const [formatDate, setFormatDate] = useState(
     dayjs(date).format("YYYY-MM-DD")
   );
@@ -27,11 +31,11 @@ function MonthlyExpenseReport() {
   return (
     <div>
       {isLoading && <Loading />}
-      <h1 className="text-2xl text-center">สรุปยอด รายจ่ายตามประเภท</h1>
-      <div className="px-2">
-        <div className="my-2 flex justify-between">
-          <div className="px-8 flex items-center ">
-            <h1 className="mr-2">เลือกเดือน / ปี :</h1>
+      <p className="text-2xl text-center">สรุปยอด รายจ่ายตามประเภท</p>
+      <div className="p-4">
+        <div className="my-2">
+          <div className="flex items-center ">
+            <p className="mr-2">เลือกเดือน / ปี :</p>
             <ReactDatepicker
               className="border-2-red"
               selectedDate={date}
@@ -40,54 +44,54 @@ function MonthlyExpenseReport() {
               dateFormat="MMMM yyyy"
             />
           </div>
+        </div>
 
-          <div className="flex">
-            <AmountLabel
-              label={"รวมทั้งเดือน"}
-              value={expData?.summarizeExpenseData?.sumExpense}
-              additionalValClass={"text-red-500"}
-              marginRight
-            />
-            <AmountLabel
-              label={"วัตถุดิบ"}
-              value={expData?.summarizeExpenseData?.sumRawMaterial.sum}
-              additionalValClass={"text-purple-500"}
-              marginRight
-              showPercentage
-              percentage={expData?.summarizeExpenseData?.sumRawMaterial.ratio}
-            />
-            <AmountLabel
-              label={"บรรจุภัณฑ์"}
-              value={expData?.summarizeExpenseData?.sumPackaging.sum}
-              additionalValClass={"text-sky-400"}
-              marginRight
-              showPercentage
-              percentage={expData?.summarizeExpenseData?.sumPackaging.ratio}
-            />
-            <AmountLabel
-              label={"บริโภค"}
-              value={expData?.summarizeExpenseData?.sumConsume.sum}
-              additionalValClass={"text-green-400"}
-              marginRight
-              showPercentage
-              percentage={expData?.summarizeExpenseData?.sumConsume.ratio}
-            />
+        <div className="flex justify-around m-2 gap-3">
+          <div className=" text-gray-500 w-1/2">
+            <div>
+              <DailyExpensePieChart
+                dataSet={expData?.summarizeExpenseData || []}
+              />
+            </div>
+            <div>
+              <AmountLabel
+                label={"รวมทั้งเดือน"}
+                value={expData?.summarizeExpenseData?.sumExpense}
+                additionalValClass={"text-red-500"}
+              />
+              <AmountLabel
+                label={"วัตถุดิบ"}
+                value={expData?.summarizeExpenseData?.sumRawMaterial.sum}
+                additionalValClass={"text-purple-500"}
+              />
+              <AmountLabel
+                label={"บรรจุภัณฑ์"}
+                value={expData?.summarizeExpenseData?.sumPackaging.sum}
+                additionalValClass={"text-sky-400"}
+              />
+              <AmountLabel
+                label={"บริโภค"}
+                value={expData?.summarizeExpenseData?.sumConsume.sum}
+                additionalValClass={"text-green-400"}
+              />
+              <AmountLabel
+                label={"ต้นทุนอื่นๆ"}
+                value={expData?.summarizeExpenseData?.sumOtherCosts.sum}
+                additionalValClass={"text-orange-400"}
+              />
+              <AmountLabel
+                label={"อื่นๆ"}
+                value={expData?.summarizeExpenseData?.sumOther.sum}
+                additionalValClass={"text-red-400"}
+              />
+            </div>
+          </div>
 
-            <AmountLabel
-              label={"ต้นทุนอื่นๆ"}
-              value={expData?.summarizeExpenseData?.sumOtherCosts.sum}
-              additionalValClass={"text-orange-400"}
-              marginRight
-              showPercentage
-              percentage={expData?.summarizeExpenseData?.sumOtherCosts.ratio}
-            />
-            <AmountLabel
-              label={"อื่นๆ"}
-              value={expData?.summarizeExpenseData?.sumOther.sum}
-              additionalValClass={"text-red-400"}
-              showPercentage
-              percentage={expData?.summarizeExpenseData?.sumOther.ratio}
-            />
+          <div className="w-1/2">
+            <MonthlyExpListContainer />
+            {/* <DailyExpensePieChart
+              dataSet={expData?.summarizeExpenseData || []}
+            /> */}
           </div>
         </div>
 
