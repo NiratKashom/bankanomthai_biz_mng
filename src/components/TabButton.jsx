@@ -6,7 +6,7 @@ function TabButton({ activeTab, handleClick, text, selfIdx }) {
   return (
     <button
       className={`py-2 px-4 ${
-        activeTab === selfIdx ? activeTabClass : " text-gray-700"
+        activeTab === selfIdx ? activeTabClass : " text-gray-500"
       }`}
       onClick={() => handleClick()}
     >

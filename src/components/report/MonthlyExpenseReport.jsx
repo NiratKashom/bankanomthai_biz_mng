@@ -46,7 +46,7 @@ function MonthlyExpenseReport() {
           </div>
         </div>
 
-        <div className="flex justify-around m-2 gap-3">
+        <div className="flex justify-around m-2 gap-6">
           <div className=" text-gray-500 w-1/2">
             <div>
               <DailyExpensePieChart
@@ -87,11 +87,8 @@ function MonthlyExpenseReport() {
             </div>
           </div>
 
-          <div className="w-1/2">
-            <MonthlyExpListContainer />
-            {/* <DailyExpensePieChart
-              dataSet={expData?.summarizeExpenseData || []}
-            /> */}
+          <div className="w-1/2" >
+            <MonthlyExpListContainer expenseData={expData?.expByTitle || []} />
           </div>
         </div>
 

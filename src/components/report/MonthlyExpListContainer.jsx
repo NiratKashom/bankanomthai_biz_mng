@@ -25,41 +25,20 @@ function MonthlyExpListContainer({ expenseData = [] }) {
     "อื่นๆ",
   ];
 
-  useEffect(() => {
-    if (expenseData.length) {
-      const tempExpByCategoryList = {
-        rawMaterials: [],
-        packaging: [],
-        consume: [],
-        otherCosts: [],
-        other: [],
-      };
-      expenseData.forEach((item) => {
-        switch (item.category) {
-          case "วัตถุดิบ":
-            tempExpByCategoryList.rawMaterials.push(item);
-            break;
-          case "บรรจุภัณฑ์":
-            tempExpByCategoryList.packaging.push(item);
-            break;
-          case "บริโภค":
-            tempExpByCategoryList.consume.push(item);
-            break;
-          case "ต้นทุนอื่นๆ":
-            tempExpByCategoryList.otherCosts.push(item);
-            break;
-          case "อื่นๆ":
-            tempExpByCategoryList.other.push(item);
-            break;
-        }
-      });
-
-      setExpByCategoryList(() => ({ ...tempExpByCategoryList }));
-    }
-  }, [expenseData]);
+  const rawList = expenseData.filter((item) => item.category === "วัตถุดิบ");
+  const pkgList = expenseData.filter((item) => item.category === "บรรจุภัณฑ์");
+  const consumeList = expenseData.filter((item) => item.category === "บริโภค");
+  const otherCostsList = expenseData.filter(
+    (item) => item.category === "ต้นทุนอื่นๆ"
+  );
+  const otherList = expenseData.filter((item) => item.category === "อื่นๆ");
 
   return (
-    <div className="w-full mx-auto ">
+    <div
+      className="w-full h-full mx-auto text-center"
+      style={{ maxHeight: "45vh" }}
+    >
+      <p className="underline">เรียงตามมูลค่ามากที่สุด</p>
       <div className="flex border-b">
         {EXP_CATEGORY_LIST.map((item, index) => (
           <TabButton
@@ -71,38 +50,47 @@ function MonthlyExpListContainer({ expenseData = [] }) {
           />
         ))}
       </div>
-
-      {activeTab === 1 &&
-        expenseData.map((item, idx) => (
-          <DailyExpListTable data={item} idx={idx} key={"expAll" + idx} />
-        ))}
-
-      {activeTab === 2 &&
-        expByCategoryList.rawMaterials.map((item, idx) => (
-          <DailyExpListTable data={item} idx={idx} key={"expRawMat" + idx} />
-        ))}
-
-      {activeTab === 3 &&
-        expByCategoryList.packaging.map((item, idx) => (
-          <DailyExpListTable data={item} idx={idx} key={"expPkg" + idx} />
-        ))}
-
-      {activeTab === 4 &&
-        expByCategoryList.consume.map((item, idx) => (
-          <DailyExpListTable data={item} idx={idx} key={"expCsm" + idx} />
-        ))}
-
-      {activeTab === 5 &&
-        expByCategoryList.otherCosts.map((item, idx) => (
-          <DailyExpListTable data={item} idx={idx} key={"expOtcs" + idx} />
-        ))}
-
-      {activeTab === 6 &&
-        expByCategoryList.other.map((item, idx) => (
-          <DailyExpListTable data={item} idx={idx} key={"expOthr" + idx} />
-        ))}
+      <div className="h-full overflow-y-auto">
+        {activeTab === 1 &&
+          expenseData.map((item, idx) => (
+            <ExpenseItem key={"all" + idx} item={item} idx={idx} />
+          ))}
+        {activeTab === 2 &&
+          rawList.map((item, idx) => (
+            <ExpenseItem key={"raw" + idx} item={item} idx={idx} />
+          ))}
+        {activeTab === 3 &&
+          pkgList.map((item, idx) => (
+            <ExpenseItem key={"pkg" + idx} item={item} idx={idx} />
+          ))}
+        {activeTab === 4 &&
+          consumeList.map((item, idx) => (
+            <ExpenseItem key={"consume" + idx} item={item} idx={idx} />
+          ))}
+        {activeTab === 5 &&
+          otherCostsList.map((item, idx) => (
+            <ExpenseItem key={"otherCosts" + idx} item={item} idx={idx} />
+          ))}
+        {activeTab === 6 &&
+          otherList.map((item, idx) => (
+            <ExpenseItem key={"other" + idx} item={item} idx={idx} />
+          ))}
+      </div>
     </div>
   );
 }
 
 export default MonthlyExpListContainer;
+
+const ExpenseItem = ({ item, idx }) => {
+  return (
+    <div
+      className={`flex justify-between  py-2 px-4  ${idx % 2 || "bg-gray-100"}`}
+    >
+      <div className="w-full ">{idx + 1 + "."}</div>
+      <div className="w-full text-start ">{item.category}</div>
+      <div className="w-full text-start ">{item.title}</div>
+      <div className="w-full ">{item.sum_total_amount}</div>
+    </div>
+  );
+};
