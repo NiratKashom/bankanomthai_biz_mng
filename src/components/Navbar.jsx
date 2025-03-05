@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white flex justify-between items-center p-4 drop-shadow-md fixed top-0 w-full z-10">
       <Link to="/" className="text-gray-700 text-xl font-semibold">
-        ระบบบันทึกและจัดการ บ้านขนมถ้วยฟู
+        ระบบบันทึกและจัดการ บ้านขนมถ้วยฟู v.1
       </Link>
       {token && (
         <ul className="flex space-x-2">
